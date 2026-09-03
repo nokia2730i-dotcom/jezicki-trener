@@ -1,0 +1,21 @@
+{
+  "name": "Jezički trener",
+  "short_name": "Trener",
+  "description": "Diktat, slušanje i lični rečnik za engleski",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E7EBE7",
+  "theme_color": "#16231D",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

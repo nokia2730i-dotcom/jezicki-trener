@@ -1,0 +1,7 @@
+# Kljucevi se postavljaju kroz Vercel podesavanja, nikad se ne salju sa kodom
+.env
+.env.local
+.env*.local
+
+node_modules
+.next
