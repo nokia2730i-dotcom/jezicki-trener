@@ -5,6 +5,19 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
+    // PIN se proverava OVDE, na serveru. Bez ovoga bi svako mogao da gadja
+    // rutu direktno i trosi kredite, bez obzira na ekran u aplikaciji.
+    // Ako APP_PIN nije postavljen, zastita je iskljucena.
+    const pin = process.env.APP_PIN;
+    if (pin && req.headers.get("x-app-pin") !== pin) {
+      return Response.json({ error: "Pogrešan PIN" }, { status: 401 });
+    }
+
+    // Provera PIN-a bez trosenja kredita — koristi je ekran za otkljucavanje.
+    if (body.check) {
+      return Response.json({ ok: true });
+    }
+
     // Ključevi vezani za identitet (identity-linked) traže i workspace ID.
     // Obični ključevi ga ne traže, pa se zaglavlje šalje samo ako je postavljeno.
     const headers = {

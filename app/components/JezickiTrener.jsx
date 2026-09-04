@@ -51,6 +51,7 @@ const LEVELS = ["Početni", "Srednji", "Napredni"];
 
 const VOCAB_KEY = "jezicki-trener:vocab";
 const STATS_KEY = "jezicki-trener:stats";
+const PIN_KEY = "jezicki-trener:pin";
 
 export default function JezickiTrener() {
   const [lang, setLang] = useState("en");
@@ -87,6 +88,12 @@ export default function JezickiTrener() {
   const [error, setError] = useState("");
   const scrollRef = useRef(null);
 
+  const [pin, setPin] = useState(null);
+  const [pinChecked, setPinChecked] = useState(false);
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState("");
+  const [pinBusy, setPinBusy] = useState(false);
+
   const langName = LANGS.find((l) => l.code === lang).name;
   const langNative = LANGS.find((l) => l.code === lang).native;
 
@@ -104,7 +111,50 @@ export default function JezickiTrener() {
     } catch {
       /* prvi put — ostaje podrazumevano */
     }
+    try {
+      setPin(localStorage.getItem(PIN_KEY));
+    } catch {
+      setPin(null);
+    }
+    setPinChecked(true);
   }, []);
+
+  async function unlock() {
+    const trimmed = pinInput.trim();
+    if (!trimmed || pinBusy) return;
+    setPinBusy(true);
+    setPinError("");
+    try {
+      const res = await fetch("/api/claude", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-app-pin": trimmed },
+        body: JSON.stringify({ check: true }),
+      });
+      if (res.ok) {
+        try {
+          localStorage.setItem(PIN_KEY, trimmed);
+        } catch {
+          /* i bez pamcenja radi, samo se pita svaki put */
+        }
+        setPin(trimmed);
+        setPinInput("");
+      } else {
+        setPinError("Pogrešan PIN.");
+      }
+    } catch {
+      setPinError("Nema veze sa serverom. Pokušaj ponovo.");
+    }
+    setPinBusy(false);
+  }
+
+  function lock() {
+    try {
+      localStorage.removeItem(PIN_KEY);
+    } catch {
+      /* nema veze */
+    }
+    setPin(null);
+  }
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -122,12 +172,16 @@ export default function JezickiTrener() {
   async function callClaude(payloadMessages, system) {
     const response = await fetch("/api/claude", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-app-pin": pin || "" },
       body: JSON.stringify({
         system,
         messages: payloadMessages,
       }),
     });
+    if (response.status === 401) {
+      lock();
+      throw new Error("PIN više ne važi");
+    }
     const data = await response.json();
     if (!response.ok || !Array.isArray(data.content)) {
       console.error("Claude API greška:", data.detail || data.error || data);
@@ -408,7 +462,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
     .jt-fix { align-self:flex-start; max-width:82%; background:var(--warnsoft); border-left:3px solid var(--warn);
               padding:9px 12px; border-radius:0 8px 8px 0; font-size:13.5px; line-height:1.5; }
     .jt-fix b { color:var(--warn); font-weight:600; }
-    .jt input[type=text], .jt textarea { width:100%; box-sizing:border-box; font-family:inherit; font-size:15px;
+    .jt input[type=text], .jt input[type=password], .jt textarea { width:100%; box-sizing:border-box; font-family:inherit; font-size:15px;
       padding:11px 13px; border:1px solid var(--line); border-radius:8px; background:var(--paper); color:var(--ink); }
     .jt input:focus, .jt textarea:focus { outline:2px solid var(--accent); outline-offset:1px; }
     .jt-btn { background:var(--ink); color:#fff; border:0; border-radius:8px; padding:11px 18px; font-size:14.5px;
@@ -424,6 +478,42 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
     .jt-stat { font-size:12px; color:var(--muted); }
     @media (max-width:520px){ .jt-msg,.jt-fix{max-width:94%} .jt h1{font-size:25px} }
   `;
+
+  if (!pinChecked) {
+    return <div className="jt"><style>{css}</style></div>;
+  }
+
+  if (!pin) {
+    return (
+      <div className="jt">
+        <style>{css}</style>
+        <div className="jt-wrap" style={{ maxWidth: 360, paddingTop: 60 }}>
+          <h1>Jezički trener</h1>
+          <p className="sub">Unesi PIN. Telefon će ga zapamtiti, pa se pita samo prvi put.</p>
+          {pinError && <div className="jt-err">{pinError}</div>}
+          <div className="jt-card">
+            <input
+              type="password"
+              inputMode="numeric"
+              autoComplete="current-password"
+              placeholder="PIN"
+              value={pinInput}
+              onChange={(e) => setPinInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && unlock()}
+            />
+            <button
+              className="jt-btn"
+              style={{ marginTop: 10 }}
+              onClick={unlock}
+              disabled={pinBusy || !pinInput.trim()}
+            >
+              {pinBusy ? "Proveravam…" : "Otključaj"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="jt">
