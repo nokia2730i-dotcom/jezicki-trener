@@ -1,39 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { migrateVocab, reviewReason, MAX_TERM } from "../lib/vocab";
 
-const LANGS = [
-  { code: "en", name: "Engleski", native: "English" },
-  { code: "de", name: "Nemački", native: "Deutsch" },
-  { code: "el", name: "Grčki", native: "Ελληνικά" },
-];
-
+// Samo engleski. Nemacki i grcki su izbaceni — nivo odredjuje ulazni test,
+// ne birac na ekranu.
 const SCENARIOS = [
-  {
-    id: "trip",
-    label: "Odakle su i kuda idu",
-    desc: "Gost priča o putu, ruti, mestima kroz koja je prošao i koliko ostaje",
-  },
-  {
-    id: "city",
-    label: "Grad i preporuke",
-    desc: "Gost pita šta da vidi, gde da izađe, kako da stigne; priča o utiscima",
-  },
-  {
-    id: "life",
-    label: "Život i posao",
-    desc: "Gost priča čime se bavi, o deci, cenama, poređenju sa svojom zemljom",
-  },
-  {
-    id: "smalltalk",
-    label: "Sport, vreme, opušteno",
-    desc: "Utakmica, vremenska prognoza, šale, sve što se ispriča između dva stola",
-  },
-  {
-    id: "interview",
-    label: "Razgovor za posao",
-    desc: "Customer support / success pozicija u tech kompaniji",
-  },
+  { id: "trip", label: "Odakle su i kuda idu" },
+  { id: "city", label: "Grad i preporuke" },
+  { id: "life", label: "Život i posao" },
+  { id: "smalltalk", label: "Sport, vreme, opušteno" },
+  { id: "interview", label: "Razgovor za posao" },
 ];
 
 const RESCUE = [
@@ -47,23 +24,20 @@ const RESCUE = [
   { en: "My English is decent, but that one's new to me.", sr: "Iskreno i sa samopouzdanjem, bez izvinjavanja" },
 ];
 
-const LEVELS = ["Početni", "Srednji", "Napredni"];
-
 const VOCAB_KEY = "jezicki-trener:vocab";
 const STATS_KEY = "jezicki-trener:stats";
+const PROGRESS_KEY = "jezicki-trener:progress";
 const PIN_KEY = "jezicki-trener:pin";
 
 export default function JezickiTrener() {
-  const [lang, setLang] = useState("en");
-  const [level, setLevel] = useState("Srednji");
   const [tab, setTab] = useState("znaci");
-
   const [scenario, setScenario] = useState("trip");
 
   const [lookupWord, setLookupWord] = useState("");
   const [lookupCtx, setLookupCtx] = useState("");
   const [lookup, setLookup] = useState(null);
   const [lBusy, setLBusy] = useState(false);
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -76,6 +50,7 @@ export default function JezickiTrener() {
   const [vocabReady, setVocabReady] = useState(false);
   const [card, setCard] = useState(null);
   const [revealed, setRevealed] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
 
   const [drill, setDrill] = useState([]);
   const [dIdx, setDIdx] = useState(0);
@@ -83,9 +58,12 @@ export default function JezickiTrener() {
   const [dResult, setDResult] = useState(null);
   const [dBusy, setDBusy] = useState(false);
   const [dDone, setDDone] = useState(0);
+
   const [stats, setStats] = useState({ streak: 0, lastDay: null, total: 0 });
+  const [progress, setProgress] = useState({ level: "A1" });
 
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const scrollRef = useRef(null);
 
   const [pin, setPin] = useState(null);
@@ -94,22 +72,32 @@ export default function JezickiTrener() {
   const [pinError, setPinError] = useState("");
   const [pinBusy, setPinBusy] = useState(false);
 
-  const langName = LANGS.find((l) => l.code === lang).name;
-  const langNative = LANGS.find((l) => l.code === lang).native;
-
   useEffect(() => {
+    let migrated = [];
     try {
-      const res = localStorage.getItem(VOCAB_KEY);
-      setVocab(res ? JSON.parse(res) : []);
+      const stored = JSON.parse(localStorage.getItem(VOCAB_KEY) || "[]");
+      migrated = migrateVocab(stored);
+      // Upisi natrag samo ako se oblik stvarno promenio.
+      if (JSON.stringify(stored) !== JSON.stringify(migrated)) {
+        localStorage.setItem(VOCAB_KEY, JSON.stringify(migrated));
+      }
     } catch {
-      setVocab([]);
+      migrated = [];
     }
+    setVocab(migrated);
     setVocabReady(true);
+
     try {
       const s = localStorage.getItem(STATS_KEY);
       if (s) setStats(JSON.parse(s));
     } catch {
       /* prvi put — ostaje podrazumevano */
+    }
+    try {
+      const p = localStorage.getItem(PROGRESS_KEY);
+      if (p) setProgress({ level: "A1", ...JSON.parse(p) });
+    } catch {
+      /* prvi put */
     }
     try {
       setPin(localStorage.getItem(PIN_KEY));
@@ -118,6 +106,16 @@ export default function JezickiTrener() {
     }
     setPinChecked(true);
   }, []);
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages, busy]);
+
+  // Greska i obavestenje ne smeju da vise kad predjes na drugi tab.
+  useEffect(() => {
+    setError("");
+    setNotice("");
+  }, [tab]);
 
   async function unlock() {
     const trimmed = pinInput.trim();
@@ -156,9 +154,35 @@ export default function JezickiTrener() {
     setPin(null);
   }
 
-  useEffect(() => {
-    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages, busy]);
+  // Klijent salje samo ime zadatka i svoja polja. System prompt, model i
+  // max_tokens su na serveru.
+  async function callClaude(task, fields) {
+    const response = await fetch("/api/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-app-pin": pin || "" },
+      body: JSON.stringify({ task, fields }),
+    });
+
+    if (response.status === 401) {
+      lock();
+      throw new Error("PIN više ne važi");
+    }
+
+    let json = {};
+    try {
+      json = await response.json();
+    } catch {
+      throw new Error("Odgovor nije stigao.");
+    }
+
+    if (!response.ok || json.data === undefined) {
+      // Server vraca poruku na srpskom — prikazi je, ne generiku.
+      throw new Error(json.error || `Greška ${response.status}.`);
+    }
+    return json.data;
+  }
+
+  // ——— Recnik ————————————————————————————————————————————————
 
   function saveVocab(next) {
     setVocab(next);
@@ -169,102 +193,107 @@ export default function JezickiTrener() {
     }
   }
 
-  async function callClaude(payloadMessages, system) {
-    const response = await fetch("/api/claude", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-app-pin": pin || "" },
-      body: JSON.stringify({
-        system,
-        messages: payloadMessages,
-      }),
+  // Kartica je JEDNA rec ili fraza. Cele recenice se odbijaju — to je bio bug.
+  function addToVocab(term, meaning) {
+    const t = String(term || "").trim();
+    const m = String(meaning || "").trim();
+
+    // Isto pravilo koje ocenjuje stare kartice odbija i nove — da se bug 1
+    // ne moze ponoviti ni iz jednog novog mesta u aplikaciji.
+    const problem = reviewReason(t, m, null);
+    if (problem === "nedostaje polje") {
+      setError("Kartica nije sačuvana — nedostaje reč ili značenje.");
+      return;
+    }
+    if (problem === "cela rečenica") {
+      setError("Kartica nije sačuvana — to je cela rečenica. Kartica treba da bude reč ili kratka fraza.");
+      return;
+    }
+    if (problem) {
+      setError(`Kartica nije sačuvana — ${problem}.`);
+      return;
+    }
+    if (vocab.some((v) => (v.term || "").toLowerCase() === t.toLowerCase())) {
+      setNotice(`„${t}" je već u rečniku.`);
+      return;
+    }
+
+    saveVocab([
+      {
+        id: Date.now() + Math.random(),
+        term: t,
+        meaning: m,
+        seen: 0,
+        known: 0,
+        added: new Date().toISOString().slice(0, 10),
+      },
+      ...vocab,
+    ]);
+    setNotice(`„${t}" je u rečniku.`);
+  }
+
+  function removeFromVocab(id) {
+    saveVocab(vocab.filter((v) => v.id !== id));
+  }
+
+  function swapSides(id) {
+    saveVocab(
+      vocab.map((v) => {
+        if (v.id !== id) return v;
+        const flipped = { ...v, term: v.meaning, meaning: v.term };
+        const reason = reviewReason(flipped.term, flipped.meaning, null);
+        if (reason) return { ...flipped, needsReview: reason };
+        const { needsReview, ...clean } = flipped;
+        return clean;
+      })
+    );
+  }
+
+  function keepCard(id) {
+    saveVocab(
+      vocab.map((v) => {
+        if (v.id !== id) return v;
+        const { needsReview, ...clean } = v;
+        return clean;
+      })
+    );
+  }
+
+  const toReview = vocab.filter((v) => v.needsReview);
+  const healthy = vocab.filter((v) => !v.needsReview);
+
+  function drawCard() {
+    if (!healthy.length) return;
+    const weighted = healthy.slice().sort((a, b) => {
+      const scoreA = a.seen === 0 ? -1 : a.known / a.seen;
+      const scoreB = b.seen === 0 ? -1 : b.known / b.seen;
+      return scoreA - scoreB;
     });
-    if (response.status === 401) {
-      lock();
-      throw new Error("PIN više ne važi");
-    }
-    const data = await response.json();
-    if (!response.ok || !Array.isArray(data.content)) {
-      console.error("Claude API greška:", data.detail || data.error || data);
-      throw new Error(data.error || `HTTP ${response.status}`);
-    }
-    const text = data.content
-      .filter((b) => b.type === "text")
-      .map((b) => b.text)
-      .join("\n");
-    return JSON.parse(text.replace(/```json|```/g, "").trim());
+    const pool = weighted.slice(0, Math.max(3, Math.ceil(weighted.length / 2)));
+    setCard(pool[Math.floor(Math.random() * pool.length)]);
+    setRevealed(false);
   }
 
-  async function send() {
-    const trimmed = input.trim();
-    if (!trimmed || busy) return;
-    setError("");
-    const nextMessages = [...messages, { role: "user", content: trimmed }];
-    setMessages(nextMessages);
-    setInput("");
-    setBusy(true);
-
-    const sc = SCENARIOS.find((s) => s.id === scenario);
-    const system = `Ti si partner za vežbanje jezika. Ciljni jezik: ${langNative} (${langName}). Nivo korisnika: ${level}. Maternji jezik korisnika: srpski.
-
-Situacija: ${sc.label} — ${sc.desc}. Ti igraš drugu stranu u toj situaciji (poslodavca, gosta, prodavca, kolegu). Ostani u ulozi, odgovaraj kratko i prirodno, 1-3 rečenice, i uvek postavi pitanje ili daj repliku koja tera razgovor dalje. Prilagodi težinu jezika nivou korisnika.
-
-Posle svake poruke korisnika proveri njegovu rečenicu. Ako ima grešku ili postoji prirodniji način da se to kaže, popuni "correction". Ako je rečenica dobra, stavi null.
-
-Odgovori ISKLJUČIVO validnim JSON objektom, bez ikakvog teksta pre ili posle, bez markdown ograda:
-{"reply": "tvoja replika na ciljnom jeziku", "reply_sr": "prevod tvoje replike na srpski", "correction": {"issue": "kratko objašnjenje greške NA SRPSKOM", "better": "ispravljena rečenica na ciljnom jeziku"} ili null}`;
-
-    try {
-      const parsed = await callClaude(
-        nextMessages.map((m) =>
-          m.role === "user"
-            ? { role: "user", content: m.content }
-            : { role: "assistant", content: m.content }
-        ),
-        system
-      );
-      setMessages([
-        ...nextMessages,
-        {
-          role: "assistant",
-          content: parsed.reply,
-          sr: parsed.reply_sr,
-          correction: parsed.correction || null,
-        },
-      ]);
-    } catch {
-      setError("Odgovor nije stigao. Pošalji poruku ponovo.");
-      setMessages(nextMessages);
-    }
-    setBusy(false);
+  function grade(knew) {
+    const next = vocab.map((v) =>
+      v.id === card.id ? { ...v, seen: v.seen + 1, known: v.known + (knew ? 1 : 0) } : v
+    );
+    saveVocab(next);
+    const pool = next.filter((v) => !v.needsReview);
+    const others = pool.filter((v) => v.id !== card.id);
+    const source = others.length ? others : pool;
+    setCard(source.length ? source[Math.floor(Math.random() * source.length)] : null);
+    setRevealed(false);
   }
 
-  async function translate() {
-    const trimmed = srcText.trim();
-    if (!trimmed || tBusy) return;
-    setError("");
-    setTBusy(true);
-    setTranslation(null);
+  // ——— Alati ————————————————————————————————————————————————
 
-    const system = `Prevodiš sa srpskog na ${langNative} (${langName}). Korisnik je ugostitelj iz Srbije koji uči jezik za rad sa gostima i za razgovore za posao u tehnološkim kompanijama.
-
-Odgovori ISKLJUČIVO validnim JSON objektom, bez teksta pre ili posle, bez markdown ograda:
-{"main": "najprirodniji prevod", "formal": "formalna varijanta", "casual": "opuštena varijanta", "note": "jedna rečenica NA SRPSKOM o tome zašto se glavni prevod tako kaže ili šta se najčešće greši", "key_word": "jedna ključna reč ili fraza iz prevoda", "key_word_sr": "njeno značenje na srpskom"}`;
-
-    try {
-      const parsed = await callClaude([{ role: "user", content: trimmed }], system);
-      setTranslation(parsed);
-    } catch {
-      setError("Prevod nije uspeo. Pokušaj ponovo.");
-    }
-    setTBusy(false);
-  }
-
-  function speak(text) {
+  function speak(text, rate = 0.92) {
     try {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = lang === "en" ? "en-US" : lang === "de" ? "de-DE" : "el-GR";
-      u.rate = 0.92;
+      u.lang = "en-US";
+      u.rate = rate;
       window.speechSynthesis.speak(u);
     } catch {
       setError("Izgovor ne radi u ovom pregledaču.");
@@ -277,26 +306,61 @@ Odgovori ISKLJUČIVO validnim JSON objektom, bez teksta pre ili posle, bez markd
     setError("");
     setLBusy(true);
     setLookup(null);
-
-    const system = `Korisnik je konobar u Srbiji sa 20+ godina iskustva. Radi sa stranim gostima i tokom razgovora nije razumeo reč ili izraz na jeziku: ${langNative} (${langName}). Njegov nivo je dobar — ne treba mu osnovna škola, treba mu tačno značenje i kako da odgovori.
-
-Reč ili izraz može biti pogrešno zapisan jer ga je čuo, ne pročitao. Ako liči na nešto drugo, pretpostavi najverovatniju stvarnu reč i to napiši u "actual".
-
-Odgovori ISKLJUČIVO validnim JSON objektom, bez teksta pre ili posle, bez markdown ograda:
-{"actual": "reč kako se stvarno piše", "meaning": "značenje NA SRPSKOM, konkretno", "type": "reč | idiom | sleng | naziv mesta | skraćenica", "example": "kratka rečenica na ciljnom jeziku u kojoj se koristi", "reply": "šta korisnik može da odgovori gostu, na ciljnom jeziku", "reply_sr": "prevod tog odgovora na srpski"}`;
-
-    const content = lookupCtx.trim()
-      ? `Reč: ${w}\nKontekst razgovora: ${lookupCtx.trim()}`
-      : `Reč: ${w}`;
-
     try {
-      const parsed = await callClaude([{ role: "user", content }], system);
-      setLookup(parsed);
-    } catch {
-      setError("Nije uspelo. Pokušaj ponovo.");
+      setLookup(await callClaude("lookup", { word: w, context: lookupCtx.trim() }));
+    } catch (e) {
+      setError(e.message);
     }
     setLBusy(false);
   }
+
+  async function translate() {
+    const trimmed = srcText.trim();
+    if (!trimmed || tBusy) return;
+    setError("");
+    setTBusy(true);
+    setTranslation(null);
+    try {
+      setTranslation(await callClaude("translate", { text: trimmed }));
+    } catch (e) {
+      setError(e.message);
+    }
+    setTBusy(false);
+  }
+
+  async function send() {
+    const trimmed = input.trim();
+    if (!trimmed || busy) return;
+    setError("");
+    const nextMessages = [...messages, { role: "user", content: trimmed }];
+    setMessages(nextMessages);
+    setInput("");
+    setBusy(true);
+    try {
+      const parsed = await callClaude("free_chat", {
+        scenario,
+        level: progress.level,
+        messages: nextMessages.map((m) => ({ role: m.role, content: m.content })),
+      });
+      setMessages([
+        ...nextMessages,
+        {
+          role: "assistant",
+          content: parsed.reply,
+          sr: parsed.reply_sr,
+          correction: parsed.correction || null,
+        },
+      ]);
+    } catch (e) {
+      setError(e.message);
+      setMessages(nextMessages);
+    }
+    setBusy(false);
+  }
+
+  // ——— Trening ———————————————————————————————————————————————
+  // Ostaje privremeno, dok ga ne zameni motor lekcije. Sada ide kroz
+  // registar zadataka na serveru.
 
   function norm(s) {
     return (s || "")
@@ -315,34 +379,14 @@ Odgovori ISKLJUČIVO validnim JSON objektom, bez teksta pre ili posle, bez markd
     setDAnswer("");
     setDResult(null);
     setDDone(0);
-
-    const mine = langVocab.slice(0, 12).map((v) => v.dst).join(", ");
-    const system = `Praviš dnevni trening jezika za konobara iz Srbije sa 20+ godina iskustva. Ciljni jezik: ${langNative} (${langName}). Nivo: ${level}. On već tečno radi sa gostima i zna gastro vokabular — NE daj mu početničke rečenice tipa "the boy eats an apple". Cilj je skok ka prirodnom, tečnom govoru: kolokacije, idiomi, brz govor, nijansa između gramatički tačnog i onoga što izvorni govornik stvarno kaže.
-
-Teme drži oko onoga o čemu gosti u restoranu pričaju: putovanja i rute, grad i preporuke, posao i život, sport i vreme, kao i profesionalna komunikacija za customer support poziciju.
-${mine ? `\nAko prirodno možeš, upotrebi neke od ovih reči koje on uči: ${mine}.` : ""}
-
-Napravi tačno 6 zadataka ovim redom: listen, gist, translate, listen, gist, choice.
-
-- "listen": rečenica koju će mu aplikacija pročitati naglas, a on kuca šta je čuo. Prirodna govorna rečenica od 8 do 14 reči, sa skraćivanjima i spojenim rečima kakve se stvarno izgovaraju (gonna, wanna, kind of, I've been, we'd rather).
-- "gist": pasus od 3 do 4 rečenice koji mu se čita naglas dok NE vidi tekst — kao da gost priča za stolom. Uz njega jedno pitanje NA SRPSKOM o sadržaju, na koje se ne može odgovoriti pogađanjem, nego samo ako je stvarno razumeo. Pitaj konkretan detalj ili poentu, ne opštu temu.
-- "translate": kratka rečenica na srpskom koju treba da kaže na ciljnom jeziku.
-- "choice": pitanje sa 3 ponuđena odgovora gde su bar dva gramatički tačna, ali samo jedan zvuči kao izvorni govornik.
-
-Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown ograda:
-[{"type":"listen","text":"rečenica na ciljnom jeziku","sr":"prevod na srpski"},
-{"type":"gist","text":"pasus na ciljnom jeziku","question":"pitanje NA SRPSKOM o sadržaju","answer":"tačan odgovor NA SRPSKOM","sr":"prevod celog pasusa na srpski"},
-{"type":"translate","sr":"rečenica na srpskom","text":"model odgovor na ciljnom jeziku","note":"kratka napomena NA SRPSKOM"},
-{"type":"choice","prompt":"pitanje ili situacija NA SRPSKOM","options":["a","b","c"],"correct":0,"why":"objašnjenje NA SRPSKOM zašto je taj prirodniji"}]`;
-
     try {
-      const parsed = await callClaude(
-        [{ role: "user", content: "Napravi današnji trening." }],
-        system
-      );
-      setDrill(Array.isArray(parsed) ? parsed : []);
-    } catch {
-      setError("Trening nije generisan. Pokušaj ponovo.");
+      const parsed = await callClaude("drill", {
+        level: progress.level,
+        words: healthy.slice(0, 12).map((v) => v.term),
+      });
+      setDrill(Array.isArray(parsed.tasks) ? parsed.tasks : []);
+    } catch (e) {
+      setError(e.message);
     }
     setDBusy(false);
   }
@@ -360,7 +404,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
     try {
       localStorage.setItem(STATS_KEY, JSON.stringify(next));
     } catch {
-      /* statistika nije kritična */
+      /* statistika nije kriticna */
     }
   }
 
@@ -376,7 +420,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
     } else if (q.type === "gist") {
       setDResult({ ok: null, right: q.answer, why: q.text, extra: q.sr });
     } else {
-      setDResult({ ok: null, right: q.text, why: q.note });
+      setDResult({ ok: null, right: q.text, why: q.why });
     }
   }
 
@@ -392,66 +436,21 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
     }
   }
 
-  function addToVocab(src, dst) {
-    const entry = {
-      id: Date.now() + Math.random(),
-      lang,
-      src,
-      dst,
-      seen: 0,
-      known: 0,
-      added: new Date().toISOString().slice(0, 10),
-    };
-    saveVocab([entry, ...vocab]);
-  }
-
-  function removeFromVocab(id) {
-    saveVocab(vocab.filter((v) => v.id !== id));
-  }
-
-  const langVocab = vocab.filter((v) => v.lang === lang);
-
-  function drawCard() {
-    if (!langVocab.length) return;
-    const weighted = langVocab.slice().sort((a, b) => {
-      const scoreA = a.seen === 0 ? -1 : a.known / a.seen;
-      const scoreB = b.seen === 0 ? -1 : b.known / b.seen;
-      return scoreA - scoreB;
-    });
-    const pool = weighted.slice(0, Math.max(3, Math.ceil(weighted.length / 2)));
-    setCard(pool[Math.floor(Math.random() * pool.length)]);
-    setRevealed(false);
-  }
-
-  function grade(knew) {
-    const next = vocab.map((v) =>
-      v.id === card.id ? { ...v, seen: v.seen + 1, known: v.known + (knew ? 1 : 0) } : v
-    );
-    saveVocab(next);
-    const pool = next.filter((v) => v.lang === lang);
-    const others = pool.filter((v) => v.id !== card.id);
-    const source = others.length ? others : pool;
-    setCard(source[Math.floor(Math.random() * source.length)]);
-    setRevealed(false);
-  }
-
   const css = `
     .jt { --bg:#E7EBE7; --paper:#FDFDFB; --ink:#16231D; --muted:#5F6D66; --line:#C9D2CC;
           --accent:#1D4ED8; --soft:#DEE7FE; --warn:#A9491B; --warnsoft:#F6E7DE;
+          --ok:#1B6B46; --oksoft:#DFF0E6;
           background:var(--bg); color:var(--ink); min-height:100vh; padding:24px 16px 40px;
           font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif; }
     .jt-wrap { max-width:760px; margin:0 auto; }
     .jt h1 { font-family:Georgia,"Times New Roman",serif; font-weight:400; font-size:30px;
              letter-spacing:-0.4px; margin:0 0 4px; }
     .jt .sub { color:var(--muted); font-size:14px; margin:0 0 20px; }
-    .jt-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
-    .jt-seg { display:inline-flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--paper); }
-    .jt-seg button { border:0; background:transparent; padding:7px 15px; font-size:13.5px; color:var(--muted);
-                     cursor:pointer; font-family:inherit; }
-    .jt-seg button.on { background:var(--ink); color:#fff; }
-    .jt-tabs { display:flex; gap:22px; border-bottom:1px solid var(--line); margin:18px 0 20px; }
+    .jt-tabs { display:flex; gap:22px; border-bottom:1px solid var(--line); margin:18px 0 20px;
+               overflow-x:auto; }
     .jt-tabs button { border:0; background:transparent; padding:0 0 10px; font-size:15px; cursor:pointer;
-                      color:var(--muted); font-family:inherit; border-bottom:2px solid transparent; margin-bottom:-1px; }
+                      color:var(--muted); font-family:inherit; border-bottom:2px solid transparent;
+                      margin-bottom:-1px; white-space:nowrap; }
     .jt-tabs button.on { color:var(--ink); border-bottom-color:var(--accent); }
     .jt-card { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:16px; }
     .jt-chat { height:340px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:4px 2px; }
@@ -469,12 +468,16 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
               cursor:pointer; font-family:inherit; }
     .jt-btn:disabled { opacity:.45; cursor:default; }
     .jt-btn.ghost { background:transparent; color:var(--accent); border:1px solid var(--line); }
+    .jt-btn.small { padding:7px 13px; font-size:13px; }
     .jt-empty { color:var(--muted); font-size:14px; line-height:1.6; }
     .jt-item { display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
                padding:12px 0; border-bottom:1px solid var(--line); }
     .jt-item:last-child { border-bottom:0; }
     .jt-x { border:0; background:transparent; color:var(--muted); cursor:pointer; font-size:18px; line-height:1; padding:2px 4px; }
     .jt-err { background:var(--warnsoft); color:var(--warn); padding:9px 12px; border-radius:8px; font-size:13.5px; margin-bottom:12px; }
+    .jt-ok { background:var(--oksoft); color:var(--ok); padding:9px 12px; border-radius:8px; font-size:13.5px; margin-bottom:12px; }
+    .jt-flag { display:inline-block; background:var(--warnsoft); color:var(--warn); font-size:11.5px;
+               padding:2px 7px; border-radius:999px; margin-top:4px; }
     .jt-stat { font-size:12px; color:var(--muted); }
     @media (max-width:520px){ .jt-msg,.jt-fix{max-width:94%} .jt h1{font-size:25px} }
   `;
@@ -520,24 +523,9 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
       <style>{css}</style>
       <div className="jt-wrap">
         <h1>Jezički trener</h1>
-        <p className="sub">Reč koja te je oborila na smeni — objasni je, sačuvaj je, ponovi je.</p>
-
-        <div className="jt-row">
-          <div className="jt-seg">
-            {LANGS.map((l) => (
-              <button key={l.code} className={lang === l.code ? "on" : ""} onClick={() => setLang(l.code)}>
-                {l.name}
-              </button>
-            ))}
-          </div>
-          <div className="jt-seg">
-            {LEVELS.map((lv) => (
-              <button key={lv} className={level === lv ? "on" : ""} onClick={() => setLevel(lv)}>
-                {lv}
-              </button>
-            ))}
-          </div>
-        </div>
+        <p className="sub">
+          Engleski · nivo {progress.level} <span className="jt-stat">(odrediće ga ulazni test)</span>
+        </p>
 
         <div className="jt-tabs">
           <button className={tab === "znaci" ? "on" : ""} onClick={() => setTab("znaci")}>Šta znači</button>
@@ -547,11 +535,13 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
           <button className={tab === "razgovor" ? "on" : ""} onClick={() => setTab("razgovor")}>Razgovor</button>
           <button className={tab === "prevod" ? "on" : ""} onClick={() => setTab("prevod")}>Prevod</button>
           <button className={tab === "recnik" ? "on" : ""} onClick={() => setTab("recnik")}>
-            Rečnik {langVocab.length ? `(${langVocab.length})` : ""}
+            Rečnik {healthy.length ? `(${healthy.length})` : ""}
+            {toReview.length ? " ⚠" : ""}
           </button>
         </div>
 
         {error && <div className="jt-err">{error}</div>}
+        {notice && <div className="jt-ok">{notice}</div>}
 
         {tab === "trening" && (
           <div className="jt-card">
@@ -561,10 +551,9 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                   Šest zadataka, oko deset minuta
                 </div>
                 <p className="jt-empty" style={{ marginTop: 0 }}>
-                  Dva diktata, dva slušanja bez teksta, prevod i jedan izbor. Bez ponuđenih odgovora tamo gde je
-                  bitno — ili si razumeo ili nisi.
-                  {langVocab.length > 0
-                    ? ` Zadaci se prave i oko ${langVocab.length} reči iz tvog rečnika.`
+                  Dva diktata, dva slušanja bez teksta, jedna situacija i jedan izbor.
+                  {healthy.length > 0
+                    ? ` Zadaci se prave i oko ${healthy.length} reči iz tvog rečnika.`
                     : " Kad napuniš rečnik, zadaci će koristiti tvoje reči."}
                 </p>
                 <button className="jt-btn" onClick={buildDrill} disabled={dBusy}>
@@ -622,9 +611,9 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                 {drill[dIdx].type === "choice" && (
                   <div>
                     <div style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.5 }}>
-                      {drill[dIdx].prompt}
+                      {drill[dIdx].sr}
                     </div>
-                    {drill[dIdx].options.map((o, i) => (
+                    {(drill[dIdx].options || []).map((o, i) => (
                       <div
                         key={i}
                         onClick={() => !dResult && setDAnswer(String(i))}
@@ -669,16 +658,18 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                   </div>
                 )}
 
-                {drill[dIdx].type === "translate" && (
+                {drill[dIdx].type === "situation" && (
                   <div>
                     <div style={{ fontFamily: "Georgia, serif", fontSize: 17, marginBottom: 10 }}>
-                      Kako bi ovo rekao gostu
+                      Šta kažeš
                     </div>
-                    <div style={{ fontSize: 16, marginBottom: 12 }}>{drill[dIdx].sr}</div>
+                    <div style={{ fontSize: 16, marginBottom: 12, lineHeight: 1.5 }}>
+                      {drill[dIdx].sr}
+                    </div>
                     <input
                       type="text"
                       value={dAnswer}
-                      placeholder={`Napiši na ${langNative}`}
+                      placeholder="Napiši na engleskom"
                       disabled={!!dResult}
                       onChange={(e) => setDAnswer(e.target.value)}
                       onKeyDown={(e) => { if (e.key === "Enter" && !dResult) checkDrill(); }}
@@ -700,7 +691,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                 {dResult && (
                   <div style={{ marginTop: 16, borderTop: "1px solid var(--line)", paddingTop: 14 }}>
                     {dResult.ok === true && (
-                      <div style={{ color: "var(--accent)", fontSize: 15.5, marginBottom: 6 }}>Tačno.</div>
+                      <div style={{ color: "var(--ok)", fontSize: 15.5, marginBottom: 6 }}>Tačno.</div>
                     )}
                     {dResult.ok === false && (
                       <div style={{ color: "var(--warn)", fontSize: 15.5, marginBottom: 6 }}>Nije tačno.</div>
@@ -721,12 +712,14 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                       ) : (
                         <button className="jt-btn" onClick={() => nextDrill()}>Dalje</button>
                       )}
-                      <button
-                        className="jt-btn ghost"
-                        onClick={() => addToVocab(dResult.why || drill[dIdx].sr || "iz treninga", dResult.right)}
-                      >
-                        Sačuvaj u rečnik
-                      </button>
+                      {drill[dIdx].key_word && (
+                        <button
+                          className="jt-btn ghost"
+                          onClick={() => addToVocab(drill[dIdx].key_word, drill[dIdx].key_word_sr)}
+                        >
+                          Sačuvaj „{drill[dIdx].key_word}"
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -741,6 +734,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
               <input
                 type="text"
                 value={lookupWord}
+                maxLength={80}
                 placeholder="Reč koju nisi razumeo — piši kako si je čuo"
                 onChange={(e) => setLookupWord(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") doLookup(); }}
@@ -749,6 +743,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                 type="text"
                 style={{ marginTop: 8 }}
                 value={lookupCtx}
+                maxLength={300}
                 placeholder="O čemu se pričalo (nije obavezno)"
                 onChange={(e) => setLookupCtx(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") doLookup(); }}
@@ -779,7 +774,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                   <button
                     className="jt-btn ghost"
                     style={{ marginTop: 16 }}
-                    onClick={() => addToVocab(lookup.meaning, lookup.actual)}
+                    onClick={() => addToVocab(lookup.actual, lookup.meaning)}
                   >
                     Sačuvaj u rečnik
                   </button>
@@ -809,25 +804,23 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
 
         {tab === "razgovor" && (
           <div>
-            <div className="jt-row">
-              <div className="jt-seg">
-                {SCENARIOS.map((s) => (
-                  <button
-                    key={s.id}
-                    className={scenario === s.id ? "on" : ""}
-                    onClick={() => { setScenario(s.id); setMessages([]); }}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
+              {SCENARIOS.map((s) => (
+                <button
+                  key={s.id}
+                  className={scenario === s.id ? "jt-btn small" : "jt-btn small ghost"}
+                  onClick={() => { setScenario(s.id); setMessages([]); }}
+                >
+                  {s.label}
+                </button>
+              ))}
             </div>
 
             <div className="jt-card">
               <div className="jt-chat" ref={scrollRef}>
                 {messages.length === 0 && (
                   <p className="jt-empty">
-                    Napiši prvu rečenicu na jeziku koji učiš. Sagovornik ostaje u ulozi, a ispod svake tvoje
+                    Napiši prvu rečenicu na engleskom. Sagovornik ostaje u ulozi, a ispod svake tvoje
                     poruke dobijaš ispravku ako je ima.
                   </p>
                 )}
@@ -841,13 +834,15 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                       <div className="jt-fix">
                         <b>Bolje:</b> {m.correction.better}
                         <div className="jt-sr">{m.correction.issue}</div>
-                        <button
-                          className="jt-btn ghost"
-                          style={{ marginTop: 8, padding: "6px 12px", fontSize: 13 }}
-                          onClick={() => addToVocab(m.correction.issue, m.correction.better)}
-                        >
-                          Sačuvaj u rečnik
-                        </button>
+                        {m.correction.key_word && (
+                          <button
+                            className="jt-btn ghost small"
+                            style={{ marginTop: 8 }}
+                            onClick={() => addToVocab(m.correction.key_word, m.correction.key_word_sr)}
+                          >
+                            Sačuvaj „{m.correction.key_word}"
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -859,7 +854,8 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                 <input
                   type="text"
                   value={input}
-                  placeholder={`Piši na ${langNative}`}
+                  maxLength={600}
+                  placeholder="Piši na engleskom"
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") send(); }}
                 />
@@ -869,8 +865,8 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
               </div>
               {messages.length > 0 && (
                 <button
-                  className="jt-btn ghost"
-                  style={{ marginTop: 10, padding: "7px 14px", fontSize: 13 }}
+                  className="jt-btn ghost small"
+                  style={{ marginTop: 10 }}
                   onClick={() => setMessages([])}
                 >
                   Počni novi razgovor
@@ -885,16 +881,20 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
             <textarea
               rows={3}
               value={srcText}
+              maxLength={500}
               placeholder="Napiši na srpskom šta hoćeš da kažeš"
               onChange={(e) => setSrcText(e.target.value)}
             />
             <button className="jt-btn" style={{ marginTop: 10 }} onClick={translate} disabled={tBusy || !srcText.trim()}>
-              {tBusy ? "Prevodim…" : `Prevedi na ${langName.toLowerCase()}`}
+              {tBusy ? "Prevodim…" : "Prevedi na engleski"}
             </button>
 
             {translation && (
               <div style={{ marginTop: 18 }}>
-                <div style={{ fontSize: 19, lineHeight: 1.45 }}>{translation.main}</div>
+                <div style={{ fontSize: 19, lineHeight: 1.45 }}>
+                  {translation.main}
+                  <button className="jt-x" onClick={() => speak(translation.main)} aria-label="Izgovori">🔊</button>
+                </div>
                 <div className="jt-sr" style={{ marginTop: 10 }}>{translation.note}</div>
                 <div style={{ marginTop: 14, borderTop: "1px solid var(--line)", paddingTop: 12 }}>
                   <div style={{ fontSize: 14.5, marginBottom: 6 }}>
@@ -904,13 +904,15 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                     <span className="jt-stat">opušteno · </span>{translation.casual}
                   </div>
                 </div>
-                <button
-                  className="jt-btn ghost"
-                  style={{ marginTop: 14 }}
-                  onClick={() => addToVocab(translation.key_word_sr || srcText, translation.key_word || translation.main)}
-                >
-                  Sačuvaj „{translation.key_word}" u rečnik
-                </button>
+                {translation.key_word && (
+                  <button
+                    className="jt-btn ghost"
+                    style={{ marginTop: 14 }}
+                    onClick={() => addToVocab(translation.key_word, translation.key_word_sr)}
+                  >
+                    Sačuvaj „{translation.key_word}" u rečnik
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -920,22 +922,75 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
           <div className="jt-card">
             {!vocabReady && <p className="jt-empty">Učitavam…</p>}
 
-            {vocabReady && langVocab.length === 0 && (
+            {vocabReady && toReview.length > 0 && !reviewing && (
+              <div className="jt-err" style={{ marginBottom: 14 }}>
+                {toReview.length} {toReview.length === 1 ? "kartica" : "kartice"} iz starog rečnika nisu
+                upotrebljive — stara verzija je u njih upisivala cele rečenice i okretala strane.
+                Ništa nije obrisano.
+                <div style={{ marginTop: 10 }}>
+                  <button className="jt-btn small" onClick={() => setReviewing(true)}>
+                    Pregledaj ih
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {vocabReady && reviewing && (
+              <div>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 18, marginBottom: 4 }}>
+                  Pregled starih kartica
+                </div>
+                <p className="jt-empty" style={{ marginTop: 0 }}>
+                  Za svaku odluči: zameni strane ako je naopako, zadrži ako je u redu, obriši ako je
+                  bezvredna. Kartice sa cele rečenice najbolje je obrisati — reč ćeš ponovo sačuvati
+                  kad naiđe.
+                </p>
+
+                {toReview.length === 0 && (
+                  <div className="jt-ok">Sve je pregledano.</div>
+                )}
+
+                {toReview.map((v) => (
+                  <div key={v.id} style={{ borderBottom: "1px solid var(--line)", padding: "14px 0" }}>
+                    <div style={{ fontSize: 15.5, wordBreak: "break-word" }}>{v.term || "—"}</div>
+                    <div className="jt-sr" style={{ wordBreak: "break-word" }}>{v.meaning || "—"}</div>
+                    <div className="jt-flag">{v.needsReview}</div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+                      <button className="jt-btn small ghost" onClick={() => swapSides(v.id)}>
+                        Zameni strane
+                      </button>
+                      <button className="jt-btn small ghost" onClick={() => keepCard(v.id)}>
+                        Zadrži
+                      </button>
+                      <button className="jt-btn small" onClick={() => removeFromVocab(v.id)}>
+                        Obriši
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                <button className="jt-btn ghost small" style={{ marginTop: 16 }} onClick={() => setReviewing(false)}>
+                  Nazad na rečnik
+                </button>
+              </div>
+            )}
+
+            {vocabReady && !reviewing && healthy.length === 0 && (
               <p className="jt-empty">
-                Rečnik za {langName.toLowerCase()} je prazan. Sačuvaj reč iz prevoda ili iz ispravke u razgovoru,
-                pa se ovde vraćaj da je ponoviš.
+                Rečnik je prazan. Sačuvaj reč iz objašnjenja, prevoda ili ispravke u razgovoru, pa se
+                ovde vraćaj da je ponoviš.
               </p>
             )}
 
-            {vocabReady && langVocab.length > 0 && !card && (
+            {vocabReady && !reviewing && healthy.length > 0 && !card && (
               <div>
-                <button className="jt-btn" onClick={drawCard}>Vežbaj ({langVocab.length})</button>
+                <button className="jt-btn" onClick={drawCard}>Vežbaj ({healthy.length})</button>
                 <div style={{ marginTop: 18 }}>
-                  {langVocab.map((v) => (
+                  {healthy.map((v) => (
                     <div className="jt-item" key={v.id}>
                       <div>
-                        <div style={{ fontSize: 15.5 }}>{v.dst}</div>
-                        <div className="jt-sr">{v.src}</div>
+                        <div style={{ fontSize: 15.5 }}>{v.term}</div>
+                        <div className="jt-sr">{v.meaning}</div>
                         <div className="jt-stat" style={{ marginTop: 4 }}>
                           {v.seen ? `${v.known}/${v.seen} tačno` : "još nije vežbano"} · {v.added}
                         </div>
@@ -947,18 +1002,18 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
               </div>
             )}
 
-            {card && (
+            {!reviewing && card && (
               <div style={{ textAlign: "center", padding: "24px 8px" }}>
                 <div className="jt-stat">kako se kaže</div>
-                <div style={{ fontSize: 21, margin: "10px 0 22px", fontFamily: "Georgia, serif" }}>{card.src}</div>
+                <div style={{ fontSize: 21, margin: "10px 0 22px", fontFamily: "Georgia, serif" }}>{card.meaning}</div>
 
                 {!revealed ? (
                   <button className="jt-btn" onClick={() => setRevealed(true)}>Prikaži odgovor</button>
                 ) : (
                   <div>
                     <div style={{ fontSize: 19, marginBottom: 20 }}>
-                      {card.dst}
-                      <button className="jt-x" onClick={() => speak(card.dst)} aria-label="Izgovori">🔊</button>
+                      {card.term}
+                      <button className="jt-x" onClick={() => speak(card.term)} aria-label="Izgovori">🔊</button>
                     </div>
                     <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
                       <button className="jt-btn ghost" onClick={() => grade(false)}>Nisam znao</button>
@@ -968,7 +1023,7 @@ Odgovori ISKLJUČIVO validnim JSON nizom, bez teksta pre ili posle, bez markdown
                 )}
 
                 <div style={{ marginTop: 26 }}>
-                  <button className="jt-btn ghost" style={{ padding: "7px 14px", fontSize: 13 }} onClick={() => setCard(null)}>
+                  <button className="jt-btn ghost small" onClick={() => setCard(null)}>
                     Nazad na listu
                   </button>
                 </div>

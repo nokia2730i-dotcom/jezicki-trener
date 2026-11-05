@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:vocab": "node test/vocab.test.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.5.0",
     "next": "^15.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
