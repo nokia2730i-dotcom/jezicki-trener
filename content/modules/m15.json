@@ -1,0 +1,59 @@
+{
+  "id": "m15",
+  "redni": 15,
+  "nivo": "B1",
+  "etapa": 3,
+  "naslov": "Posao van restorana",
+  "outcome": "proći razgovor za posao na engleskom: predstaviti dvadeset godina iskustva i odgovoriti na teško pitanje",
+  "zasto": "Ovo je cilj zbog kog sve prethodno ima smisla. Zadnji modul je ispit, ne lekcija.",
+  "gramatika": [
+    "sve prethodno, u upotrebi",
+    "formalni registar i email fraze",
+    "ublažavanje (I'd say, it seems, I tend to)",
+    "pitanja koja ti postavljaš poslodavcu"
+  ],
+  "teme": [
+    "intervju za customer support",
+    "CV i propratni email",
+    "pregovor o uslovima",
+    "teško pitanje"
+  ],
+  "lekcije": [
+    {
+      "id": "m15l1",
+      "redni": 1,
+      "naslov": "Reci mi o sebi",
+      "fokus": "dva minuta o iskustvu, bez prevođenja iz glave"
+    },
+    {
+      "id": "m15l2",
+      "redni": 2,
+      "naslov": "Zašto menjaš posao",
+      "fokus": "odgovor koji ne zvuči kao žalba"
+    },
+    {
+      "id": "m15l3",
+      "redni": 3,
+      "naslov": "Teško pitanje",
+      "fokus": "nezadovoljan gost, greška, pritisak — primeri iz prakse"
+    },
+    {
+      "id": "m15l4",
+      "redni": 4,
+      "naslov": "Email i CV",
+      "fokus": "propratno pismo i prepiska sa HR-om"
+    },
+    {
+      "id": "m15l5",
+      "redni": 5,
+      "naslov": "Pitaj ti njih",
+      "fokus": "pitanja o smenama, timu i uslovima"
+    },
+    {
+      "id": "m15l6",
+      "redni": 6,
+      "naslov": "Završni ispit",
+      "fokus": "cela simulacija intervjua, ocenjena"
+    }
+  ]
+}

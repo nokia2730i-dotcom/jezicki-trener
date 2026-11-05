@@ -1,0 +1,60 @@
+{
+  "id": "m09",
+  "redni": 9,
+  "nivo": "A2",
+  "etapa": 2,
+  "naslov": "Ljubaznost i problem",
+  "outcome": "rešiti problem gosta bez da zvučiš grubo: Could you…?, Would you like…?, I'm afraid…, i izviniti se",
+  "zasto": "Tačna rečenica može da zvuči grubo. Ovaj modul je razlika između „Give me\" i „Could I have\".",
+  "gramatika": [
+    "could / would / may za uljudnost",
+    "would like",
+    "should za savet",
+    "indirektna pitanja (Could you tell me where…)",
+    "I'm afraid…, Unfortunately… — ublažavanje"
+  ],
+  "teme": [
+    "žalba",
+    "greška u računu",
+    "nema na meniju",
+    "izvinjenje i rešenje"
+  ],
+  "lekcije": [
+    {
+      "id": "m09l1",
+      "redni": 1,
+      "naslov": "Could i would",
+      "fokus": "Could you wait? Would you like a drink?"
+    },
+    {
+      "id": "m09l2",
+      "redni": 2,
+      "naslov": "Would like",
+      "fokus": "I'd like, would you like — ponuda i želja"
+    },
+    {
+      "id": "m09l3",
+      "redni": 3,
+      "naslov": "Nažalost",
+      "fokus": "I'm afraid we're full tonight."
+    },
+    {
+      "id": "m09l4",
+      "redni": 4,
+      "naslov": "Izvini se i reši",
+      "fokus": "I'm sorry about that. Let me fix it."
+    },
+    {
+      "id": "m09l5",
+      "redni": 5,
+      "naslov": "Indirektno pitanje",
+      "fokus": "Could you tell me where the station is?"
+    },
+    {
+      "id": "m09l6",
+      "redni": 6,
+      "naslov": "Provera: ljubaznost",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

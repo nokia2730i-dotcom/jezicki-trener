@@ -1,0 +1,60 @@
+{
+  "id": "m08",
+  "redni": 8,
+  "nivo": "A2",
+  "etapa": 2,
+  "naslov": "Poređenje i opis",
+  "outcome": "uporediti dve stvari i preporučiti bolju: bigger, the best, as good as, i opisati ukus i mesto",
+  "zasto": "Preporuka je ono što gost najčešće traži. Bez poređenja možeš samo da nabrajaš.",
+  "gramatika": [
+    "pridevi i red prideva",
+    "komparativ (-er, more) i superlativ (the -est, the most)",
+    "nepravilni (good / better / the best, bad / worse)",
+    "as … as, not as … as",
+    "too i enough"
+  ],
+  "teme": [
+    "preporuka jela",
+    "poređenje dva mesta",
+    "opis vina i ukusa",
+    "šta je jače a šta blaže"
+  ],
+  "lekcije": [
+    {
+      "id": "m08l1",
+      "redni": 1,
+      "naslov": "Veći, jači, bolji",
+      "fokus": "bigger, stronger, better — kada -er a kada more"
+    },
+    {
+      "id": "m08l2",
+      "redni": 2,
+      "naslov": "Najbolji",
+      "fokus": "the best, the most popular — superlativ sa the"
+    },
+    {
+      "id": "m08l3",
+      "redni": 3,
+      "naslov": "Isto kao",
+      "fokus": "as good as, not as sweet as"
+    },
+    {
+      "id": "m08l4",
+      "redni": 4,
+      "naslov": "Previše i dovoljno",
+      "fokus": "too salty, not warm enough"
+    },
+    {
+      "id": "m08l5",
+      "redni": 5,
+      "naslov": "Preporuči jelo",
+      "fokus": "sastavi preporuku od nule, na engleskom"
+    },
+    {
+      "id": "m08l6",
+      "redni": 6,
+      "naslov": "Provera: poređenje",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

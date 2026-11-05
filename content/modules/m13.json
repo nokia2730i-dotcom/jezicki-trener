@@ -1,0 +1,66 @@
+{
+  "id": "m13",
+  "redni": 13,
+  "nivo": "B1",
+  "etapa": 3,
+  "naslov": "Prepričavanje i duži razgovor",
+  "outcome": "prepričati šta je neko rekao i voditi razgovor duži od dva pitanja: He said that…, i past continuous",
+  "zasto": "Razgovor sa gostom traje dok imaš čime da ga nastaviš. Ovde se uči kako se priča, ne kako se odgovara.",
+  "gramatika": [
+    "reported speech (said, told, asked)",
+    "past continuous (I was closing when…)",
+    "used to — nekad davno",
+    "relativne rečenice (who, which, that)",
+    "veznici (although, while, so that)"
+  ],
+  "teme": [
+    "prepričavanje smene",
+    "priča gosta",
+    "anegdota",
+    "kolege i kuhinja"
+  ],
+  "lekcije": [
+    {
+      "id": "m13l1",
+      "redni": 1,
+      "naslov": "Rekao je da",
+      "fokus": "He said he was from Berlin."
+    },
+    {
+      "id": "m13l2",
+      "redni": 2,
+      "naslov": "Pitao je da li",
+      "fokus": "She asked if we were open."
+    },
+    {
+      "id": "m13l3",
+      "redni": 3,
+      "naslov": "Radio sam kad",
+      "fokus": "past continuous: I was closing when he came in."
+    },
+    {
+      "id": "m13l4",
+      "redni": 4,
+      "naslov": "Nekad sam",
+      "fokus": "used to — kako je bilo pre"
+    },
+    {
+      "id": "m13l5",
+      "redni": 5,
+      "naslov": "Čovek koji",
+      "fokus": "the man who ordered, the table which is free"
+    },
+    {
+      "id": "m13l6",
+      "redni": 6,
+      "naslov": "Ispričaj anegdotu",
+      "fokus": "jedna prava priča sa smene, na engleskom"
+    },
+    {
+      "id": "m13l7",
+      "redni": 7,
+      "naslov": "Provera: prepričavanje",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

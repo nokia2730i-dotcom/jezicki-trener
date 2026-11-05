@@ -1,0 +1,60 @@
+{
+  "id": "m12",
+  "redni": 12,
+  "nivo": "B1",
+  "etapa": 3,
+  "naslov": "Ako — uslov i pretpostavka",
+  "outcome": "pregovarati i pretpostavljati: If you book now, you'll get a better table; If I were you, I'd try the fish",
+  "zasto": "Uslov je alat za pregovor i savet. Bez njega možeš samo da tvrdiš, ne da predložiš.",
+  "gramatika": [
+    "zero conditional (If you pay cash, you get a discount.)",
+    "first conditional (If you book now, you'll get…)",
+    "second conditional (If I were you, I'd…)",
+    "unless, in case",
+    "might / may za verovatnoću"
+  ],
+  "teme": [
+    "pregovor",
+    "savet gostu",
+    "ponuda sa uslovom",
+    "šta bi bilo kad bi"
+  ],
+  "lekcije": [
+    {
+      "id": "m12l1",
+      "redni": 1,
+      "naslov": "Ako platiš, dobijaš",
+      "fokus": "zero conditional — pravilo i činjenica"
+    },
+    {
+      "id": "m12l2",
+      "redni": 2,
+      "naslov": "Ako rezervišeš, dobićeš",
+      "fokus": "first conditional — realna ponuda"
+    },
+    {
+      "id": "m12l3",
+      "redni": 3,
+      "naslov": "Da sam na tvom mestu",
+      "fokus": "second conditional — savet i pretpostavka"
+    },
+    {
+      "id": "m12l4",
+      "redni": 4,
+      "naslov": "Osim ako",
+      "fokus": "unless, in case — obrnuti uslov"
+    },
+    {
+      "id": "m12l5",
+      "redni": 5,
+      "naslov": "Možda",
+      "fokus": "might, may — kad nisi siguran"
+    },
+    {
+      "id": "m12l6",
+      "redni": 6,
+      "naslov": "Provera: uslovne rečenice",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

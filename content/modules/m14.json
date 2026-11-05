@@ -1,0 +1,60 @@
+{
+  "id": "m14",
+  "redni": 14,
+  "nivo": "B1",
+  "etapa": 3,
+  "naslov": "Phrasal verbovi i pravi govor",
+  "outcome": "razumeti brz, skraćen govor i reći isto što bi rekao izvorni govornik: pick up, sort out, run out of",
+  "zasto": "Gost ne govori kao knjiga. Ovo je modul za ono što čuješ i ne nalaziš ni u jednom rečniku po rečima.",
+  "gramatika": [
+    "najčešći phrasal verbovi u ugostiteljstvu",
+    "razdvojivi i nerazdvojivi (pick it up / look after it)",
+    "skraćenice i slivanje u govoru (gonna, wanna, d'you, lemme)",
+    "kolokacije (make a reservation, take an order)",
+    "pasiv, osnovno (It's served with…)"
+  ],
+  "teme": [
+    "razgovor u kuhinji",
+    "telefonski poziv",
+    "brz govor gosta",
+    "sleng i skraćeno"
+  ],
+  "lekcije": [
+    {
+      "id": "m14l1",
+      "redni": 1,
+      "naslov": "Prvih petnaest",
+      "fokus": "pick up, sort out, run out of, turn up, call back"
+    },
+    {
+      "id": "m14l2",
+      "redni": 2,
+      "naslov": "Gde ide objekat",
+      "fokus": "pick it up, ne pick up it"
+    },
+    {
+      "id": "m14l3",
+      "redni": 3,
+      "naslov": "Gonna, wanna, d'you",
+      "fokus": "kako se to čuje i šta znači"
+    },
+    {
+      "id": "m14l4",
+      "redni": 4,
+      "naslov": "Kolokacije",
+      "fokus": "make a reservation, take an order, settle the bill"
+    },
+    {
+      "id": "m14l5",
+      "redni": 5,
+      "naslov": "Služi se sa",
+      "fokus": "pasiv u opisu jela: It's served with rice."
+    },
+    {
+      "id": "m14l6",
+      "redni": 6,
+      "naslov": "Provera: pravi govor",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

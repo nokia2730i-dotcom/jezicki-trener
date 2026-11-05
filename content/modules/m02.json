@@ -1,0 +1,60 @@
+{
+  "id": "m02",
+  "redni": 2,
+  "nivo": "A1",
+  "etapa": 1,
+  "naslov": "Imenice, član i koliko ih je",
+  "outcome": "reći šta imaš i koliko toga ima: a / an / the, množina, there is i there are, cena i količina",
+  "zasto": "Član je ono što srpski nema, pa se najčešće izostavi. Bez njega rečenica odmah zvuči strano.",
+  "gramatika": [
+    "a / an / the — kada koji",
+    "množina (-s, -es, nepravilna: men, women, children)",
+    "there is / there are",
+    "this / that / these / those",
+    "brojivo i nebrojivo (some / any)"
+  ],
+  "teme": [
+    "sto i stolica",
+    "meni i jela",
+    "cena i račun",
+    "šta ima a šta nema"
+  ],
+  "lekcije": [
+    {
+      "id": "m02l1",
+      "redni": 1,
+      "naslov": "A ili an",
+      "fokus": "a table, an apple — prvi glas, ne prvo slovo"
+    },
+    {
+      "id": "m02l2",
+      "redni": 2,
+      "naslov": "The — kad je poznato",
+      "fokus": "a table → the table; razlika koja se oseti"
+    },
+    {
+      "id": "m02l3",
+      "redni": 3,
+      "naslov": "Množina",
+      "fokus": "one table, two tables; nepravilne reči"
+    },
+    {
+      "id": "m02l4",
+      "redni": 4,
+      "naslov": "There is, there are",
+      "fokus": "There's a free table. There are two options."
+    },
+    {
+      "id": "m02l5",
+      "redni": 5,
+      "naslov": "Some i any",
+      "fokus": "some bread, any questions — nebrojivo i pitanja"
+    },
+    {
+      "id": "m02l6",
+      "redni": 6,
+      "naslov": "Provera: imenice i član",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

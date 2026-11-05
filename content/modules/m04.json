@@ -1,0 +1,53 @@
+{
+  "id": "m04",
+  "redni": 4,
+  "nivo": "A1",
+  "etapa": 1,
+  "naslov": "Upravo sada i can",
+  "outcome": "reći šta se dešava u ovom trenutku i šta možeš da ponudiš: I'm bringing it now, Can I help you?",
+  "zasto": "Razlika između „radim to stalno\" i „radim to upravo sada\" u srpskom se ne vidi. U engleskom se vidi uvek.",
+  "gramatika": [
+    "present continuous (am / is / are + -ing)",
+    "present simple protiv present continuous",
+    "can / can't — sposobnost, molba, ponuda",
+    "Can I…? Could I…? kao uljudna molba"
+  ],
+  "teme": [
+    "porudžbina u toku",
+    "ponuda pomoći",
+    "šta se sprema",
+    "šta ne možeš da uradiš"
+  ],
+  "lekcije": [
+    {
+      "id": "m04l1",
+      "redni": 1,
+      "naslov": "Sada se dešava",
+      "fokus": "I'm coming. They're waiting."
+    },
+    {
+      "id": "m04l2",
+      "redni": 2,
+      "naslov": "Stalno ili sada",
+      "fokus": "I work here / I'm working tonight — kada koje"
+    },
+    {
+      "id": "m04l3",
+      "redni": 3,
+      "naslov": "Can — mogu",
+      "fokus": "I can bring it. I can't do that."
+    },
+    {
+      "id": "m04l4",
+      "redni": 4,
+      "naslov": "Can I help you?",
+      "fokus": "ponuda i molba bez grubosti"
+    },
+    {
+      "id": "m04l5",
+      "redni": 5,
+      "naslov": "Provera: sada i can",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

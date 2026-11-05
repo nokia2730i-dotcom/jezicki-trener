@@ -1,0 +1,60 @@
+{
+  "id": "m01",
+  "redni": 1,
+  "nivo": "A1",
+  "etapa": 1,
+  "naslov": "Ja, ti, on — glagol to be",
+  "outcome": "sastaviti rečenicu o sebi, gostu i stolu direktno na engleskom: I am, you are, it is, Are you…?, i odgovoriti kratko",
+  "zasto": "To be je nosač. Bez njega se svaka druga rečenica raspada, a prevođenje iz glave zvuči kao telegram.",
+  "gramatika": [
+    "lične zamenice (I, you, he, she, it, we, they)",
+    "to be — am / is / are",
+    "negacija (I'm not, isn't, aren't)",
+    "pitanja i kratki odgovori (Are you…? Yes, I am.)",
+    "a / an"
+  ],
+  "teme": [
+    "predstavljanje",
+    "odakle je gost",
+    "koliko vas je",
+    "da li je sto slobodan"
+  ],
+  "lekcije": [
+    {
+      "id": "m01l1",
+      "redni": 1,
+      "naslov": "I am, you are",
+      "fokus": "ja i ti — prvo lice i oslovljavanje gosta"
+    },
+    {
+      "id": "m01l2",
+      "redni": 2,
+      "naslov": "He, she, it",
+      "fokus": "treće lice: gost, koleginica, sto, jelo"
+    },
+    {
+      "id": "m01l3",
+      "redni": 3,
+      "naslov": "Nije — negacija",
+      "fokus": "The table isn't free. I'm not the manager."
+    },
+    {
+      "id": "m01l4",
+      "redni": 4,
+      "naslov": "Pitanja sa Are i Is",
+      "fokus": "Are you ready? Is this your table?"
+    },
+    {
+      "id": "m01l5",
+      "redni": 5,
+      "naslov": "We i they",
+      "fokus": "mi i oni — grupa gostiju, kolege"
+    },
+    {
+      "id": "m01l6",
+      "redni": 6,
+      "naslov": "Provera: to be",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

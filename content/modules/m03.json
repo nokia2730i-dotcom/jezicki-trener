@@ -1,0 +1,60 @@
+{
+  "id": "m03",
+  "redni": 3,
+  "nivo": "A1",
+  "etapa": 1,
+  "naslov": "Present simple — šta radim svaki dan",
+  "outcome": "ispričati šta radiš na smeni i pitati gosta šta radi, sa do i does u pitanjima i -s u trećem licu",
+  "zasto": "Ovo je vreme kojim se govori o poslu, navici i činjenici. Tu se gubi -s i ispada do iz pitanja.",
+  "gramatika": [
+    "present simple, sva lica",
+    "-s u trećem licu (he works, she opens)",
+    "do / does u pitanjima",
+    "don't / doesn't u negaciji",
+    "prilozi učestalosti (always, usually, sometimes, never)"
+  ],
+  "teme": [
+    "smena i radni dan",
+    "šta gost radi",
+    "navike i raspored",
+    "šta se obično naplaćuje"
+  ],
+  "lekcije": [
+    {
+      "id": "m03l1",
+      "redni": 1,
+      "naslov": "Radim, radiš",
+      "fokus": "I work, you work — osnovni oblik"
+    },
+    {
+      "id": "m03l2",
+      "redni": 2,
+      "naslov": "On radi — ono -s",
+      "fokus": "he works, she takes, it opens"
+    },
+    {
+      "id": "m03l3",
+      "redni": 3,
+      "naslov": "Pitanja sa do",
+      "fokus": "Do you want…? Does he know…?"
+    },
+    {
+      "id": "m03l4",
+      "redni": 4,
+      "naslov": "Ne radim",
+      "fokus": "I don't work on Sundays. He doesn't eat meat."
+    },
+    {
+      "id": "m03l5",
+      "redni": 5,
+      "naslov": "Koliko često",
+      "fokus": "always, usually, never — i gde stoje u rečenici"
+    },
+    {
+      "id": "m03l6",
+      "redni": 6,
+      "naslov": "Provera: present simple",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}

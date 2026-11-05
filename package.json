@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:vocab": "node test/vocab.test.mjs"
+    "test:vocab": "node test/vocab.test.mjs",
+    "test:kurikulum": "node test/kurikulum.test.mjs",
+    "test": "node test/vocab.test.mjs && node test/kurikulum.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.5.0",

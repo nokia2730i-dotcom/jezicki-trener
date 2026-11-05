@@ -1,0 +1,59 @@
+{
+  "id": "m10",
+  "redni": 10,
+  "nivo": "A2",
+  "etapa": 2,
+  "naslov": "Količina, vreme i brojevi",
+  "outcome": "snaći se sa količinom, vremenom i novcem u govoru: much, many, a few, how long, i brojevi koje čuješ brzo",
+  "zasto": "Brojevi se u govoru slivaju. Cena, vreme i količina su ono gde greška nešto i košta.",
+  "gramatika": [
+    "much / many / a lot of",
+    "a few / a little / a bit of",
+    "how much, how many, how long, how often",
+    "brojevi, datumi, vreme, novac"
+  ],
+  "teme": [
+    "porudžbina za grupu",
+    "podela računa",
+    "koliko traje",
+    "broj telefona i datum"
+  ],
+  "lekcije": [
+    {
+      "id": "m10l1",
+      "redni": 1,
+      "naslov": "Much ili many",
+      "fokus": "how much water, how many people"
+    },
+    {
+      "id": "m10l2",
+      "redni": 2,
+      "naslov": "Malo i nekoliko",
+      "fokus": "a few minutes, a little salt"
+    },
+    {
+      "id": "m10l3",
+      "redni": 3,
+      "naslov": "Koliko dugo",
+      "fokus": "How long does it take? About twenty minutes."
+    },
+    {
+      "id": "m10l4",
+      "redni": 4,
+      "naslov": "Novac i cena",
+      "fokus": "cene na sluh, podela računa, kusur"
+    },
+    {
+      "id": "m10l5",
+      "redni": 5,
+      "naslov": "Datum i vreme",
+      "fokus": "the fifth of June, quarter past seven"
+    },
+    {
+      "id": "m10l6",
+      "redni": 6,
+      "naslov": "Provera: brojevi",
+      "fokus": "mini-boss nad celim modulom"
+    }
+  ]
+}
