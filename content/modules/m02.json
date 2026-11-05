@@ -3,57 +3,62 @@
   "redni": 2,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Imenice, član i koliko ih je",
-  "outcome": "reći šta imaš i koliko toga ima: a / an / the, množina, there is i there are, cena i količina",
-  "zasto": "Član je ono što srpski nema, pa se najčešće izostavi. Bez njega rečenica odmah zvuči strano.",
+  "naslov": "Šta radim svaki dan",
+  "outcome": "opišeš svoju smenu i pitaš gosta šta obično radi",
+  "zasto": "Pomoćni glagol do u pitanjima je najčešći slom kod Srba. Ovde se utvrđuje.",
   "gramatika": [
-    "a / an / the — kada koji",
-    "množina (-s, -es, nepravilna: men, women, children)",
-    "there is / there are",
-    "this / that / these / those",
-    "brojivo i nebrojivo (some / any)"
+    "present simple, sva lica",
+    "-s u trećem licu (he works, she opens)",
+    "do / does u pitanjima",
+    "don't / doesn't u negaciji",
+    "always, usually, sometimes, never"
   ],
   "teme": [
-    "sto i stolica",
-    "meni i jela",
-    "cena i račun",
-    "šta ima a šta nema"
+    "smena i radni dan",
+    "šta gost obično radi",
+    "navike i raspored"
   ],
   "lekcije": [
     {
       "id": "m02l1",
       "redni": 1,
-      "naslov": "A ili an",
-      "fokus": "a table, an apple — prvi glas, ne prvo slovo"
+      "naslov": "Radim, radiš",
+      "fokus": "I work, you work — osnovni oblik"
     },
     {
       "id": "m02l2",
       "redni": 2,
-      "naslov": "The — kad je poznato",
-      "fokus": "a table → the table; razlika koja se oseti"
+      "naslov": "On radi — ono -s",
+      "fokus": "he works, she takes, it opens"
     },
     {
       "id": "m02l3",
       "redni": 3,
-      "naslov": "Množina",
-      "fokus": "one table, two tables; nepravilne reči"
+      "naslov": "Pitanja sa do",
+      "fokus": "Do you want…? Does he know…?"
     },
     {
       "id": "m02l4",
       "redni": 4,
-      "naslov": "There is, there are",
-      "fokus": "There's a free table. There are two options."
+      "naslov": "Ne radim",
+      "fokus": "I don't work on Sundays. He doesn't eat meat."
     },
     {
       "id": "m02l5",
       "redni": 5,
-      "naslov": "Some i any",
-      "fokus": "some bread, any questions — nebrojivo i pitanja"
+      "naslov": "Koliko često",
+      "fokus": "always, usually, never — i gde stoje u rečenici"
     },
     {
       "id": "m02l6",
       "redni": 6,
-      "naslov": "Provera: imenice i član",
+      "naslov": "Opiši svoju smenu",
+      "fokus": "pet rečenica o svom radnom danu, sastavljene same"
+    },
+    {
+      "id": "m02l7",
+      "redni": 7,
+      "naslov": "Provera: modul 2",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

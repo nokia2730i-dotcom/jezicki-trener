@@ -3,20 +3,20 @@
   "redni": 11,
   "nivo": "B1",
   "etapa": 3,
-  "naslov": "Present perfect — iskustvo",
-  "outcome": "reći šta si sve radio u životu i šta i dalje traje: I've worked here for ten years, i razlikovati od past simple",
-  "zasto": "Ovo je vreme koje srpski nema. Dvadeset godina iskustva ne možeš da ispričaš bez njega.",
+  "naslov": "Iskustva",
+  "outcome": "pitaš gosta da li je već bio u Srbiji i kažeš koliko dugo radiš ovaj posao",
+  "zasto": "Present perfect srpski nema. Dvadeset godina iskustva ne možeš da ispričaš bez njega.",
   "gramatika": [
     "present perfect (have / has + treći oblik)",
+    "been i gone",
+    "just / already / yet",
     "for i since",
-    "ever, never, already, yet, just",
-    "present perfect protiv past simple",
-    "been i gone"
+    "present perfect protiv past simple"
   ],
   "teme": [
     "radno iskustvo",
-    "razgovor za posao",
     "prvi put ovde?",
+    "razgovor za posao",
     "šta se promenilo"
   ],
   "lekcije": [
@@ -24,36 +24,42 @@
       "id": "m11l1",
       "redni": 1,
       "naslov": "Have you ever…?",
-      "fokus": "iskustvo bez vremena: Have you ever been to Greece?"
+      "fokus": "Have you ever been to Serbia?"
     },
     {
       "id": "m11l2",
       "redni": 2,
-      "naslov": "For i since",
-      "fokus": "for ten years, since 2005 — koliko dugo traje"
+      "naslov": "Been i gone",
+      "fokus": "He's been to Greece / He's gone to Greece — nije isto"
     },
     {
       "id": "m11l3",
       "redni": 3,
-      "naslov": "Already, yet, just",
+      "naslov": "Just, already, yet",
       "fokus": "I've already ordered. He hasn't paid yet."
     },
     {
       "id": "m11l4",
       "redni": 4,
-      "naslov": "Perfect ili past",
-      "fokus": "I worked / I've worked — šta se menja"
+      "naslov": "For i since",
+      "fokus": "for twenty years, since 2005"
     },
     {
       "id": "m11l5",
       "redni": 5,
-      "naslov": "Ispričaj svoje iskustvo",
-      "fokus": "20 godina posla, sastavljeno na engleskom"
+      "naslov": "Perfect ili past",
+      "fokus": "I worked / I've worked — šta se menja"
     },
     {
       "id": "m11l6",
       "redni": 6,
-      "naslov": "Provera: present perfect",
+      "naslov": "Koliko dugo radim ovo",
+      "fokus": "dvadeset godina iskustva, sastavljeno na engleskom"
+    },
+    {
+      "id": "m11l7",
+      "redni": 7,
+      "naslov": "Provera: modul 11",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

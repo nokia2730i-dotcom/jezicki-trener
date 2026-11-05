@@ -3,57 +3,62 @@
   "redni": 14,
   "nivo": "B1",
   "etapa": 3,
-  "naslov": "Phrasal verbovi i pravi govor",
-  "outcome": "razumeti brz, skraćen govor i reći isto što bi rekao izvorni govornik: pick up, sort out, run out of",
-  "zasto": "Gost ne govori kao knjiga. Ovo je modul za ono što čuješ i ne nalaziš ni u jednom rečniku po rečima.",
+  "naslov": "Prenošenje i pasiv",
+  "outcome": "preneseš kuhinji šta je gost rekao i objasniš kako se nešto priprema",
+  "zasto": "Pola posla je prenošenje tuđih reči. Bez ovoga svaku poruku moraš da izgovoriš iz prvog lica.",
   "gramatika": [
-    "najčešći phrasal verbovi u ugostiteljstvu",
-    "razdvojivi i nerazdvojivi (pick it up / look after it)",
-    "skraćenice i slivanje u govoru (gonna, wanna, d'you, lemme)",
-    "kolokacije (make a reservation, take an order)",
-    "pasiv, osnovno (It's served with…)"
+    "reported speech (said, told, asked)",
+    "pomeranje vremena u prenošenju",
+    "asked if / asked whether",
+    "lagan pasiv (It's served with…, It's made of…)"
   ],
   "teme": [
-    "razgovor u kuhinji",
-    "telefonski poziv",
-    "brz govor gosta",
-    "sleng i skraćeno"
+    "poruka kuhinji",
+    "šta je gost rekao",
+    "kako se priprema jelo",
+    "alergije i izuzeci"
   ],
   "lekcije": [
     {
       "id": "m14l1",
       "redni": 1,
-      "naslov": "Prvih petnaest",
-      "fokus": "pick up, sort out, run out of, turn up, call back"
+      "naslov": "Rekao je da",
+      "fokus": "He said he wanted it well done."
     },
     {
       "id": "m14l2",
       "redni": 2,
-      "naslov": "Gde ide objekat",
-      "fokus": "pick it up, ne pick up it"
+      "naslov": "Pitao je da li",
+      "fokus": "She asked if we were open on Sunday."
     },
     {
       "id": "m14l3",
       "redni": 3,
-      "naslov": "Gonna, wanna, d'you",
-      "fokus": "kako se to čuje i šta znači"
+      "naslov": "Prenesi kuhinji",
+      "fokus": "cela poruka, bez prvog lica"
     },
     {
       "id": "m14l4",
       "redni": 4,
-      "naslov": "Kolokacije",
-      "fokus": "make a reservation, take an order, settle the bill"
+      "naslov": "Služi se sa",
+      "fokus": "It's served with rice. It's made of lamb."
     },
     {
       "id": "m14l5",
       "redni": 5,
-      "naslov": "Služi se sa",
-      "fokus": "pasiv u opisu jela: It's served with rice."
+      "naslov": "Kako se priprema",
+      "fokus": "objasni pripremu jela gostu koji pita"
     },
     {
       "id": "m14l6",
       "redni": 6,
-      "naslov": "Provera: pravi govor",
+      "naslov": "Alergija i izuzetak",
+      "fokus": "prenesi poseban zahtev tačno i bez greške"
+    },
+    {
+      "id": "m14l7",
+      "redni": 7,
+      "naslov": "Provera: modul 14",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

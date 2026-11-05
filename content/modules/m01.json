@@ -3,28 +3,28 @@
   "redni": 1,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Ja, ti, on — glagol to be",
-  "outcome": "sastaviti rečenicu o sebi, gostu i stolu direktno na engleskom: I am, you are, it is, Are you…?, i odgovoriti kratko",
-  "zasto": "To be je nosač. Bez njega se svaka druga rečenica raspada, a prevođenje iz glave zvuči kao telegram.",
+  "naslov": "Ja, gost, brojevi, cene",
+  "outcome": "se predstaviš, kažeš koliko je sati i koliko šta košta, i pitaš gosta odakle je",
+  "zasto": "To be je nosač. Bez njega se svaka druga rečenica raspada i zvuči kao telegram.",
   "gramatika": [
-    "lične zamenice (I, you, he, she, it, we, they)",
     "to be — am / is / are",
+    "pitanja sa to be i kratki odgovori (Are you…? Yes, I am.)",
     "negacija (I'm not, isn't, aren't)",
-    "pitanja i kratki odgovori (Are you…? Yes, I am.)",
-    "a / an"
+    "a / an",
+    "brojevi, vreme, cene"
   ],
   "teme": [
     "predstavljanje",
     "odakle je gost",
-    "koliko vas je",
-    "da li je sto slobodan"
+    "koliko je sati",
+    "cena i račun"
   ],
   "lekcije": [
     {
       "id": "m01l1",
       "redni": 1,
       "naslov": "I am, you are",
-      "fokus": "ja i ti — prvo lice i oslovljavanje gosta"
+      "fokus": "ja i ti — predstavljanje i oslovljavanje gosta"
     },
     {
       "id": "m01l2",
@@ -42,18 +42,24 @@
       "id": "m01l4",
       "redni": 4,
       "naslov": "Pitanja sa Are i Is",
-      "fokus": "Are you ready? Is this your table?"
+      "fokus": "Are you ready? Is this your table? Yes, I am."
     },
     {
       "id": "m01l5",
       "redni": 5,
-      "naslov": "We i they",
-      "fokus": "mi i oni — grupa gostiju, kolege"
+      "naslov": "A ili an",
+      "fokus": "a table, an apple — prvi glas, ne prvo slovo"
     },
     {
       "id": "m01l6",
       "redni": 6,
-      "naslov": "Provera: to be",
+      "naslov": "Brojevi, vreme i cene",
+      "fokus": "It's half past eight. It's four hundred dinars."
+    },
+    {
+      "id": "m01l7",
+      "redni": 7,
+      "naslov": "Provera: modul 1",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

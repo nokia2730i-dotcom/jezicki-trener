@@ -3,56 +3,62 @@
   "redni": 10,
   "nivo": "A2",
   "etapa": 2,
-  "naslov": "Količina, vreme i brojevi",
-  "outcome": "snaći se sa količinom, vremenom i novcem u govoru: much, many, a few, how long, i brojevi koje čuješ brzo",
-  "zasto": "Brojevi se u govoru slivaju. Cena, vreme i količina su ono gde greška nešto i košta.",
+  "naslov": "Small talk i reakcije",
+  "outcome": "održiš razgovor od dva minuta sa gostom bez tišine",
+  "zasto": "Razgovor staje kad nemaš čime da ga nastaviš. Ovde se uči kako se reaguje, ne samo kako se odgovara.",
   "gramatika": [
-    "much / many / a lot of",
-    "a few / a little / a bit of",
-    "how much, how many, how long, how often",
-    "brojevi, datumi, vreme, novac"
+    "kratki odgovori (So do I, Neither do I, Me too)",
+    "reakcije (fair enough, no way, oh really?)",
+    "poređenje prideva — komparativ i superlativ",
+    "pitanja koja vuku razgovor dalje"
   ],
   "teme": [
-    "porudžbina za grupu",
-    "podela računa",
-    "koliko traje",
-    "broj telefona i datum"
+    "sport i vreme",
+    "grad i preporuke",
+    "poređenje mesta",
+    "šale između dva stola"
   ],
   "lekcije": [
     {
       "id": "m10l1",
       "redni": 1,
-      "naslov": "Much ili many",
-      "fokus": "how much water, how many people"
+      "naslov": "So do I, neither do I",
+      "fokus": "kako se slažeš i ne slažeš u jednoj reči"
     },
     {
       "id": "m10l2",
       "redni": 2,
-      "naslov": "Malo i nekoliko",
-      "fokus": "a few minutes, a little salt"
+      "naslov": "Reakcije",
+      "fokus": "fair enough, no way, oh really? — da se ne ćuti"
     },
     {
       "id": "m10l3",
       "redni": 3,
-      "naslov": "Koliko dugo",
-      "fokus": "How long does it take? About twenty minutes."
+      "naslov": "Veći, jači, bolji",
+      "fokus": "bigger, stronger, better — kada -er a kada more"
     },
     {
       "id": "m10l4",
       "redni": 4,
-      "naslov": "Novac i cena",
-      "fokus": "cene na sluh, podela računa, kusur"
+      "naslov": "Najbolji",
+      "fokus": "the best, the most popular — superlativ sa the"
     },
     {
       "id": "m10l5",
       "redni": 5,
-      "naslov": "Datum i vreme",
-      "fokus": "the fifth of June, quarter past seven"
+      "naslov": "Pitanje koje vuče dalje",
+      "fokus": "otvoreno pitanje umesto da i ne"
     },
     {
       "id": "m10l6",
       "redni": 6,
-      "naslov": "Provera: brojevi",
+      "naslov": "Dva minuta bez tišine",
+      "fokus": "pun razgovor sa gostom, od stola do vrata"
+    },
+    {
+      "id": "m10l7",
+      "redni": 7,
+      "naslov": "Provera: modul 10",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

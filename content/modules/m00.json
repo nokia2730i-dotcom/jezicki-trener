@@ -3,54 +3,35 @@
   "redni": 0,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Zvuk engleskog",
-  "outcome": "razlikovati i izgovoriti glasove koje srpski nema (th, w, kratko i dugo i, nenaglašeno e) i znati gde u reči pada akcenat",
-  "zasto": "Reči koje znaš napismeno ne prepoznaješ kad ih čuješ jer ih u glavi izgovaraš srpski. Ovde se to razdvaja.",
+  "naslov": "Zvuci koje Srbi greše",
+  "outcome": "izgovoriš three, we, this i she's tako da te gost razume prvi put",
+  "zasto": "Reči koje znaš napismeno ne prepoznaješ na sluh jer ih u glavi izgovaraš srpski. Ovde se to razdvaja, pre svega ostalog.",
   "gramatika": [
-    "bez nove gramatike — samo zvuk, akcenat i ritam"
+    "bez nove gramatike — th, w/v, ship/sheep, završno -s, naglasak, nenaglašeno e"
   ],
   "teme": [
-    "glasovi kojih u srpskom nema",
-    "akcenat u reči",
-    "brojevi i cene na sluh",
-    "pozdrav i prvi kontakt"
+    "glasovi kojih srpski nema",
+    "naglasak u reči",
+    "brojevi i cene na sluh"
   ],
   "lekcije": [
     {
       "id": "m00l1",
       "redni": 1,
       "naslov": "Th, w i v",
-      "fokus": "three, this, water, very — glasovi na kojima se najviše gubi"
+      "fokus": "three, this, we, very — glasovi na kojima se najviše gubi"
     },
     {
       "id": "m00l2",
       "redni": 2,
-      "naslov": "Nenaglašeno e",
-      "fokus": "about, water, problem — zvuk koji guta sve samoglasnike"
+      "naslov": "Ship ili sheep",
+      "fokus": "kratko i dugo i, i završno -s: she's, works, prices"
     },
     {
       "id": "m00l3",
       "redni": 3,
-      "naslov": "Kratko i dugo i",
-      "fokus": "ship / sheep, this / these — razlika koja menja značenje"
-    },
-    {
-      "id": "m00l4",
-      "redni": 4,
-      "naslov": "Akcenat u reči",
-      "fokus": "reCEIPT, HOtel, deSSERT — gde udara naglasak"
-    },
-    {
-      "id": "m00l5",
-      "redni": 5,
-      "naslov": "Brojevi na sluh",
-      "fokus": "thirteen / thirty, fifteen / fifty, cene i vreme"
-    },
-    {
-      "id": "m00l6",
-      "redni": 6,
-      "naslov": "Provera: zvuk",
-      "fokus": "diktat i izgovor svega iz modula"
+      "naslov": "Naglasak i nenaglašeno e",
+      "fokus": "reCEIPT, HOtel, about, water — gde udara naglasak"
     }
   ]
 }

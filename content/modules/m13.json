@@ -3,63 +3,62 @@
   "redni": 13,
   "nivo": "B1",
   "etapa": 3,
-  "naslov": "Prepričavanje i duži razgovor",
-  "outcome": "prepričati šta je neko rekao i voditi razgovor duži od dva pitanja: He said that…, i past continuous",
-  "zasto": "Razgovor sa gostom traje dok imaš čime da ga nastaviš. Ovde se uči kako se priča, ne kako se odgovara.",
+  "naslov": "Problemi i rešenja",
+  "outcome": "rešiš žalbu gosta: izviniš se, objasniš i predložiš rešenje",
+  "zasto": "Žalba je trenutak kad engleski mora da radi pod pritiskom. Zato ima svoj modul.",
   "gramatika": [
-    "reported speech (said, told, asked)",
-    "past continuous (I was closing when…)",
-    "used to — nekad davno",
-    "relativne rečenice (who, which, that)",
-    "veznici (although, while, so that)"
+    "must / have to / should",
+    "uslovna 1 (If you'd like, I can…)",
+    "uslovna 2 (If I were you, I'd…)",
+    "unless"
   ],
   "teme": [
-    "prepričavanje smene",
-    "priča gosta",
-    "anegdota",
-    "kolege i kuhinja"
+    "žalba",
+    "greška u računu",
+    "nema na meniju",
+    "pritisak i rešenje"
   ],
   "lekcije": [
     {
       "id": "m13l1",
       "redni": 1,
-      "naslov": "Rekao je da",
-      "fokus": "He said he was from Berlin."
+      "naslov": "Must i have to",
+      "fokus": "obaveza: I have to check with the kitchen."
     },
     {
       "id": "m13l2",
       "redni": 2,
-      "naslov": "Pitao je da li",
-      "fokus": "She asked if we were open."
+      "naslov": "Should — savet",
+      "fokus": "You should try the fish."
     },
     {
       "id": "m13l3",
       "redni": 3,
-      "naslov": "Radio sam kad",
-      "fokus": "past continuous: I was closing when he came in."
+      "naslov": "Ako hoćete, mogu",
+      "fokus": "uslovna 1: If you'd like, I can bring another one."
     },
     {
       "id": "m13l4",
       "redni": 4,
-      "naslov": "Nekad sam",
-      "fokus": "used to — kako je bilo pre"
+      "naslov": "Da sam na vašem mestu",
+      "fokus": "uslovna 2: If I were you, I'd take the terrace."
     },
     {
       "id": "m13l5",
       "redni": 5,
-      "naslov": "Čovek koji",
-      "fokus": "the man who ordered, the table which is free"
+      "naslov": "Primi žalbu",
+      "fokus": "slušaj do kraja, pa odgovori — bez odbrane"
     },
     {
       "id": "m13l6",
       "redni": 6,
-      "naslov": "Ispričaj anegdotu",
-      "fokus": "jedna prava priča sa smene, na engleskom"
+      "naslov": "Izvini se, objasni, predloži",
+      "fokus": "cela žalba rešena u tri koraka"
     },
     {
       "id": "m13l7",
       "redni": 7,
-      "naslov": "Provera: prepričavanje",
+      "naslov": "Provera: modul 13",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

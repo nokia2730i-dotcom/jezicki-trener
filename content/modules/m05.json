@@ -3,20 +3,21 @@
   "redni": 5,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Gde, kada, kuda",
-  "outcome": "objasniti gostu gde je nešto i kada radi, i uputiti ga kroz grad: in, on, at, next to, go, turn, take",
-  "zasto": "Predlozi se ne prevode jedan na jedan. „U osam\" nije in eight. Ovo je mesto gde se najviše greši.",
+  "naslov": "Hotel, soba, grad",
+  "outcome": "prijaviš gosta, objasniš gde je šta u hotelu i uputiš ga do centra",
+  "zasto": "Predlozi se ne prevode jedan na jedan. „U osam\" nije in eight — tu se najviše greši.",
   "gramatika": [
-    "predlozi mesta (in, on, at, next to, opposite, between, behind)",
+    "predlozi mesta (in, on, at, next to, opposite, between)",
     "predlozi vremena (at eight, on Monday, in July)",
-    "imperativ za uputstva (go, turn, take, cross)",
-    "how far, how long — koliko ima"
+    "have / have got",
+    "can",
+    "imperativ za uputstva (go, turn, take, cross)"
   ],
   "teme": [
-    "toalet i izlaz",
+    "prijava u hotel",
+    "gde je šta",
     "pravac kroz grad",
-    "radno vreme",
-    "rezervacija za određeno vreme"
+    "radno vreme"
   ],
   "lekcije": [
     {
@@ -34,25 +35,31 @@
     {
       "id": "m05l3",
       "redni": 3,
-      "naslov": "Pored, naspram, između",
-      "fokus": "next to, opposite, between — gde je šta"
+      "naslov": "Have i have got",
+      "fokus": "The room has a balcony. We've got free wifi."
     },
     {
       "id": "m05l4",
       "redni": 4,
-      "naslov": "Uputi gosta",
-      "fokus": "Go straight, turn left, take the second street."
+      "naslov": "Can — mogu, možete",
+      "fokus": "You can leave your bags here."
     },
     {
       "id": "m05l5",
       "redni": 5,
-      "naslov": "Koliko ima",
-      "fokus": "How far is it? It's ten minutes on foot."
+      "naslov": "Uputi gosta",
+      "fokus": "Go straight, turn left, take the second street."
     },
     {
       "id": "m05l6",
       "redni": 6,
-      "naslov": "Provera: predlozi i pravac",
+      "naslov": "Prijavi gosta",
+      "fokus": "cela prijava u hotel, od pasoša do ključa"
+    },
+    {
+      "id": "m05l7",
+      "redni": 7,
+      "naslov": "Provera: modul 5",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

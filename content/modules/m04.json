@@ -3,50 +3,63 @@
   "redni": 4,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Upravo sada i can",
-  "outcome": "reći šta se dešava u ovom trenutku i šta možeš da ponudiš: I'm bringing it now, Can I help you?",
-  "zasto": "Razlika između „radim to stalno\" i „radim to upravo sada\" u srpskom se ne vidi. U engleskom se vidi uvek.",
+  "naslov": "Hrana, piće, količine",
+  "outcome": "primiš celu porudžbinu, predložiš piće i objasniš šta ide sa čim",
+  "zasto": "Ovo je tvoj posao i prva stvar koju ćeš upotrebiti isto veče. Zato je namerno rano.",
   "gramatika": [
-    "present continuous (am / is / are + -ing)",
-    "present simple protiv present continuous",
-    "can / can't — sposobnost, molba, ponuda",
-    "Can I…? Could I…? kao uljudna molba"
+    "brojive i nebrojive imenice",
+    "some / any",
+    "much / many, how much / how many",
+    "a bottle of, a glass of, a slice of",
+    "would like"
   ],
   "teme": [
-    "porudžbina u toku",
-    "ponuda pomoći",
-    "šta se sprema",
-    "šta ne možeš da uradiš"
+    "porudžbina",
+    "predlog pića",
+    "šta ide sa čim",
+    "količina"
   ],
   "lekcije": [
     {
       "id": "m04l1",
       "redni": 1,
-      "naslov": "Sada se dešava",
-      "fokus": "I'm coming. They're waiting."
+      "naslov": "Brojivo i nebrojivo",
+      "fokus": "water, bread, rice protiv chairs, bottles, plates"
     },
     {
       "id": "m04l2",
       "redni": 2,
-      "naslov": "Stalno ili sada",
-      "fokus": "I work here / I'm working tonight — kada koje"
+      "naslov": "Some i any",
+      "fokus": "some bread, any questions — tvrdnja i pitanje"
     },
     {
       "id": "m04l3",
       "redni": 3,
-      "naslov": "Can — mogu",
-      "fokus": "I can bring it. I can't do that."
+      "naslov": "Much i many",
+      "fokus": "how much water, how many people"
     },
     {
       "id": "m04l4",
       "redni": 4,
-      "naslov": "Can I help you?",
-      "fokus": "ponuda i molba bez grubosti"
+      "naslov": "A bottle of, a glass of",
+      "fokus": "kako se meri nebrojivo"
     },
     {
       "id": "m04l5",
       "redni": 5,
-      "naslov": "Provera: sada i can",
+      "naslov": "Would you like",
+      "fokus": "ponuda koja ne zvuči kao naredba"
+    },
+    {
+      "id": "m04l6",
+      "redni": 6,
+      "naslov": "Primi celu porudžbinu",
+      "fokus": "od prvog pitanja do potvrde, sve na engleskom"
+    },
+    {
+      "id": "m04l7",
+      "redni": 7,
+      "naslov": "Provera: modul 4",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

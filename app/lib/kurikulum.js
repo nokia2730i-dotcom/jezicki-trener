@@ -27,9 +27,9 @@ export const MODULI = [
 ].sort((a, b) => a.redni - b.redni);
 
 export const ETAPE = [
-  { etapa: 1, nivo: "A1", naslov: "Temelji", opis: "Zvuk, vremena i gradnja rečenice od nule." },
-  { etapa: 2, nivo: "A2", naslov: "Snalaženje", opis: "Prošlost, budućnost, preporuka i rešavanje problema." },
-  { etapa: 3, nivo: "B1", naslov: "Slobodan razgovor", opis: "Iskustvo, prava priča i posao van restorana." },
+  { etapa: 1, nivo: "A1", naslov: "Snađem se", opis: "Zvuk, to be, prezent, porudžbina i hotel." },
+  { etapa: 2, nivo: "A2", naslov: "Vodim razgovor", opis: "Prošlost, budućnost, ljubaznost i small talk." },
+  { etapa: 3, nivo: "B1", naslov: "Pričam svoju priču", opis: "Iskustvo, duže rečenice, žalbe i prirodan govor." },
 ];
 
 // Sve lekcije u jednom nizu, u redu u kom se rade.

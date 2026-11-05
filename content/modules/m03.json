@@ -3,57 +3,62 @@
   "redni": 3,
   "nivo": "A1",
   "etapa": 1,
-  "naslov": "Present simple — šta radim svaki dan",
-  "outcome": "ispričati šta radiš na smeni i pitati gosta šta radi, sa do i does u pitanjima i -s u trećem licu",
-  "zasto": "Ovo je vreme kojim se govori o poslu, navici i činjenici. Tu se gubi -s i ispada do iz pitanja.",
+  "naslov": "Šta se dešava sada",
+  "outcome": "kažeš šta radiš upravo sada i šta ima na meniju",
+  "zasto": "Razlika između „radim to stalno\" i „radim to upravo sada\" u srpskom se ne vidi. U engleskom se vidi uvek.",
   "gramatika": [
-    "present simple, sva lica",
-    "-s u trećem licu (he works, she opens)",
-    "do / does u pitanjima",
-    "don't / doesn't u negaciji",
-    "prilozi učestalosti (always, usually, sometimes, never)"
+    "present continuous (am / is / are + -ing)",
+    "present continuous protiv present simple",
+    "there is / there are",
+    "this / that / these / those"
   ],
   "teme": [
-    "smena i radni dan",
-    "šta gost radi",
-    "navike i raspored",
-    "šta se obično naplaćuje"
+    "porudžbina u toku",
+    "šta se sprema",
+    "šta ima a šta nema",
+    "meni"
   ],
   "lekcije": [
     {
       "id": "m03l1",
       "redni": 1,
-      "naslov": "Radim, radiš",
-      "fokus": "I work, you work — osnovni oblik"
+      "naslov": "Sada se dešava",
+      "fokus": "I'm coming. They're waiting."
     },
     {
       "id": "m03l2",
       "redni": 2,
-      "naslov": "On radi — ono -s",
-      "fokus": "he works, she takes, it opens"
+      "naslov": "Stalno ili sada",
+      "fokus": "I work here / I'm working tonight — kada koje"
     },
     {
       "id": "m03l3",
       "redni": 3,
-      "naslov": "Pitanja sa do",
-      "fokus": "Do you want…? Does he know…?"
+      "naslov": "There is, there are",
+      "fokus": "There's a free table. There are two options."
     },
     {
       "id": "m03l4",
       "redni": 4,
-      "naslov": "Ne radim",
-      "fokus": "I don't work on Sundays. He doesn't eat meat."
+      "naslov": "Šta ima na meniju",
+      "fokus": "there is i there are u pravoj porudžbini"
     },
     {
       "id": "m03l5",
       "redni": 5,
-      "naslov": "Koliko često",
-      "fokus": "always, usually, never — i gde stoje u rečenici"
+      "naslov": "Nije sada",
+      "fokus": "negacija i pitanja: Isn't he coming? We aren't serving yet."
     },
     {
       "id": "m03l6",
       "redni": 6,
-      "naslov": "Provera: present simple",
+      "naslov": "Dva vremena u istom razgovoru",
+      "fokus": "prelazak sa jednog na drugo bez zastoja"
+    },
+    {
+      "id": "m03l7",
+      "redni": 7,
+      "naslov": "Provera: modul 3",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

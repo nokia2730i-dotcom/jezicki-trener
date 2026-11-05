@@ -61,7 +61,7 @@ for (const m of moduli) {
 grupa("4) Lekcije: id, red, naslov, fokus");
 const sviIdLekcija = [];
 for (const m of moduli) {
-  ok(`${m.id} ima najmanje 4 lekcije`, Array.isArray(m.lekcije) && m.lekcije.length >= 4,
+  ok(`${m.id} ima najmanje 3 lekcije`, Array.isArray(m.lekcije) && m.lekcije.length >= 3,
     m.lekcije && m.lekcije.length);
   m.lekcije.forEach((l, i) => {
     ok(`${m.id} lekcija ${i + 1} id`, l.id === `${m.id}l${i + 1}`, l.id);
@@ -73,7 +73,8 @@ for (const m of moduli) {
 }
 ok("nijedan id lekcije se ne ponavlja",
   new Set(sviIdLekcija).size === sviIdLekcija.length, sviIdLekcija.length);
-ok("ukupan broj lekcija je veci od 60", sviIdLekcija.length > 60, sviIdLekcija.length);
+ok("ukupan broj lekcija je oko 105", sviIdLekcija.length >= 100 && sviIdLekcija.length <= 115,
+  sviIdLekcija.length);
 
 grupa("5) Loader uvozi svih 16 i nijedan vise");
 const loader = readFileSync(LOADER, "utf8");

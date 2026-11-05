@@ -3,21 +3,19 @@
   "redni": 6,
   "nivo": "A2",
   "etapa": 2,
-  "naslov": "Past simple — šta se desilo",
-  "outcome": "ispričati šta se juče desilo na smeni: was i were, pravilni i nepravilni glagoli, did u pitanjima",
-  "zasto": "Bez prošlog vremena ne možeš da objasniš grešku, žalbu ni bilo šta što se već dogodilo.",
+  "naslov": "Priče gostiju",
+  "outcome": "ispričaš kako je prošla smena i razumeš gosta kad priča o putu",
+  "zasto": "Bez prošlog vremena ne možeš da objasniš grešku ni da razumeš ono što gost priča.",
   "gramatika": [
     "was / were",
-    "pravilni glagoli (-ed) i izgovor tog -ed",
-    "40 najčešćih nepravilnih glagola",
-    "did / didn't u pitanjima i negaciji",
-    "ago, last night, yesterday"
+    "past simple pravilnih glagola (-ed)",
+    "izgovor završnog -ed (worked, opened, wanted)",
+    "40 najčešćih nepravilnih glagola"
   ],
   "teme": [
-    "šta je bilo juče",
-    "žalba gosta",
-    "izgubljena stvar",
-    "greška i ispravka"
+    "kako je prošla smena",
+    "gost priča o putu",
+    "šta se desilo juče"
   ],
   "lekcije": [
     {
@@ -47,13 +45,19 @@
     {
       "id": "m06l5",
       "redni": 5,
-      "naslov": "Pitanja sa did",
-      "fokus": "Did you order? He didn't pay."
+      "naslov": "Nepravilni, treća grupa",
+      "fokus": "ate, drank, saw, made, got"
     },
     {
       "id": "m06l6",
       "redni": 6,
-      "naslov": "Provera: prošlo vreme",
+      "naslov": "Ispričaj smenu",
+      "fokus": "šta je bilo sinoć, od početka do kraja"
+    },
+    {
+      "id": "m06l7",
+      "redni": 7,
+      "naslov": "Provera: modul 6",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

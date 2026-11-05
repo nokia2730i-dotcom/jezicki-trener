@@ -3,50 +3,62 @@
   "redni": 7,
   "nivo": "A2",
   "etapa": 2,
-  "naslov": "Ono što sledi",
-  "outcome": "dogovoriti nešto što sledi: will za odluku na mestu, going to za plan, present continuous za zakazano",
-  "zasto": "Engleski ima tri budućnosti i svaka znači nešto drugo. Srpski ima jednu, pa se bira pogrešna.",
+  "naslov": "Pitanja o prošlosti",
+  "outcome": "pitaš gosta kako mu je bilo i odgovoriš kratko, bez ponavljanja cele rečenice",
+  "zasto": "Did je jedno pravilo, a lomi više rečenica od svega ostalog. Zato je zaseban modul.",
   "gramatika": [
-    "will / won't — odluka u trenutku i obećanje",
-    "be going to — plan i namera",
-    "present continuous za zakazano (We're closing at eleven.)",
-    "vremenski izrazi (tomorrow, next week, in an hour)"
+    "did u pitanjima",
+    "didn't u negaciji",
+    "wh-pitanja u prošlosti (where did, what did, when did)",
+    "kratki odgovori (Yes, I did. No, he didn't.)"
   ],
   "teme": [
-    "rezervacija",
-    "dogovor sa gostom",
-    "najava i obećanje",
-    "prognoza i planovi"
+    "kako vam je bilo",
+    "šta ste videli",
+    "greška i ispravka",
+    "izgubljena stvar"
   ],
   "lekcije": [
     {
       "id": "m07l1",
       "redni": 1,
-      "naslov": "I'll do it",
-      "fokus": "odluka u trenutku: I'll bring it right away."
+      "naslov": "Did — pitanje u prošlosti",
+      "fokus": "Did you order? Did they pay?"
     },
     {
       "id": "m07l2",
       "redni": 2,
-      "naslov": "Going to",
-      "fokus": "plan koji već postoji: We're going to open a terrace."
+      "naslov": "Didn't — negacija",
+      "fokus": "He didn't pay. We didn't have it."
     },
     {
       "id": "m07l3",
       "redni": 3,
-      "naslov": "Zakazano je",
-      "fokus": "The bus leaves at eight. I'm meeting them at six."
+      "naslov": "Gde si bio, šta si radio",
+      "fokus": "wh-pitanja: Where did you go? What did you have?"
     },
     {
       "id": "m07l4",
       "redni": 4,
-      "naslov": "Koje od tri",
-      "fokus": "ista situacija, tri oblika — koji zvuči tačno"
+      "naslov": "Kratki odgovori",
+      "fokus": "Yes, I did. No, he didn't. — bez ponavljanja cele rečenice"
     },
     {
       "id": "m07l5",
       "redni": 5,
-      "naslov": "Provera: budućnost",
+      "naslov": "Kako vam je bilo",
+      "fokus": "pitaj gosta o danu, putu, jelu"
+    },
+    {
+      "id": "m07l6",
+      "redni": 6,
+      "naslov": "Greška i ispravka",
+      "fokus": "objasni šta se desilo sa računom ili porudžbinom"
+    },
+    {
+      "id": "m07l7",
+      "redni": 7,
+      "naslov": "Provera: modul 7",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

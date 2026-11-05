@@ -3,57 +3,64 @@
   "redni": 15,
   "nivo": "B1",
   "etapa": 3,
-  "naslov": "Posao van restorana",
-  "outcome": "proći razgovor za posao na engleskom: predstaviti dvadeset godina iskustva i odgovoriti na teško pitanje",
-  "zasto": "Ovo je cilj zbog kog sve prethodno ima smisla. Zadnji modul je ispit, ne lekcija.",
+  "naslov": "Prirodan govor",
+  "outcome": "razumeš gosta koji priča brzo i sam zvučiš kao da ti engleski nije napamet naučen",
+  "zasto": "Gost ne govori kao knjiga. Ovo je zadnji modul jer je nadogradnja, ne prvi susret.",
   "gramatika": [
-    "sve prethodno, u upotrebi",
-    "formalni registar i email fraze",
-    "ublažavanje (I'd say, it seems, I tend to)",
-    "pitanja koja ti postavljaš poslodavcu"
+    "gonna / wanna / d'you / lemme",
+    "poštapalice (you know, I mean, actually)",
+    "najčešći phrasal verbovi",
+    "razdvojivi i nerazdvojivi phrasal verbovi",
+    "brzina 1.0 i 1.15"
   ],
   "teme": [
-    "intervju za customer support",
-    "CV i propratni email",
-    "pregovor o uslovima",
-    "teško pitanje"
+    "brz govor gosta",
+    "telefonski poziv",
+    "razgovor u kuhinji",
+    "sleng i skraćeno"
   ],
   "lekcije": [
     {
       "id": "m15l1",
       "redni": 1,
-      "naslov": "Reci mi o sebi",
-      "fokus": "dva minuta o iskustvu, bez prevođenja iz glave"
+      "naslov": "Gonna, wanna, d'you",
+      "fokus": "kako se to čuje i šta zapravo znači"
     },
     {
       "id": "m15l2",
       "redni": 2,
-      "naslov": "Zašto menjaš posao",
-      "fokus": "odgovor koji ne zvuči kao žalba"
+      "naslov": "Poštapalice",
+      "fokus": "you know, I mean, actually — i kako da ih sam koristiš"
     },
     {
       "id": "m15l3",
       "redni": 3,
-      "naslov": "Teško pitanje",
-      "fokus": "nezadovoljan gost, greška, pritisak — primeri iz prakse"
+      "naslov": "Prvih petnaest",
+      "fokus": "pick up, sort out, run out of, turn up, call back"
     },
     {
       "id": "m15l4",
       "redni": 4,
-      "naslov": "Email i CV",
-      "fokus": "propratno pismo i prepiska sa HR-om"
+      "naslov": "Gde ide objekat",
+      "fokus": "pick it up, ne pick up it"
     },
     {
       "id": "m15l5",
       "redni": 5,
-      "naslov": "Pitaj ti njih",
-      "fokus": "pitanja o smenama, timu i uslovima"
+      "naslov": "Brže, isto",
+      "fokus": "ista rečenica na 1.0 i 1.15 — i dalje razumeš"
     },
     {
       "id": "m15l6",
       "redni": 6,
+      "naslov": "Gost koji priča brzo",
+      "fokus": "ceo razgovor na punoj brzini, bez pauze"
+    },
+    {
+      "id": "m15l7",
+      "redni": 7,
       "naslov": "Završni ispit",
-      "fokus": "cela simulacija intervjua, ocenjena"
+      "fokus": "simulacija koja pokriva sve do B1"
     }
   ]
 }

@@ -3,57 +3,63 @@
   "redni": 9,
   "nivo": "A2",
   "etapa": 2,
-  "naslov": "Ljubaznost i problem",
-  "outcome": "rešiti problem gosta bez da zvučiš grubo: Could you…?, Would you like…?, I'm afraid…, i izviniti se",
-  "zasto": "Tačna rečenica može da zvuči grubo. Ovaj modul je razlika između „Give me\" i „Could I have\".",
+  "naslov": "Ljubaznost i molbe",
+  "outcome": "zamoliš, predložiš i odbiješ tako da zvuči profesionalno, ne naučeno",
+  "zasto": "Tačna rečenica može da zvuči grubo. Ovo je razlika između „Give me\" i „Could I have\".",
   "gramatika": [
-    "could / would / may za uljudnost",
-    "would like",
-    "should za savet",
+    "could / would / may",
+    "Would you like…?",
+    "I'd rather",
     "indirektna pitanja (Could you tell me where…)",
-    "I'm afraid…, Unfortunately… — ublažavanje"
+    "I'm afraid…, Unfortunately…"
   ],
   "teme": [
-    "žalba",
-    "greška u računu",
-    "nema na meniju",
-    "izvinjenje i rešenje"
+    "molba",
+    "predlog",
+    "odbijanje",
+    "žalba i izvinjenje"
   ],
   "lekcije": [
     {
       "id": "m09l1",
       "redni": 1,
       "naslov": "Could i would",
-      "fokus": "Could you wait? Would you like a drink?"
+      "fokus": "Could you wait a moment? Would you follow me?"
     },
     {
       "id": "m09l2",
       "redni": 2,
-      "naslov": "Would like",
-      "fokus": "I'd like, would you like — ponuda i želja"
+      "naslov": "Would you like",
+      "fokus": "ponuda i želja, umesto do you want"
     },
     {
       "id": "m09l3",
       "redni": 3,
-      "naslov": "Nažalost",
-      "fokus": "I'm afraid we're full tonight."
+      "naslov": "I'd rather",
+      "fokus": "radije bih — meko odbijanje i izbor"
     },
     {
       "id": "m09l4",
       "redni": 4,
-      "naslov": "Izvini se i reši",
-      "fokus": "I'm sorry about that. Let me fix it."
-    },
-    {
-      "id": "m09l5",
-      "redni": 5,
       "naslov": "Indirektno pitanje",
       "fokus": "Could you tell me where the station is?"
     },
     {
+      "id": "m09l5",
+      "redni": 5,
+      "naslov": "Odbij bez grubosti",
+      "fokus": "I'm afraid we're full tonight."
+    },
+    {
       "id": "m09l6",
       "redni": 6,
-      "naslov": "Provera: ljubaznost",
+      "naslov": "Predloži rešenje",
+      "fokus": "izvini se, objasni, ponudi alternativu"
+    },
+    {
+      "id": "m09l7",
+      "redni": 7,
+      "naslov": "Provera: modul 9",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

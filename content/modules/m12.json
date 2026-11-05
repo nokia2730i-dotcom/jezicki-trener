@@ -3,57 +3,62 @@
   "redni": 12,
   "nivo": "B1",
   "etapa": 3,
-  "naslov": "Ako — uslov i pretpostavka",
-  "outcome": "pregovarati i pretpostavljati: If you book now, you'll get a better table; If I were you, I'd try the fish",
-  "zasto": "Uslov je alat za pregovor i savet. Bez njega možeš samo da tvrdiš, ne da predložiš.",
+  "naslov": "Duže rečenice",
+  "outcome": "spojiš dve misli u jednu rečenicu umesto da pričaš u kratkim skokovima",
+  "zasto": "Kratke rečenice zvuče kao spisak. Ovo je prelaz sa odgovaranja na pričanje.",
   "gramatika": [
-    "zero conditional (If you pay cash, you get a discount.)",
-    "first conditional (If you book now, you'll get…)",
-    "second conditional (If I were you, I'd…)",
-    "unless, in case",
-    "might / may za verovatnoću"
+    "relativne rečenice (who, which, that)",
+    "because, so",
+    "although, while",
+    "past continuous (I was closing when…)"
   ],
   "teme": [
-    "pregovor",
-    "savet gostu",
-    "ponuda sa uslovom",
-    "šta bi bilo kad bi"
+    "anegdota sa smene",
+    "priča gosta",
+    "objašnjenje zašto",
+    "kolege i kuhinja"
   ],
   "lekcije": [
     {
       "id": "m12l1",
       "redni": 1,
-      "naslov": "Ako platiš, dobijaš",
-      "fokus": "zero conditional — pravilo i činjenica"
+      "naslov": "Čovek koji",
+      "fokus": "the man who ordered, the table which is free"
     },
     {
       "id": "m12l2",
       "redni": 2,
-      "naslov": "Ako rezervišeš, dobićeš",
-      "fokus": "first conditional — realna ponuda"
+      "naslov": "Zato što",
+      "fokus": "because i so — uzrok i posledica u jednoj rečenici"
     },
     {
       "id": "m12l3",
       "redni": 3,
-      "naslov": "Da sam na tvom mestu",
-      "fokus": "second conditional — savet i pretpostavka"
+      "naslov": "Iako, dok",
+      "fokus": "although it was late, while I was serving"
     },
     {
       "id": "m12l4",
       "redni": 4,
-      "naslov": "Osim ako",
-      "fokus": "unless, in case — obrnuti uslov"
+      "naslov": "Radio sam kad",
+      "fokus": "past continuous: I was closing when he came in."
     },
     {
       "id": "m12l5",
       "redni": 5,
-      "naslov": "Možda",
-      "fokus": "might, may — kad nisi siguran"
+      "naslov": "Spoji dve misli",
+      "fokus": "dve kratke rečenice u jednu, bez zastoja"
     },
     {
       "id": "m12l6",
       "redni": 6,
-      "naslov": "Provera: uslovne rečenice",
+      "naslov": "Ispričaj anegdotu",
+      "fokus": "jedna prava priča sa smene, na engleskom"
+    },
+    {
+      "id": "m12l7",
+      "redni": 7,
+      "naslov": "Provera: modul 12",
       "fokus": "mini-boss nad celim modulom"
     }
   ]

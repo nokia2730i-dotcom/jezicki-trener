@@ -3,57 +3,62 @@
   "redni": 8,
   "nivo": "A2",
   "etapa": 2,
-  "naslov": "Poređenje i opis",
-  "outcome": "uporediti dve stvari i preporučiti bolju: bigger, the best, as good as, i opisati ukus i mesto",
-  "zasto": "Preporuka je ono što gost najčešće traži. Bez poređenja možeš samo da nabrajaš.",
+  "naslov": "Planovi i budućnost",
+  "outcome": "kažeš šta planiraš, šta ćeš uraditi i kad ti počinje smena",
+  "zasto": "Engleski ima tri budućnosti i svaka znači nešto drugo. Srpski ima jednu, pa se bira pogrešna.",
   "gramatika": [
-    "pridevi i red prideva",
-    "komparativ (-er, more) i superlativ (the -est, the most)",
-    "nepravilni (good / better / the best, bad / worse)",
-    "as … as, not as … as",
-    "too i enough"
+    "will / won't — odluka u trenutku",
+    "be going to — plan i namera",
+    "present continuous za budućnost",
+    "razlika između tri oblika"
   ],
   "teme": [
-    "preporuka jela",
-    "poređenje dva mesta",
-    "opis vina i ukusa",
-    "šta je jače a šta blaže"
+    "rezervacija",
+    "dogovor sa gostom",
+    "kad počinje smena",
+    "planovi i prognoza"
   ],
   "lekcije": [
     {
       "id": "m08l1",
       "redni": 1,
-      "naslov": "Veći, jači, bolji",
-      "fokus": "bigger, stronger, better — kada -er a kada more"
+      "naslov": "I'll do it",
+      "fokus": "odluka u trenutku: I'll bring it right away."
     },
     {
       "id": "m08l2",
       "redni": 2,
-      "naslov": "Najbolji",
-      "fokus": "the best, the most popular — superlativ sa the"
+      "naslov": "Going to",
+      "fokus": "plan koji već postoji: We're going to open a terrace."
     },
     {
       "id": "m08l3",
       "redni": 3,
-      "naslov": "Isto kao",
-      "fokus": "as good as, not as sweet as"
+      "naslov": "Zakazano je",
+      "fokus": "The bus leaves at eight. I'm starting at four."
     },
     {
       "id": "m08l4",
       "redni": 4,
-      "naslov": "Previše i dovoljno",
-      "fokus": "too salty, not warm enough"
+      "naslov": "Koje od tri",
+      "fokus": "ista situacija, tri oblika — koji zvuči tačno"
     },
     {
       "id": "m08l5",
       "redni": 5,
-      "naslov": "Preporuči jelo",
-      "fokus": "sastavi preporuku od nule, na engleskom"
+      "naslov": "Kad ti počinje smena",
+      "fokus": "ispričaj svoju nedelju unapred"
     },
     {
       "id": "m08l6",
       "redni": 6,
-      "naslov": "Provera: poređenje",
+      "naslov": "Dogovori rezervaciju",
+      "fokus": "cela rezervacija, od upita do potvrde"
+    },
+    {
+      "id": "m08l7",
+      "redni": 7,
+      "naslov": "Provera: modul 8",
       "fokus": "mini-boss nad celim modulom"
     }
   ]
