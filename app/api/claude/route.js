@@ -147,6 +147,13 @@ async function callModel(client, spec, fields, nudge) {
 
   const message = await client.messages.create(payload);
 
+  // Potrosnja po pozivu — da se u logu vidi sta stvarno kosta.
+  const u = message.usage || {};
+  console.log(
+    `[tokeni] ${spec.model} in=${u.input_tokens ?? "?"} out=${u.output_tokens ?? "?"}` +
+      ` stop=${message.stop_reason}${nudge ? " (ponovni pokusaj)" : ""}`
+  );
+
   if (message.stop_reason === "refusal") {
     return { ok: false, fatal: "Model je odbio ovaj zahtev. Promeni unos." };
   }
