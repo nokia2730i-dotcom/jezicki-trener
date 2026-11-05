@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test:vocab": "node test/vocab.test.mjs",
     "test:kurikulum": "node test/kurikulum.test.mjs",
-    "test": "node test/vocab.test.mjs && node test/kurikulum.test.mjs"
+    "test": "node test/vocab.test.mjs && node test/ocena.test.mjs && node test/kurikulum.test.mjs && node test/lekcije.test.mjs",
+    "test:lekcije": "node test/lekcije.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.5.0",

@@ -62,15 +62,15 @@
 
   "situacije": [
     {
-      "opis": "Gost te pita: „Are you the manager?\" Ti si konobar, ne menadžer. Šta mu odgovoriš?",
+      "opis": "Gost te zaustavlja na sredini sale i pita: „Are you the manager?\" Nisi menadžer. Hoćeš da ga ispraviš, a da i dalje zvuči kao da si tu zbog njega.",
       "model": "No, I'm not. I am the waiter."
     },
     {
-      "opis": "Čekaš gospodina Novaka koji je rezervisao sto. Neki čovek ulazi sam. Kako ćeš proveriti da li je to on?",
+      "opis": "Gospodin Novak je rezervisao sto za osam sati. Neki čovek ulazi sam i gleda po sali. Hoćeš da budeš siguran da je to on pre nego što ga odvedeš do stola.",
       "model": "Are you Mr. Novak?"
     },
     {
-      "opis": "Gost pita da li je sto kod prozora slobodan. Nije — rezervisan je. Šta kažeš?",
+      "opis": "Gost stoji pored tebe i pokazuje na sto kod prozora. Taj sto je rezervisan za drugo društvo. Hoćeš da mu to saopštiš, a da ne ispadne neprijatno.",
       "model": "I'm sorry, it is not free."
     }
   ],

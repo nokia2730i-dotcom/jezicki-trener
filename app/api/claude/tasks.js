@@ -270,6 +270,10 @@ Napravi tacno 4 zadatka ovim redom: listen, gist, situation, choice.
 - "listen": recenica koju ce mu aplikacija procitati naglas, a on kuca sta je cuo. Prirodna govorna recenica, duzina prema nivou.
 - "gist": pasus od 3 do 4 recenice koji mu se cita naglas dok NE vidi tekst — kao da gost prica za stolom. Uz njega jedno pitanje NA SRPSKOM o sadrzaju, na koje se ne moze odgovoriti pogadjanjem. Pitaj konkretan detalj, ne opstu temu.
 - "situation": opis situacije NA SRPSKOM u kojoj gost nesto kaze ili uradi, a korisnik treba da odgovori na engleskom. NE daj mu srpsku recenicu za prevod — daj mu situaciju, da recenicu sklopi sam. Polje "sr" je opis situacije, "text" je model odgovor.
+
+  Opis u polju "sr" kaze KO je gost, GDE je i STA korisnik hoce da postigne. Ne sme da sadrzi gotovu frazu ni uputstvo sta tacno da kaze. Zabranjeni su imperativi tipa "kazi mu da...", "pozeli im...", "odgovori da...", "zahvali se...", "ponudi mu...". Ako iz opisa moze da se doslovno prepise odgovor, opis je pogresan.
+  LOSE: "Ti im pozeli prijatno i kazi da uzivaju u picu."
+  DOBRO: "Gosti su dobili pice. Hoces da budes ljubazan pre nego sto odes od stola."
 - "choice": pitanje sa 3 ponudjena odgovora gde su bar dva gramaticki tacna, ali samo jedan zvuci kao izvorni govornik. Polje "sr" je pitanje ili situacija NA SRPSKOM, "options" su tri opcije, "correct" je indeks tacne, "why" objasnjenje. Polje "text" stavi na tacnu opciju.
 
 U svakom zadatku popuni key_word i key_word_sr: JEDNA rec ili kratka fraza iz tog zadatka koju vredi zapamtiti.`,
