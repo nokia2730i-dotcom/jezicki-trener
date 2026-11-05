@@ -250,8 +250,12 @@ U "key_word" upisi JEDNU rec ili kratku frazu iz ove razmene koju vredi zapamtit
 
   drill: {
     model: SMART,
-    maxTokens: 4000,
-    effort: "high",
+    // Bio je effort "high" i 6 zadataka: 2566 izlaznih tokena, $0.029 po
+    // pokretanju — skuplje od cele lekcije. Sada 4 zadatka na "medium".
+    // max_tokens je i dalje sa zalihom: ako odgovor bude presecen, ruta
+    // pokusava ponovo i to kosta dvostruko, pa stednja nema smisla do daske.
+    maxTokens: 2400,
+    effort: "medium",
     fields: { level: 4 },
     required: [],
     maxWords: 12,
@@ -261,7 +265,7 @@ ${levelRules(f.level)}
 
 Teme drzi oko onoga o cemu gosti u restoranu i hotelu pricaju: putovanja i rute, grad i preporuke, hrana i porudzbine, posao i zivot, sport i vreme.
 
-Napravi tacno 6 zadataka ovim redom: listen, gist, situation, listen, gist, choice.
+Napravi tacno 4 zadatka ovim redom: listen, gist, situation, choice.
 
 - "listen": recenica koju ce mu aplikacija procitati naglas, a on kuca sta je cuo. Prirodna govorna recenica, duzina prema nivou.
 - "gist": pasus od 3 do 4 recenice koji mu se cita naglas dok NE vidi tekst — kao da gost prica za stolom. Uz njega jedno pitanje NA SRPSKOM o sadrzaju, na koje se ne moze odgovoriti pogadjanjem. Pitaj konkretan detalj, ne opstu temu.

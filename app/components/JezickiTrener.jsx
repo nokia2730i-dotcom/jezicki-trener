@@ -711,10 +711,10 @@ export default function JezickiTrener() {
             {drill.length === 0 && (
               <div>
                 <div style={{ fontFamily: "Georgia, serif", fontSize: 18, marginBottom: 6 }}>
-                  Šest zadataka, oko deset minuta
+                  Četiri zadatka, oko šest minuta
                 </div>
                 <p className="jt-empty" style={{ marginTop: 0 }}>
-                  Dva diktata, dva slušanja bez teksta, jedna situacija i jedan izbor.
+                  Jedan diktat, jedno slušanje bez teksta, jedna situacija i jedan izbor.
                   {healthy.length > 0
                     ? ` Zadaci se prave i oko ${healthy.length} reči iz tvog rečnika.`
                     : " Kad napuniš rečnik, zadaci će koristiti tvoje reči."}

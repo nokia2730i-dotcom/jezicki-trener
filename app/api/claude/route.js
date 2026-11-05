@@ -216,10 +216,21 @@ export async function POST(req) {
     return bad("Neispravan zahtev.");
   }
 
-  // PIN se proverava na serveru. Bez ovoga bi svako mogao da gadja rutu
-  // direktno i trosi kredite. Ako APP_PIN nije postavljen, zastita je iskljucena.
+  // PIN se proverava na serveru, pre svega ostalog sto bi moglo da kosta.
+  // Bez ovoga bi svako mogao da gadja rutu direktno i trosi kredite.
+  //
+  // Ako APP_PIN nije postavljen, ruta se ZATVARA umesto da se otvori. Ranije
+  // je bilo obrnuto: promenljiva koja fali ili je pogresno napisana tiho je
+  // iskljucivala zastitu, i to se ne bi nigde videlo dok ne stigne racun.
   const pin = process.env.APP_PIN;
-  if (pin && req.headers.get("x-app-pin") !== pin) {
+  if (!pin) {
+    console.error("APP_PIN nije postavljen — ruta je zatvorena.");
+    return Response.json(
+      { error: "Aplikacija nije podešena: APP_PIN nedostaje na serveru." },
+      { status: 503 }
+    );
+  }
+  if (req.headers.get("x-app-pin") !== pin) {
     return Response.json({ error: "Pogrešan PIN" }, { status: 401 });
   }
 
@@ -264,13 +275,10 @@ export async function POST(req) {
     );
   }
 
-  const client = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    // Potreban samo za identity-linked kljuceve.
-    ...(process.env.ANTHROPIC_WORKSPACE_ID
-      ? { defaultHeaders: { "anthropic-workspace-id": process.env.ANTHROPIC_WORKSPACE_ID } }
-      : {}),
-  });
+  // ANTHROPIC_WORKSPACE_ID je ranije isao kao "anthropic-workspace-id" heder.
+  // Provereno pozivom na API: ovaj kljuc radi i bez njega (HTTP 200 u oba
+  // slucaja), pa je heder izbacen i promenljiva vise nigde ne treba.
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   try {
     let result = await callModel(client, spec, fields, kontekst);
