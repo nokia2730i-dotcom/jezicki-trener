@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { migrateVocab, reviewReason, MAX_TERM } from "../lib/vocab";
+import { LEKCIJE, UKUPNO_LEKCIJA, napredak, sledecaLekcija } from "../lib/kurikulum";
+import { sadrzajLekcije } from "../lib/lekcije";
+import Lekcija from "./Lekcija";
 
 // Samo engleski. Nemacki i grcki su izbaceni — nivo odredjuje ulazni test,
 // ne birac na ekranu.
@@ -60,7 +63,11 @@ export default function JezickiTrener() {
   const [dDone, setDDone] = useState(0);
 
   const [stats, setStats] = useState({ streak: 0, lastDay: null, total: 0 });
-  const [progress, setProgress] = useState({ level: "A1" });
+  const [progress, setProgress] = useState({ level: "A1", zavrsene: [] });
+
+  // "pocetna" je sada ulaz u aplikaciju. Stari tabovi su pod "Alati".
+  const [ekran, setEkran] = useState("pocetna");
+  const [uLekciji, setULekciji] = useState(null);
 
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -95,7 +102,15 @@ export default function JezickiTrener() {
     }
     try {
       const p = localStorage.getItem(PROGRESS_KEY);
-      if (p) setProgress({ level: "A1", ...JSON.parse(p) });
+      // Spoj sa podrazumevanim: stari zapis je imao samo { level }.
+      if (p) {
+        const stored = JSON.parse(p) || {};
+        setProgress({
+          level: "A1",
+          ...stored,
+          zavrsene: Array.isArray(stored.zavrsene) ? stored.zavrsene : [],
+        });
+      }
     } catch {
       /* prvi put */
     }
@@ -262,6 +277,19 @@ export default function JezickiTrener() {
   const toReview = vocab.filter((v) => v.needsReview);
   const healthy = vocab.filter((v) => !v.needsReview);
 
+  const nap = napredak(progress.zavrsene);
+  // Prva nezavrsena lekcija KOJA JE NAPISANA. Mapa ima 108 lekcija, sadrzaj
+  // zasad ima samo prva — preskakanje praznih je namerno, ne greska.
+  const prvaDostupna = LEKCIJE.find(
+    (l) => !progress.zavrsene.includes(l.id) && sadrzajLekcije(l.id)
+  );
+  // Koliko je nezavrsenih lekcija preskoceno zato sto im sadrzaj jos ne postoji.
+  const preskocene = prvaDostupna
+    ? LEKCIJE.slice(0, LEKCIJE.indexOf(prvaDostupna)).filter(
+        (l) => !progress.zavrsene.includes(l.id)
+      ).length
+    : 0;
+
   function drawCard() {
     if (!healthy.length) return;
     const weighted = healthy.slice().sort((a, b) => {
@@ -389,6 +417,59 @@ export default function JezickiTrener() {
       setError(e.message);
     }
     setDBusy(false);
+  }
+
+  // ——— Napredak kroz kurikulum ————————————————————————————————
+
+  function saveProgress(next) {
+    setProgress(next);
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+    } catch {
+      /* bez pamcenja radi, samo se napredak ne cuva */
+    }
+  }
+
+  // Vise od ovoga po lekciji i recnik prestane da bude recnik. Reci iz samog
+  // sadrzaja lekcije idu prve, pa tek onda ono sto je model izvukao usput.
+  const MAX_RECI_PO_LEKCIJI = 6;
+
+  function zavrsiLekciju({ lekcijaId, reci }) {
+    // Reci iz lekcije idu u recnik kroz isto pravilo kao i rucno dodate.
+    let dodato = 0;
+    const postojeci = new Map(vocab.map((v) => [String(v.term).toLowerCase(), v]));
+    const nove = [];
+    for (const r of reci || []) {
+      if (dodato >= MAX_RECI_PO_LEKCIJI) break;
+      const t = String(r.term || "").trim();
+      const m = String(r.meaning || "").trim();
+      if (!t || !m) continue;
+      if (reviewReason(t, m, null)) continue;
+      if (postojeci.has(t.toLowerCase())) continue;
+      postojeci.set(t.toLowerCase(), true);
+      nove.push({
+        id: Date.now() + Math.random(),
+        term: t,
+        meaning: m,
+        seen: 0,
+        known: 0,
+        added: new Date().toISOString().slice(0, 10),
+      });
+      dodato++;
+    }
+    if (nove.length) saveVocab([...nove, ...vocab]);
+
+    const zavrsene = progress.zavrsene.includes(lekcijaId)
+      ? progress.zavrsene
+      : [...progress.zavrsene, lekcijaId];
+    saveProgress({ ...progress, zavrsene });
+    bumpStreak();
+
+    setULekciji(null);
+    setEkran("pocetna");
+    setNotice(
+      dodato ? `Lekcija završena. ${dodato} novih reči je u Rečniku.` : "Lekcija završena."
+    );
   }
 
   function bumpStreak() {
@@ -526,6 +607,88 @@ export default function JezickiTrener() {
         <p className="sub">
           Engleski · nivo {progress.level} <span className="jt-stat">(odrediće ga ulazni test)</span>
         </p>
+
+        {uLekciji && (
+          <Lekcija
+            lekcija={uLekciji}
+            nivo={progress.level}
+            recnik={healthy}
+            callClaude={callClaude}
+            onZavrseno={zavrsiLekciju}
+            onIzlaz={() => {
+              setULekciji(null);
+              setEkran("pocetna");
+            }}
+          />
+        )}
+
+        {!uLekciji && ekran === "pocetna" && (
+          <div>
+            {notice && <div className="jt-ok">{notice}</div>}
+            <div className="jt-card">
+              <div className="jt-stat">
+                {stats.streak > 0 ? `Niz: ${stats.streak} ${stats.streak === 1 ? "dan" : "dana"}` : "Prvi dan"}
+                {" · "}
+                {nap.zavrseno}/{UKUPNO_LEKCIJA} lekcija ({nap.procenat}% do B1)
+              </div>
+
+              {prvaDostupna ? (
+                <>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: 21, margin: "10px 0 4px" }}>
+                    {prvaDostupna.modulNaslov}
+                  </div>
+                  <p className="jt-empty" style={{ marginTop: 0 }}>
+                    {prvaDostupna.naslov} — {sadrzajLekcije(prvaDostupna.id)?.cilj || prvaDostupna.fokus}
+                  </p>
+                  <button
+                    className="jt-btn"
+                    style={{ marginTop: 6, fontSize: 16, padding: "13px 24px" }}
+                    onClick={() => {
+                      setNotice("");
+                      setULekciji(sadrzajLekcije(prvaDostupna.id));
+                    }}
+                  >
+                    Nastavi
+                  </button>
+                  <div className="jt-stat" style={{ marginTop: 10 }}>
+                    Devet koraka, oko deset minuta.
+                    {preskocene > 0 && (
+                      <>
+                        {" "}
+                        Prethodnih {preskocene} lekcija sa mape još nije napisano, pa se za sada
+                        preskaču.
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: 21, margin: "10px 0 4px" }}>
+                    {nap.zavrseno > 0 ? "To je za sada sve" : "Lekcije još nisu napisane"}
+                  </div>
+                  <p className="jt-empty" style={{ marginTop: 0 }}>
+                    Mapa ima {UKUPNO_LEKCIJA} lekcija do B1, ali je napisana zasad samo prva. Dok se
+                    ostale ne napišu, alati ispod rade kao i do sad.
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div style={{ marginTop: 14 }}>
+              <button className="jt-btn ghost small" onClick={() => setEkran("alati")}>
+                Alati — Šta znači, Prevod, Rečnik, Razgovor
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!uLekciji && ekran === "alati" && (
+        <>
+        <div style={{ marginBottom: 10 }}>
+          <button className="jt-btn ghost small" onClick={() => setEkran("pocetna")}>
+            ← Početna
+          </button>
+        </div>
 
         <div className="jt-tabs">
           <button className={tab === "znaci" ? "on" : ""} onClick={() => setTab("znaci")}>Šta znači</button>
@@ -1030,6 +1193,8 @@ export default function JezickiTrener() {
               </div>
             )}
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

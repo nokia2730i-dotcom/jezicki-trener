@@ -1,0 +1,112 @@
+{
+  "id": "m01l1",
+  "modulId": "m01",
+  "redni": 1,
+  "naslov": "I am, you are",
+  "cilj": "Da kažeš ko si i pitaš gosta ko je on — bez prevođenja iz glave.",
+  "fokus": "to be: I am / you are / it is, pitanja Are you…? i kratki odgovori Yes, I am.",
+
+  "scena": {
+    "uvod": "Gost ulazi u restoran. Ti si prvi koji ga vidi. Slušaj dva puta ako treba — tekst je skriven.",
+    "replike": [
+      {
+        "ko": "Gost",
+        "en": "Good evening. Are you the waiter?",
+        "sr": "Dobro veče. Vi ste konobar?"
+      },
+      {
+        "ko": "Ti",
+        "en": "Good evening. Yes, I am. Are you Mr. Novak?",
+        "sr": "Dobro veče. Jesam. Vi ste gospodin Novak?"
+      },
+      {
+        "ko": "Gost",
+        "en": "Yes, I am. We are four people.",
+        "sr": "Jesam. Nas je četvoro."
+      },
+      {
+        "ko": "Ti",
+        "en": "The table is ready. Please, this way.",
+        "sr": "Sto je spreman. Izvolite, ovuda."
+      }
+    ]
+  },
+
+  "pravilo": {
+    "naslov": "Jedan glagol, tri oblika",
+    "tekst": "U srpskom „sam\" i „si\" sede u samom glagolu. U engleskom sede u posebnoj reči: I am, you are, it is. Ta reč se nikad ne izostavlja — „I waiter\" ne postoji. U pitanju ide ispred: Are you ready?",
+    "primeri": [
+      { "en": "I am the waiter.", "sr": "Ja sam konobar." },
+      { "en": "You are early.", "sr": "Rano ste došli." },
+      { "en": "Are you ready?", "sr": "Jeste li spremni?" }
+    ]
+  },
+
+  "blokovi": [
+    {
+      "trazi": "Gost pita da li si ti konobar. Potvrdi mu.",
+      "resenje": "Yes, I am the waiter.",
+      "mamci": ["is", "are", "be"]
+    },
+    {
+      "trazi": "Gosti su seli i pogledali meni. Pitaj ih da li su spremni da poruče.",
+      "resenje": "Are you ready to order?",
+      "mamci": ["is", "am", "do"]
+    },
+    {
+      "trazi": "Gost pita za sto kod prozora. Taj sto nije slobodan.",
+      "resenje": "The table is not free.",
+      "mamci": ["am", "are", "don't"]
+    }
+  ],
+
+  "situacije": [
+    {
+      "opis": "Gost te pita: „Are you the manager?\" Ti si konobar, ne menadžer. Šta mu odgovoriš?",
+      "model": "No, I'm not. I am the waiter."
+    },
+    {
+      "opis": "Čekaš gospodina Novaka koji je rezervisao sto. Neki čovek ulazi sam. Kako ćeš proveriti da li je to on?",
+      "model": "Are you Mr. Novak?"
+    },
+    {
+      "opis": "Gost pita da li je sto kod prozora slobodan. Nije — rezervisan je. Šta kažeš?",
+      "model": "I'm sorry, it is not free."
+    }
+  ],
+
+  "diktat": {
+    "en": "I'm the waiter tonight, and this is your table.",
+    "sr": "Ja sam večeras konobar, i ovo je vaš sto."
+  },
+
+  "razumevanje": {
+    "pasus": "Good evening. My name is Anna and I am from Poland. My husband is here too. We are very hungry.",
+    "pitanje": "Odakle je gospođa i ko je sa njom?",
+    "odgovor": "Iz Poljske, i sa njom je muž."
+  },
+
+  "izgovor": [
+    { "en": "Are you ready to order?", "sr": "Jeste li spremni da poručite?" },
+    { "en": "I'm the waiter. Welcome.", "sr": "Ja sam konobar. Dobro došli." }
+  ],
+
+  "miniBoss": {
+    "situacija": "Gost je upravo ušao u restoran, stoji kod vrata, prvi put je ovde i nije rezervisao. Traži sto za dve osobe.",
+    "pocetna": "Good evening. Are you open?"
+  },
+
+  "kraj": {
+    "mozes": [
+      { "en": "I am the waiter.", "sr": "Ja sam konobar." },
+      { "en": "Are you ready to order?", "sr": "Jeste li spremni da poručite?" },
+      { "en": "I'm sorry, it is not free.", "sr": "Žao mi je, nije slobodan." }
+    ],
+    "reci": [
+      { "term": "waiter", "meaning": "konobar" },
+      { "term": "ready to order", "meaning": "spreman da poruči" },
+      { "term": "free", "meaning": "slobodan (sto)" },
+      { "term": "this way", "meaning": "ovuda, izvolite" }
+    ]
+  }
+}

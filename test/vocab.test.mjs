@@ -61,6 +61,20 @@ const smallFlip = reviewReason("Prošli", "passed", null);
 ok("kratka okrenuta kartica se prepoznaje", smallFlip === "obrnute strane", smallFlip);
 ok("ispravna kratka kartica je cista", reviewReason("passed", "prošli", null) === null);
 
+console.log("\n4b) Pitanje nije kartica");
+// Ovo je stvarno uslo u recnik iz lekcije M1 L1: model je kao "rec" vratio
+// pitanje od 4 reci, bez tacke, pa je proslo kroz staro pravilo.
+ok("pitanje od 4 reci je odbijeno",
+  reviewReason("Are you Mr. Novak?", "Vi ste gospodin Novak?", null) === "cela rečenica",
+  reviewReason("Are you Mr. Novak?", "Vi ste gospodin Novak?", null));
+ok("drugo pitanje je odbijeno",
+  reviewReason("Is the fish fresh?", "Da li je riba sveža?", null) === "cela rečenica");
+ok("uzvik je odbijen", reviewReason("Welcome!", "Dobro došli!", null) === "cela rečenica");
+ok("fraza bez interpunkcije prolazi", reviewReason("by the window", "kod prozora", null) === null);
+ok("phrasal verb prolazi", reviewReason("run out of", "ostati bez", null) === null);
+ok("jedna rec prolazi", reviewReason("receipt", "račun", null) === null);
+ok("znacenje sme da ima znak pitanja", reviewReason("waiter", "konobar?", null) === null);
+
 console.log("\n5) Drugo pokretanje nista ne menja (idempotentno)");
 const twice = migrateVocab(out);
 ok("drugi prolaz daje isti rezultat", JSON.stringify(twice) === JSON.stringify(out));

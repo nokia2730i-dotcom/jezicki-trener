@@ -55,7 +55,8 @@ export const SCENARIOS = {
 const VOCAB_FIELDS = {
   key_word: {
     type: "string",
-    description: "JEDNA rec ili kratka fraza na engleskom (najvise 5 reci) koja se pamti",
+    description:
+      "JEDNA rec ili ustaljena fraza na engleskom (najvise 5 reci) koja se pamti. NIJE recenica i NIJE pitanje — bez tacke, znaka pitanja i uzvicnika. Dobro: 'receipt', 'by the window', 'run out of'. Lose: 'Are you Mr. Novak?', 'I'm sorry'.",
   },
   key_word_sr: { type: "string", description: "znacenje te reci ili fraze na srpskom" },
 };
@@ -159,6 +160,94 @@ U "correction.key_word" upisi JEDNU rec ili kratku frazu koju vredi zapamtiti iz
     }),
   },
 
+  // Korak 4 i korak 5 lekcije: ocena jednog kratkog odgovora.
+  // Diktat i izgovor se ocenjuju LOKALNO (app/lib/ocena.js) i ne dolaze ovde.
+  oceni: {
+    model: FAST,
+    maxTokens: 500,
+    effort: "low",
+    fields: { lekcijaId: 24, vrsta: 16, odgovor: 300, level: 4 },
+    required: ["lekcijaId", "vrsta", "odgovor"],
+    // Tekst zadatka i model odgovor NE dolaze od klijenta — ruta ih izvlaci
+    // iz content/lekcije i daje ovde kao `k`.
+    trebaLekciju: true,
+    system: (f, k) => {
+      const jeGist = f.vrsta === "razumevanje";
+      return `Ocenjujes jedan odgovor coveka koji uci engleski. Maternji jezik mu je srpski, konobar je sa 20+ godina iskustva u ugostiteljstvu.
+
+${levelRules(f.level)}
+
+${
+  jeGist
+    ? `Dobijas pitanje o sadrzaju pasusa koji je korisnik SLUSAO, tacan odgovor i njegov odgovor. Odgovor je na srpskom jer se proverava razumevanje, ne produkcija. Tacan je ako je uhvatio sustinu — ne trazi iste reci.`
+    : `Dobijas opis situacije na srpskom, model odgovor na engleskom i ono sto je korisnik napisao na engleskom. Korisnik je recenicu sklapao sam, nije prevodio. Tacan je svaki odgovor koji bi u toj situaciji prosao kao prirodan — ne mora da se poklapa sa modelom.`
+}
+
+Budi posten ali ne cepidlaka. Sitna greska u clanu ili interpunkciji nije "netacno", to je "blizu".
+
+U "sta_nije" napisi NA SRPSKOM, u jednoj recenici, sta konkretno nije u redu. Ako je sve u redu, stavi prazan string.
+U "prirodnije" napisi na engleskom kako bi to rekao izvorni govornik${jeGist ? ", ili prazan string ako je pitanje bilo o razumevanju i odgovor je na srpskom" : ""}.
+U "key_word" i "key_word_sr" upisi JEDNU rec ili kratku frazu iz ovog zadatka koju vredi zapamtiti — nikad celu recenicu.`;
+    },
+    messages: (f, k) => [
+      {
+        role: "user",
+        content: [
+          f.vrsta === "razumevanje" ? `Pitanje: ${k.zadatak}` : `Situacija: ${k.zadatak}`,
+          k.ocekivano ? `Tacan/model odgovor: ${k.ocekivano}` : null,
+          `Odgovor korisnika: ${f.odgovor}`,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+      },
+    ],
+    schema: obj({
+      ocena: { type: "string", enum: ["tacno", "blizu", "netacno"] },
+      sta_nije: { type: "string", description: "jedna recenica NA SRPSKOM, ili prazan string" },
+      prirodnije: { type: "string", description: "prirodnija verzija na engleskom, ili prazan string" },
+      ...VOCAB_FIELDS,
+    }),
+  },
+
+  // Korak 7: mini-boss. Gost reaguje na mene i istovremeno ocenjuje sta sam rekao.
+  mini_boss: {
+    model: SMART,
+    maxTokens: 800,
+    effort: "medium",
+    fields: { lekcijaId: 24, level: 4 },
+    required: ["lekcijaId"],
+    maxTurns: 12,
+    maxCharsPerTurn: 500,
+    // Situacija i gramaticki fokus dolaze iz content/lekcije, ne od klijenta.
+    trebaLekciju: true,
+    system: (f, k) => `Ti si gost u restoranu ili hotelu u Nisu. Korisnik je konobar koji uci engleski; maternji jezik mu je srpski.
+
+${levelRules(f.level)}
+
+Situacija: ${k.situacija}
+${k.fokus ? `Gramatika koju ova lekcija vezba: ${k.fokus}. Postavljaj replike tako da mora da je upotrebi.` : ""}
+
+Ostani u ulozi gosta. Odgovaraj kratko i prirodno, 1-2 recenice, i svaki put daj repliku na koju konobar MORA nesto da odgovori. Ne izlazi iz uloge, ne objasnjavaj gramatiku u "reply".
+
+Posle svake poruke korisnika oceni njegovu recenicu:
+- "tacno" ako bi u ovoj situaciji prosla kao prirodna,
+- "blizu" ako se razume ali ima gresku ili zvuci kao prevod,
+- "netacno" ako se ne razume ili je promasio situaciju.
+
+"sta_nije" je jedna recenica NA SRPSKOM, prazan string kad je sve u redu. "prirodnije" je ista stvar kako bi rekao izvorni govornik, prazan string kad nema sta da se popravi.
+
+U "key_word" upisi JEDNU rec ili kratku frazu iz ove razmene koju vredi zapamtiti — nikad celu recenicu.`,
+    messages: (f) => f.messages,
+    schema: obj({
+      reply: { type: "string", description: "replika gosta na engleskom" },
+      reply_sr: { type: "string", description: "prevod te replike na srpski" },
+      ocena: { type: "string", enum: ["tacno", "blizu", "netacno"] },
+      sta_nije: { type: "string", description: "jedna recenica NA SRPSKOM, ili prazan string" },
+      prirodnije: { type: "string", description: "prirodnija verzija na engleskom, ili prazan string" },
+      ...VOCAB_FIELDS,
+    }),
+  },
+
   drill: {
     model: SMART,
     maxTokens: 4000,
@@ -211,4 +300,15 @@ U svakom zadatku popuni key_word i key_word_sr: JEDNA rec ili kratka fraza iz to
   },
 };
 
-export { FAST, SMART };
+// Promptovi su pisani bez dijakritika (da se ne lome kroz alate), pa je model
+// i odgovarao bez njih — "neodredjeni clan" umesto "neodređeni član". Korisnik
+// to cita na ekranu, pa pravilo ide na svaki system prompt, na jednom mestu.
+const SRPSKI =
+  "Kad pises srpski, pisi ga pravilno, sa dijakritikama: š, đ, č, ć, ž. Nikad 's' umesto 'š' ni 'dj' umesto 'đ'.";
+
+for (const spec of Object.values(TASKS)) {
+  const osnovni = spec.system;
+  spec.system = (f, k) => `${osnovni(f, k)}\n\n${SRPSKI}`;
+}
+
+export { FAST, SMART, SRPSKI };

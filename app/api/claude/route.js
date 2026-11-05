@@ -4,6 +4,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { TASKS, LEVELS } from "./tasks";
+import { sadrzajLekcije } from "../../lib/lekcije";
 
 export const runtime = "nodejs";
 
@@ -113,6 +114,42 @@ function validate(spec, taskName, fields) {
   return null;
 }
 
+// ——— Kontekst lekcije ————————————————————————————————————————
+// Tekst koji ulazi u prompt (situacija, model odgovor, gramaticki fokus)
+// izvlaci se OVDE, na serveru, iz content/lekcije. Klijent posalje samo id
+// lekcije i indeks zadatka. Da ovo radi klijent, system prompt bi mu opet
+// bio otvoren.
+
+function kontekstLekcije(taskName, fields) {
+  const lekcija = sadrzajLekcije(fields.lekcijaId);
+  if (!lekcija) return { greska: "Nepoznata lekcija." };
+
+  if (taskName === "mini_boss") {
+    const mb = lekcija.miniBoss;
+    if (!mb || !mb.situacija) return { greska: "Lekcija nema mini-boss." };
+    return { kontekst: { situacija: mb.situacija, fokus: lekcija.fokus || "" } };
+  }
+
+  if (taskName === "oceni") {
+    const i = Number(fields.indeks);
+    if (!Number.isInteger(i) || i < 0 || i > 20) return { greska: "Neispravan indeks zadatka." };
+
+    if (fields.vrsta === "situacija") {
+      const s = (lekcija.situacije || [])[i];
+      if (!s) return { greska: "Nepoznat zadatak u lekciji." };
+      return { kontekst: { zadatak: s.opis, ocekivano: s.model } };
+    }
+    if (fields.vrsta === "razumevanje") {
+      const r = lekcija.razumevanje;
+      if (!r) return { greska: "Lekcija nema pitanje o razumevanju." };
+      return { kontekst: { zadatak: r.pitanje, ocekivano: r.odgovor } };
+    }
+    return { greska: "Nepoznata vrsta zadatka." };
+  }
+
+  return { kontekst: {} };
+}
+
 // ——— Poziv modela sa jednim ponovnim pokusajem ——————————————————
 
 function textOf(message) {
@@ -132,12 +169,13 @@ function parseGuarded(raw) {
   }
 }
 
-async function callModel(client, spec, fields, nudge) {
-  const messages = spec.messages(fields);
+async function callModel(client, spec, fields, kontekst, nudge) {
+  const messages = spec.messages(fields, kontekst);
+  const osnovni = spec.system(fields, kontekst);
   const payload = {
     model: spec.model,
     max_tokens: spec.maxTokens,
-    system: nudge ? `${spec.system(fields)}\n\n${nudge}` : spec.system(fields),
+    system: nudge ? `${osnovni}\n\n${nudge}` : osnovni,
     messages,
     output_config: {
       effort: spec.effort || "medium",
@@ -204,6 +242,13 @@ export async function POST(req) {
   const invalid = validate(spec, taskName, fields);
   if (invalid) return bad(invalid);
 
+  let kontekst = {};
+  if (spec.trebaLekciju) {
+    const r = kontekstLekcije(taskName, fields);
+    if (r.greska) return bad(r.greska);
+    kontekst = r.kontekst;
+  }
+
   const limited = rateLimited(clientIp(req));
   if (limited) {
     return Response.json(
@@ -228,7 +273,7 @@ export async function POST(req) {
   });
 
   try {
-    let result = await callModel(client, spec, fields);
+    let result = await callModel(client, spec, fields, kontekst);
 
     // Jedan ponovni pokusaj ako JSON nije prosao.
     if (!result.ok && !result.fatal) {
@@ -236,6 +281,7 @@ export async function POST(req) {
         client,
         spec,
         fields,
+        kontekst,
         "PRETHODNI ODGOVOR NIJE BIO ISPRAVAN JSON. Odgovori isključivo validnim JSON objektom po zadatoj šemi, bez ikakvog teksta i bez markdown ograda."
       );
     }

@@ -23,9 +23,12 @@ export function reviewReason(term, meaning, lang) {
   if (lang && lang !== "en") return "drugi jezik";
   if (!String(term).trim() || !String(meaning).trim()) return "nedostaje polje";
   if (SERBIAN_CHARS.test(term)) return "obrnute strane";
+  // Kartica nije ni recenica ni pitanje. Ovo lovi "Are you Mr. Novak?" —
+  // 4 reci, bez tacke, ali ocigledno nije rec koja se uci napamet.
   if (
     wordCount(term) > MAX_TERM_WORDS ||
-    String(term).trim().endsWith(".") ||
+    /[.?!]\s*$/.test(String(term).trim()) ||
+    /[?!]/.test(String(term)) ||
     String(term).length > MAX_TERM
   ) {
     return "cela rečenica";
