@@ -208,6 +208,19 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
   const ciljSlusanja = par ? ((pIdx * 7 + 3) % 2 === 0 ? par.a : par.b) : "";
   const ciljIzgovora = par ? (ciljSlusanja === par.a ? par.b : par.a) : "";
 
+  // Neke reci sama po sebi nemaju jedan izgovor: "desert" je i pustinja i
+  // napustiti, i citaju se razlicito. Takav par nosi kratku recenicu koja
+  // odredi citanje, pa se izgovara ONA umesto gole reci. Kad jedna strana
+  // ima recenicu, mora je imati i druga — inace bi se po duzini znalo koja
+  // je pustena.
+  function zaIzgovor(rec) {
+    if (!par) return rec;
+    if (rec === par.a && par.recenicaA) return par.recenicaA;
+    if (rec === par.b && par.recenicaB) return par.recenicaB;
+    return rec;
+  }
+  const imaNosac = !!(par && (par.recenicaA || par.recenicaB));
+
   function izaberiCuo(rec) {
     if (pIzbor) return;
     const tacno = rec === ciljSlusanja;
@@ -638,7 +651,11 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
           {pFaza === "slusaj" ? (
             <>
               <div className="lk-red">
-                <Zvucnik tekst={ciljSlusanja} brzina={brzina} label="Pusti reč" />
+                <Zvucnik
+                  tekst={zaIzgovor(ciljSlusanja)}
+                  brzina={brzina}
+                  label={imaNosac ? "Pusti" : "Pusti reč"}
+                />
                 <span className="jt-stat">Koju si čuo?</span>
               </div>
               <div className="lk-ploce">
@@ -656,8 +673,8 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
                     Rečeno je <b>{ciljSlusanja}</b>. {par.razlika}
                   </div>
                   <div className="lk-red">
-                    <Zvucnik tekst={par.a} brzina={0.8} label={par.a} />
-                    <Zvucnik tekst={par.b} brzina={0.8} label={par.b} />
+                    <Zvucnik tekst={zaIzgovor(par.a)} brzina={0.8} label={par.a} />
+                    <Zvucnik tekst={zaIzgovor(par.b)} brzina={0.8} label={par.b} />
                   </div>
                   <div className="lk-red">
                     <button className="jt-btn" onClick={sledeciPar}>Sad ti izgovori</button>
@@ -668,10 +685,15 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
           ) : (
             <>
               <div style={{ fontSize: 15, margin: "10px 0 4px" }}>
-                Izgovori: <b style={{ fontSize: 19 }}>{ciljIzgovora}</b>
+                Izgovori: <b style={{ fontSize: 19 }}>{zaIzgovor(ciljIzgovora)}</b>
+                {imaNosac && (
+                  <div className="lk-sr">
+                    Cela rečenica — reč {ciljIzgovora} sama ima dva izgovora.
+                  </div>
+                )}
               </div>
               <div className="lk-red">
-                <Zvucnik tekst={ciljIzgovora} brzina={0.8} label="Čuj prvo" />
+                <Zvucnik tekst={zaIzgovor(ciljIzgovora)} brzina={0.8} label="Čuj prvo" />
                 {!pCuo && (
                   <button className="jt-btn" onClick={izgovoriPar} disabled={pSlusa || !imaSlusanje()}>
                     {pSlusa ? "Slušam…" : "🎤 Izgovori"}

@@ -90,6 +90,91 @@ for (const l of lekcije) {
   }
 }
 
+// ——— Reci sa dva izgovora ————————————————————————————————————
+// speechSynthesis cita golu rec bez konteksta i ne zna koje je citanje.
+// "live" je /liv/ (ziveti) i /lajv/ (uzivo), "desert" je DEsert (pustinja) i
+// deSERT (napustiti). Ako aplikacija pusti takvu rec samu, moze da izgovori
+// upravo ono sto nije vezba — i korisnik uci pogresno.
+//
+// U recenici je bezbedna, sintaksa odredi citanje. Zato pravilo vazi samo
+// tamo gde se rec izgovara SAMA: parovi, reci za pisanje, kartice recnika.
+const DVA_IZGOVORA = [
+  "live", "read", "lead", "tear", "wind", "close", "use", "record", "present",
+  "object", "subject", "content", "desert", "produce", "refuse", "contract",
+  "conduct", "permit", "project", "progress", "protest", "rebel", "reject",
+  "increase", "decrease", "insult", "perfect", "separate", "moderate",
+  "estimate", "graduate", "associate", "alternate", "duplicate", "advocate",
+  "minute", "bow", "row", "sow", "wound", "bass", "dove", "does", "lives",
+  "number", "entrance", "invalid", "polish", "august", "moped", "resume",
+  "excuse", "console", "convert", "convict", "export", "import", "transfer",
+  "transport", "upset", "attribute", "combine", "compound", "digest", "escort",
+  "extract", "impact", "incense", "intimate", "deliberate", "elaborate",
+  "appropriate", "articulate", "coordinate", "animate", "defect", "buffet",
+];
+
+function dvaIzgovora(tekst) {
+  return String(tekst)
+    .toLowerCase()
+    .split(/\s+/)
+    .map((w) => w.replace(/[^a-z]/g, ""))
+    .find((w) => DVA_IZGOVORA.includes(w)) || null;
+}
+
+g("0bb) Nijedna rec sa dva izgovora se ne pusta sama");
+for (const l of lekcije) {
+  // Parovi: gola rec se pusta samo ako nema nosac-recenicu.
+  (l.parovi?.stavke || []).forEach((p, i) => {
+    for (const [strana, rec, nosac] of [["a", p.a, p.recenicaA], ["b", p.b, p.recenicaB]]) {
+      if (nosac) continue;
+      const h = dvaIzgovora(rec);
+      ok(`${l.id} par ${i + 1}${strana}: "${rec}" ima jedan izgovor`, h === null,
+        h && `"${h}" ima dva izgovora — daj drugu rec ili recenicu-nosac`);
+    }
+  });
+  // Rec za pisanje se uvek pusta sama.
+  (l.pisanje?.reci || []).forEach((r, i) => {
+    const h = dvaIzgovora(r.en);
+    ok(`${l.id} pisanje ${i + 1}: "${r.en}" ima jedan izgovor`, h === null, h);
+  });
+  // Kartica recnika se cita sama u zagrevanju i u Recniku.
+  (l.kraj?.reci || []).forEach((r, i) => {
+    const h = dvaIzgovora(r.term);
+    ok(`${l.id} kartica ${i + 1}: "${r.term}" ima jedan izgovor`, h === null, h);
+  });
+}
+
+g("0bb-kontrola) Pravilo mora da hvata ono zbog cega postoji");
+ok("hvata 'live'", dvaIzgovora("live") === "live");
+ok("hvata 'desert'", dvaIzgovora("desert") === "desert");
+ok("hvata i u frazi", dvaIzgovora("the desert") === "desert");
+ok("hvata uz interpunkciju", dvaIzgovora("Live!") === "live");
+ok("propusta 'leave'", dvaIzgovora("leave") === null);
+ok("propusta 'dessert'", dvaIzgovora("dessert") === null);
+ok("propusta 'receipt'", dvaIzgovora("receipt") === null);
+ok("propusta 'ship' i 'sheep'", dvaIzgovora("ship") === null && dvaIzgovora("sheep") === null);
+
+g("0bb-nosac) Ako jedna strana para ima recenicu, mora i druga");
+for (const l of lekcije) {
+  (l.parovi?.stavke || []).forEach((p, i) => {
+    const a = !!p.recenicaA;
+    const b = !!p.recenicaB;
+    ok(`${l.id} par ${i + 1}: nosac-recenica je na obe strane ili ni na jednoj`, a === b,
+      { recenicaA: a, recenicaB: b });
+    // Po duzini se ne sme pogoditi koja je pustena.
+    if (a && b) {
+      const razlika = Math.abs(p.recenicaA.length - p.recenicaB.length);
+      ok(`${l.id} par ${i + 1}: recenice su slicne duzine`, razlika <= 8, {
+        a: p.recenicaA.length,
+        b: p.recenicaB.length,
+      });
+      ok(`${l.id} par ${i + 1}: recenicaA sadrzi rec "${p.a}"`,
+        p.recenicaA.toLowerCase().includes(p.a.toLowerCase()), p.recenicaA);
+      ok(`${l.id} par ${i + 1}: recenicaB sadrzi rec "${p.b}"`,
+        p.recenicaB.toLowerCase().includes(p.b.toLowerCase()), p.recenicaB);
+    }
+  });
+}
+
 g("0c) Parovi reci — dve reci, jedna razlika");
 for (const l of lekcije) {
   if (!l.parovi) continue;

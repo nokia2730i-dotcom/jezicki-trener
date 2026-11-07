@@ -48,11 +48,11 @@
         "razlika": "Fill the glass, ne feel the glass."
       },
       {
-        "a": "live",
-        "b": "leave",
-        "srA": "živeti",
-        "srB": "otići",
-        "razlika": "Najgora zamena — živim ili odlazim."
+        "a": "ship",
+        "b": "sheep",
+        "srA": "brod",
+        "srB": "ovca",
+        "razlika": "Par po kom se cela razlika i zove. Kratko i naspram dugog."
       }
     ]
   },

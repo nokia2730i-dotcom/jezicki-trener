@@ -38,7 +38,9 @@
         "b": "desert",
         "srA": "dezert",
         "srB": "pustinja",
-        "razlika": "deSERT ima jak drugi slog, DEsert prvi."
+        "razlika": "deSERT ima jak drugi slog, DEsert prvi.",
+        "recenicaA": "The dessert is very sweet.",
+        "recenicaB": "The desert is very hot."
       },
       {
         "a": "coffee",
