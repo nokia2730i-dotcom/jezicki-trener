@@ -1,0 +1,136 @@
+{
+  "id": "m00l3",
+  "modulId": "m00",
+  "redni": 3,
+  "naslov": "Ship ili sheep",
+  "cilj": "Da razlikuješ kratko i dugo i — jer to nisu dve verzije iste reči nego dve reči.",
+  "fokus": "kratko i (ship, sit) naspram dugog i (sheep, seat)",
+  "zvukDana": {
+    "naslov": "Jedno i u srpskom, dva u engleskom",
+    "tekst": "Srpski ima jedno i. Engleski ima kratko, opušteno i (ship, sit, fill) i dugo, zategnuto i (sheep, seat, feel). Srpsko i je bliže dugom, pa Srbi sve izgovore dugo — i onda sit zvuči kao seat.",
+    "primeri": [
+      {
+        "en": "sit",
+        "sr": "sedi — kratko, opušteno"
+      },
+      {
+        "en": "seat",
+        "sr": "sedište — dugo, zategnuto, usta razvučena"
+      },
+      {
+        "en": "Please sit in this seat.",
+        "sr": "oba u jednoj rečenici"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Razlika je u dužini i napetosti. Čuj, pa izgovori sam.",
+    "stavke": [
+      {
+        "a": "sit",
+        "b": "seat",
+        "srA": "sedi",
+        "srB": "sedište",
+        "razlika": "Kratko i opušteno naspram dugog i razvučenog."
+      },
+      {
+        "a": "chip",
+        "b": "cheap",
+        "srA": "pomfrit",
+        "srB": "jeftino",
+        "razlika": "U restoranu ovo dvoje ne sme da se pomeša."
+      },
+      {
+        "a": "fill",
+        "b": "feel",
+        "srA": "napuni",
+        "srB": "osećati",
+        "razlika": "Fill the glass, ne feel the glass."
+      },
+      {
+        "a": "live",
+        "b": "leave",
+        "srA": "živeti",
+        "srB": "otići",
+        "razlika": "Najgora zamena — živim ili odlazim."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Čuj reč pa je napiši. Isti glas, razna slova.",
+    "reci": [
+      {
+        "en": "cheese",
+        "sr": "sir",
+        "zamka": "Dvostruko E za dugo i. Jedno E bi bilo drugi glas."
+      },
+      {
+        "en": "chicken",
+        "sr": "piletina",
+        "zamka": "CH na početku, kratko I. Nije „chiken\"."
+      },
+      {
+        "en": "kitchen",
+        "sr": "kuhinja",
+        "zamka": "Kratko I, dva slova T i C zajedno: TCH."
+      },
+      {
+        "en": "these",
+        "sr": "ovi",
+        "zamka": "Dugo i, a piše se sa E — ni jedno I u reči."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "Please sit here, this seat is free.",
+    "sr": "Izvolite sedite ovde, ovo mesto je slobodno."
+  },
+  "izgovor": [
+    {
+      "en": "Is this seat free?",
+      "sr": "Je li ovo mesto slobodno?"
+    },
+    {
+      "en": "The chicken and the cheese, please.",
+      "sr": "Piletinu i sir, molim."
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gost stoji na ulazu i traži sto. Restoran je skoro pun, ostala su dva mesta kod šanka.",
+    "pocetna": "Good evening. Do you have a free table?"
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "Is this seat free?",
+        "sr": "Je li ovo mesto slobodno?"
+      },
+      {
+        "en": "Please sit here.",
+        "sr": "Izvolite, sedite ovde."
+      },
+      {
+        "en": "The chicken is very good.",
+        "sr": "Piletina je veoma dobra."
+      }
+    ],
+    "reci": [
+      {
+        "term": "seat",
+        "meaning": "mesto, sedište"
+      },
+      {
+        "term": "cheap",
+        "meaning": "jeftino"
+      },
+      {
+        "term": "kitchen",
+        "meaning": "kuhinja"
+      },
+      {
+        "term": "chicken",
+        "meaning": "piletina"
+      }
+    ]
+  }
+}

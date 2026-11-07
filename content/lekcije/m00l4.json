@@ -1,0 +1,129 @@
+{
+  "id": "m00l4",
+  "modulId": "m00",
+  "redni": 4,
+  "naslov": "Nenaglašeno e i naglasak",
+  "cilj": "Da čuješ gde udara naglasak — jer isti slog na drugom mestu pravi drugu reč.",
+  "fokus": "nenaglašeni samoglasnik (about, water) i mesto naglaska (WAter naspram waiTER)",
+  "zvukDana": {
+    "naslov": "Ono što se proguta",
+    "tekst": "U engleskoj reči jedan slog je jak, ostali se progutaju u nejasno „ə\" — kao kratko muklo e. Zato water nije „voter\" nego „WO-tə\". Ako svaki slog izgovoriš jednako jako, kao u srpskom, reč prestaje da zvuči kao engleska.",
+    "primeri": [
+      {
+        "en": "about",
+        "sr": "oko, otprilike — prvi slog se jedva čuje"
+      },
+      {
+        "en": "water",
+        "sr": "voda — jak je prvi slog, drugi se guta"
+      },
+      {
+        "en": "dessert",
+        "sr": "dezert — jak je drugi slog"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Ove reči se razlikuju po tome gde udara naglasak. Pogrešno mesto, druga reč.",
+    "stavke": [
+      {
+        "a": "water",
+        "b": "waiter",
+        "srA": "voda",
+        "srB": "konobar",
+        "razlika": "WO-tə naspram WEY-tə. Prvi slog nije isti glas."
+      },
+      {
+        "a": "dessert",
+        "b": "desert",
+        "srA": "dezert",
+        "srB": "pustinja",
+        "razlika": "deSERT ima jak drugi slog, DEsert prvi."
+      },
+      {
+        "a": "coffee",
+        "b": "copy",
+        "srA": "kafa",
+        "srB": "kopija",
+        "razlika": "Dupli F i kraj na -ee, naspram -py."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Reči u kojima se pola samoglasnika proguta, a svi se pišu.",
+    "reci": [
+      {
+        "en": "about",
+        "sr": "oko, otprilike",
+        "zamka": "A na početku se jedva čuje, ali se piše."
+      },
+      {
+        "en": "water",
+        "sr": "voda",
+        "zamka": "Kraj je -ER iako zvuči kao muklo „ə\"."
+      },
+      {
+        "en": "restaurant",
+        "sr": "restoran",
+        "zamka": "AU u sredini, i ono -RANT na kraju koje se guta."
+      },
+      {
+        "en": "chocolate",
+        "sr": "čokolada",
+        "zamka": "Tri sloga u pisanju, dva u govoru. Srednje O se ne čuje."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "A glass of water for the lady, please.",
+    "sr": "Čašu vode za gospođu, molim."
+  },
+  "izgovor": [
+    {
+      "en": "Would you like a dessert?",
+      "sr": "Želite li dezert?"
+    },
+    {
+      "en": "Still or sparkling water?",
+      "sr": "Negazirana ili gazirana voda?"
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gosti su završili glavno jelo. Tanjiri su prazni, a oni još sede i razgovaraju.",
+    "pocetna": "That was delicious. What do you have for dessert?"
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "Would you like a dessert?",
+        "sr": "Želite li dezert?"
+      },
+      {
+        "en": "Still or sparkling water?",
+        "sr": "Negazirana ili gazirana?"
+      },
+      {
+        "en": "A glass of water, please.",
+        "sr": "Čašu vode, molim."
+      }
+    ],
+    "reci": [
+      {
+        "term": "dessert",
+        "meaning": "dezert"
+      },
+      {
+        "term": "sparkling water",
+        "meaning": "gazirana voda"
+      },
+      {
+        "term": "still water",
+        "meaning": "negazirana voda"
+      },
+      {
+        "term": "about",
+        "meaning": "oko, otprilike"
+      }
+    ]
+  }
+}

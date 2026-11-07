@@ -1,0 +1,134 @@
+{
+  "id": "m00l5",
+  "modulId": "m00",
+  "redni": 5,
+  "naslov": "Slovo koje se ne čuje",
+  "cilj": "Da napišeš reč koju si čuo, iako se pola slova u njoj ne izgovara.",
+  "fokus": "nema glasa (receipt, Wednesday, half) i slova koja se pišu drugačije nego što zvuče",
+  "zvukDana": {
+    "naslov": "Piše se jedno, čuje drugo",
+    "tekst": "Srpski se piše kako se govori. Engleski ne. P u receipt se ne čuje, D u Wednesday se ne čuje, L u half se ne čuje. Nema pravila koje to objašnjava — reči se pamte jedna po jedna, i zato ih ovde vežbamo napismeno, ne samo na uvo.",
+    "primeri": [
+      {
+        "en": "receipt",
+        "sr": "račun — P se piše, ne čuje"
+      },
+      {
+        "en": "Wednesday",
+        "sr": "sreda — D se piše, ne čuje"
+      },
+      {
+        "en": "half",
+        "sr": "pola — L se piše, ne čuje"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Ove reči liče na uvo, a pišu se sasvim drugačije. Čuj koja je.",
+    "stavke": [
+      {
+        "a": "half",
+        "b": "have",
+        "srA": "pola",
+        "srB": "imati",
+        "razlika": "Half se čuje kao „haf\" — L je nemo."
+      },
+      {
+        "a": "listen",
+        "b": "lesson",
+        "srA": "slušati",
+        "srB": "lekcija",
+        "razlika": "Listen ima nemo T i kratko I."
+      },
+      {
+        "a": "walk",
+        "b": "work",
+        "srA": "hodati",
+        "srB": "raditi",
+        "razlika": "Walk je „wok\" sa nemim L, work je „werk\"."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Ovo je glavni deo lekcije. Čuj reč pa je napiši — slovo po slovo.",
+    "reci": [
+      {
+        "en": "receipt",
+        "sr": "račun",
+        "zamka": "P se piše a ne čuje. Najčešća greška: „reciept\" — EI, ne IE."
+      },
+      {
+        "en": "Wednesday",
+        "sr": "sreda",
+        "zamka": "WED-NES-DAY u pisanju, „wenzdej\" u govoru. D posle WE se ne čuje."
+      },
+      {
+        "en": "restaurant",
+        "sr": "restoran",
+        "zamka": "AU, ne O. I ono -ANT na kraju."
+      },
+      {
+        "en": "half",
+        "sr": "pola",
+        "zamka": "L se piše a ne čuje."
+      },
+      {
+        "en": "vegetables",
+        "sr": "povrće",
+        "zamka": "Srednje E se ne čuje, ali mora da stoji."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "Here is your receipt, thank you.",
+    "sr": "Izvolite vaš račun, hvala vam."
+  },
+  "izgovor": [
+    {
+      "en": "Here is your receipt.",
+      "sr": "Izvolite vaš račun."
+    },
+    {
+      "en": "We are closed on Wednesday.",
+      "sr": "Zatvoreni smo sredom."
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gost je završio večeru i podigao ruku. Žuri na voz i hoće da plati karticom.",
+    "pocetna": "Could we have the bill, please?"
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "Here is your receipt.",
+        "sr": "Izvolite vaš račun."
+      },
+      {
+        "en": "We are closed on Wednesday.",
+        "sr": "Zatvoreni smo sredom."
+      },
+      {
+        "en": "Half a litre, please.",
+        "sr": "Pola litra, molim."
+      }
+    ],
+    "reci": [
+      {
+        "term": "receipt",
+        "meaning": "račun, fiskalni isečak"
+      },
+      {
+        "term": "half",
+        "meaning": "pola"
+      },
+      {
+        "term": "Wednesday",
+        "meaning": "sreda"
+      },
+      {
+        "term": "closed",
+        "meaning": "zatvoreno"
+      }
+    ]
+  }
+}

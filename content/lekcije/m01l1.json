@@ -6,6 +6,16 @@
   "cilj": "Da kažeš ko si i pitaš gosta ko je on — bez prevođenja iz glave.",
   "fokus": "to be: I am / you are / it is, pitanja Are you…? i kratki odgovori Yes, I am.",
 
+  "zvukDana": {
+    "naslov": "Are you se sliva u jedno",
+    "tekst": "Izvorni govornik ne kaže „ar ju\" nego jedno sliveno „a-ju\". Zato ti pitanje promakne iako znaš obe reči. Slušaj gde počinje, ne gde se završava prva reč.",
+    "primeri": [
+      { "en": "Are you ready?", "sr": "Jeste li spremni? — „a-ju redi\"" },
+      { "en": "Are you the manager?", "sr": "Jeste li vi menadžer?" },
+      { "en": "Are you Mr. Novak?", "sr": "Jeste li vi gospodin Novak?" }
+    ]
+  },
+
   "scena": {
     "uvod": "Gost ulazi u restoran. Ti si prvi koji ga vidi. Slušaj dva puta ako treba — tekst je skriven.",
     "replike": [

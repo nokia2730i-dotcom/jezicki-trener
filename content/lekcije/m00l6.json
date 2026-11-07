@@ -1,0 +1,136 @@
+{
+  "id": "m00l6",
+  "modulId": "m00",
+  "redni": 6,
+  "naslov": "Završno -s i brojevi",
+  "cilj": "Da ne pogrešiš trinaest i trideset kad ti gost kaže cenu ili broj osoba.",
+  "fokus": "kraj reči (-s, -teen naspram -ty) i brojevi na sluh",
+  "zvukDana": {
+    "naslov": "Kraj reči nosi značenje",
+    "tekst": "U srpskom se kraj reči često proguta bez štete. U engleskom kraj nosi značenje: works nije work, prices nije price. Kod brojeva je još gore — thirteen i thirty razlikuje samo naglasak i ono -n na kraju. Na tome se gubi novac.",
+    "primeri": [
+      {
+        "en": "thirteen",
+        "sr": "trinaest — jak je DRUGI slog, i čuje se N na kraju"
+      },
+      {
+        "en": "thirty",
+        "sr": "trideset — jak je PRVI slog, nema N"
+      },
+      {
+        "en": "That is thirty, not thirteen.",
+        "sr": "oba u jednoj rečenici"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Ovo su brojevi na kojima se najčešće pogreši cena. Čuj, pa izgovori sam.",
+    "stavke": [
+      {
+        "a": "thirteen",
+        "b": "thirty",
+        "srA": "trinaest",
+        "srB": "trideset",
+        "razlika": "thirTEEN ima jak kraj i N. THIRty ima jak početak."
+      },
+      {
+        "a": "fourteen",
+        "b": "forty",
+        "srA": "četrnaest",
+        "srB": "četrdeset",
+        "razlika": "Isti obrazac — -teen je jak na kraju."
+      },
+      {
+        "a": "fifteen",
+        "b": "fifty",
+        "srA": "petnaest",
+        "srB": "pedeset",
+        "razlika": "Kad nisi siguran, pitaj: one-five or five-zero?"
+      },
+      {
+        "a": "eighteen",
+        "b": "eighty",
+        "srA": "osamnaest",
+        "srB": "osamdeset",
+        "razlika": "Razlika je u naglasku, ne u brzini."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Brojevi se pišu drugačije nego što izgledaju na uvo.",
+    "reci": [
+      {
+        "en": "forty",
+        "sr": "četrdeset",
+        "zamka": "Nema U. Four ima U, forty nema — klasična greška."
+      },
+      {
+        "en": "eighty",
+        "sr": "osamdeset",
+        "zamka": "EIGH na početku, kao u eight."
+      },
+      {
+        "en": "thirteen",
+        "sr": "trinaest",
+        "zamka": "THIR, ne „thre\". I dvostruko E u -teen."
+      },
+      {
+        "en": "prices",
+        "sr": "cene",
+        "zamka": "Kraj je -CES, čuje se kao „siz\"."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "That is thirty euros, not thirteen.",
+    "sr": "To je trideset evra, ne trinaest."
+  },
+  "izgovor": [
+    {
+      "en": "The bill is forty-five euros.",
+      "sr": "Račun je četrdeset pet evra."
+    },
+    {
+      "en": "We open at nine and close at eleven.",
+      "sr": "Otvaramo u devet i zatvaramo u jedanaest."
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gost gleda račun i misli da je iznos pogrešan. Čuo je jednu cifru, a na računu piše druga.",
+    "pocetna": "Sorry, I thought you said thirteen, not thirty."
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "That is thirty euros.",
+        "sr": "To je trideset evra."
+      },
+      {
+        "en": "The bill is forty-five euros.",
+        "sr": "Račun je četrdeset pet evra."
+      },
+      {
+        "en": "We open at nine.",
+        "sr": "Otvaramo u devet."
+      }
+    ],
+    "reci": [
+      {
+        "term": "the bill",
+        "meaning": "račun (iznos)"
+      },
+      {
+        "term": "forty",
+        "meaning": "četrdeset"
+      },
+      {
+        "term": "thirteen",
+        "meaning": "trinaest"
+      },
+      {
+        "term": "prices",
+        "meaning": "cene"
+      }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BRZINE, imaEngleskiGlas, imaSlusanje, izgovori, prekini, slusaj } from "../lib/govor";
-import { staFali, uporedi } from "../lib/ocena";
+import { reci as naReci, staFali, uporedi, uporediSlova } from "../lib/ocena";
 import { reviewReason } from "../lib/vocab";
 
 // Koliko reci sme da ode u recnik iz jedne lekcije. Isti broj kao u
@@ -10,21 +10,32 @@ import { reviewReason } from "../lib/vocab";
 // stvarno biti sacuvano, ne sve sto je usput prikupljeno.
 const MAX_RECI = 6;
 
-// Motor lekcije. Devet koraka, aktivnost se menja na svakom.
+// Motor lekcije. Aktivnost se menja na svakom koraku.
 // Pravilo kroz celu komponentu: korisnik NIKAD ne sme da ostane zaglavljen.
 // Ako poziv modela padne, dobija gresku i dugme da ide dalje.
+//
+// Koraci se ne vezuju na fiksnu listu nego na ono sto lekcija stvarno ima.
+// Lekcija o glasovima nema sklapanje recenice, lekcija o gramatici nema
+// parove reci — a motor je jedan.
 
-const KORACI = [
-  { id: "zagrevanje", naslov: "Zagrevanje", api: false },
-  { id: "scena", naslov: "Scena", api: false },
-  { id: "pravilo", naslov: "Jedno pravilo", api: false },
-  { id: "blokovi", naslov: "Sklapanje", api: false },
-  { id: "situacije", naslov: "Situacija → rečenica", api: true },
-  { id: "slusanje", naslov: "Slušaj i razumi", api: true },
-  { id: "izgovor", naslov: "Izgovori", api: false },
-  { id: "boss", naslov: "Mini-boss", api: true },
-  { id: "kraj", naslov: "Kartica kraja", api: false },
+const SVI_KORACI = [
+  { id: "zagrevanje", naslov: "Zagrevanje", api: false, uvek: true },
+  { id: "zvuk", naslov: "Zvuk dana", api: false, ima: (l) => !!l.zvukDana },
+  { id: "scena", naslov: "Scena", api: false, ima: (l) => !!l.scena },
+  { id: "pravilo", naslov: "Jedno pravilo", api: false, ima: (l) => !!l.pravilo },
+  { id: "parovi", naslov: "Dve reči, jedan glas", api: false, ima: (l) => !!l.parovi },
+  { id: "blokovi", naslov: "Sklapanje", api: false, ima: (l) => !!l.blokovi },
+  { id: "pisanje", naslov: "Kako se piše", api: false, ima: (l) => !!l.pisanje },
+  { id: "situacije", naslov: "Situacija → rečenica", api: true, ima: (l) => !!l.situacije },
+  { id: "slusanje", naslov: "Slušaj i razumi", api: true, ima: (l) => !!(l.diktat || l.razumevanje) },
+  { id: "izgovor", naslov: "Izgovori", api: false, ima: (l) => !!l.izgovor },
+  { id: "boss", naslov: "Mini-boss", api: true, ima: (l) => !!l.miniBoss },
+  { id: "kraj", naslov: "Kartica kraja", api: false, uvek: true },
 ];
+
+export function koraciZa(lekcija) {
+  return SVI_KORACI.filter((k) => k.uvek || k.ima(lekcija));
+}
 
 function promesaj(niz, seme) {
   // Namerno nije slucajno na svakom renderu — isti raspored dok je lekcija otvorena.
@@ -93,6 +104,19 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
   const [scenaVidljiva, setScenaVidljiva] = useState(false);
   const [scenaRadi, setScenaRadi] = useState(false);
 
+  // Parovi reci — jedan glas razlike (ship/sheep, three/tree)
+  const [pIdx, setPIdx] = useState(0);
+  const [pFaza, setPFaza] = useState("slusaj"); // slusaj -> reci
+  const [pIzbor, setPIzbor] = useState(null);
+  const [pSlusa, setPSlusa] = useState(false);
+  const [pCuo, setPCuo] = useState(null);
+
+  // Pisanje — kako se rec pise, ne kako se cuje
+  const [wIdx, setWIdx] = useState(0);
+  const [wUnos, setWUnos] = useState("");
+  const [wRez, setWRez] = useState(null);
+  const [wPusteno, setWPusteno] = useState(false);
+
   // Korak 3 — blokovi
   const [bIdx, setBIdx] = useState(0);
   const [bOdabrano, setBOdabrano] = useState([]);
@@ -105,7 +129,8 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
   const [sBusy, setSBusy] = useState(false);
 
   // Korak 5 — diktat + razumevanje
-  const [faza5, setFaza5] = useState("diktat");
+  // Lekcija sme da ima samo diktat, samo razumevanje, ili oba.
+  const [faza5, setFaza5] = useState(lekcija.diktat ? "diktat" : "razumevanje");
   const [dUnos, setDUnos] = useState("");
   const [dRez, setDRez] = useState(null);
   const [rUnos, setRUnos] = useState("");
@@ -153,6 +178,7 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
     noveReci.current.push({ term: t, meaning: m });
   }
 
+  const KORACI = useMemo(() => koraciZa(lekcija), [lekcija]);
   const tekuciKorak = KORACI[korak];
   const poslednji = korak === KORACI.length - 1;
 
@@ -172,8 +198,77 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
     setScenaPustena(true);
   }
 
+  // ——— Parovi reci ————————————————————————————————————————————
+  // Dve faze po paru: prvo cujes i biras koju si cuo (to je pouzdano),
+  // pa izgovoris drugu i vidis KOJU je telefon cuo (to je samo pokazatelj —
+  // prepoznavanje ume da promasi i kad si dobro rekao, zato se prikazuje
+  // sta je cuo, a ne samo "tacno" ili "netacno").
+  const par = lekcija.parovi ? lekcija.parovi.stavke[pIdx] : null;
+  // Koja se rec pusta — deterministicki, ali ne naizmenicno po redu.
+  const ciljSlusanja = par ? ((pIdx * 7 + 3) % 2 === 0 ? par.a : par.b) : "";
+  const ciljIzgovora = par ? (ciljSlusanja === par.a ? par.b : par.a) : "";
+
+  function izaberiCuo(rec) {
+    if (pIzbor) return;
+    const tacno = rec === ciljSlusanja;
+    setPIzbor({ rec, tacno });
+    zapisi(tacno);
+  }
+
+  async function izgovoriPar() {
+    setPSlusa(true);
+    setGreska("");
+    const r = await slusaj({ jezik: "en-US" });
+    setPSlusa(false);
+    if (!r.ok) {
+      setGreska(r.greska);
+      return;
+    }
+    const cuo = naReci(r.tekst);
+    const meta = naReci(ciljIzgovora)[0];
+    const druga = naReci(ciljSlusanja)[0];
+    let ishod;
+    if (cuo.includes(meta)) ishod = "pogodak";
+    else if (cuo.includes(druga)) ishod = "druga";
+    else ishod = "nejasno";
+    setPCuo({ tekst: r.tekst, ishod });
+    // Samo jasan promasaj na drugu rec se racuna kao greska. "Nejasno" nije
+    // njegova krivica — moze biti buka ili prepoznavanje.
+    if (ishod !== "nejasno") zapisi(ishod === "pogodak");
+  }
+
+  function sledeciPar() {
+    if (pFaza === "slusaj") {
+      setPFaza("reci");
+      return;
+    }
+    setPFaza("slusaj");
+    setPIzbor(null);
+    setPCuo(null);
+    if (pIdx + 1 < lekcija.parovi.stavke.length) setPIdx(pIdx + 1);
+    else dalje();
+  }
+
+  // ——— Pisanje ————————————————————————————————————————————————
+  const recZaPisanje = lekcija.pisanje ? lekcija.pisanje.reci[wIdx] : null;
+
+  function proveriPisanje() {
+    const r = uporediSlova(recZaPisanje.en, wUnos);
+    setWRez(r);
+    zapisi(r.prolaz);
+  }
+
+  function sledecaRec() {
+    setWRez(null);
+    setWUnos("");
+    setWPusteno(false);
+    if (wIdx + 1 < lekcija.pisanje.reci.length) setWIdx(wIdx + 1);
+    else dalje();
+  }
+
   // ——— Korak 3: blokovi ——————————————————————————————————————
-  const blok = lekcija.blokovi[bIdx];
+  // Lekcija ne mora da ima ovaj korak — M0 je zvuk i pisanje, bez sklapanja.
+  const blok = lekcija.blokovi ? lekcija.blokovi[bIdx] : null;
   const ploce = useMemo(() => {
     if (!blok) return [];
     const reciResenja = blok.resenje.replace(/[.,!?]/g, "").split(/\s+/);
@@ -255,7 +350,7 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
   }
 
   // ——— Korak 6: izgovor ——————————————————————————————————————
-  const izgovorStavka = lekcija.izgovor[iIdx];
+  const izgovorStavka = lekcija.izgovor ? lekcija.izgovor[iIdx] : null;
 
   async function slusajMe() {
     setISlusa(true);
@@ -388,6 +483,13 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
     .lk-lose { background:var(--warnsoft); color:var(--warn); }
     .lk-ishod b { display:block; margin-bottom:3px; }
     .lk-red { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+    .lk-parovi { display:flex; gap:10px; margin:12px 0; }
+    .lk-par { flex:1; border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center;
+              background:var(--paper); }
+    .lk-par b { display:block; font-size:19px; font-family:Georgia,serif; font-weight:400; }
+    .lk-par span { font-size:12.5px; color:var(--muted); }
+    .lk-slova { display:flex; flex-wrap:wrap; gap:3px; margin:10px 0; font-family:ui-monospace,monospace; }
+    .lk-slovo { padding:4px 7px; border-radius:5px; font-size:18px; line-height:1; }
     .lk-moze { padding:11px 0; border-bottom:1px solid var(--line); }
     .lk-moze:last-child { border-bottom:0; }
     .lk-moze b { font-weight:500; font-size:16px; }
@@ -474,6 +576,209 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
                   {zIdx + 1 < zagrevanje.length ? "Dalje" : "Počni lekciju"}
                 </button>
               )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ——— Zvuk dana ——— */}
+      {tekuciKorak.id === "zvuk" && (
+        <div>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: 17, marginBottom: 8 }}>
+            {lekcija.zvukDana.naslov}
+          </div>
+          <p className="lk-pravilo">{lekcija.zvukDana.tekst}</p>
+          <div style={{ marginTop: 14 }}>
+            {lekcija.zvukDana.primeri.map((p, i) => (
+              <div className="lk-primer" key={i}>
+                <div>
+                  <div style={{ fontSize: 16.5 }}>{p.en}</div>
+                  <div className="lk-sr">{p.sr}</div>
+                </div>
+                <Zvucnik tekst={p.en} brzina={brzina} label="" />
+              </div>
+            ))}
+          </div>
+          <div className="lk-brzine">
+            {BRZINE.map((b) => (
+              <button
+                key={b.vrednost}
+                className={brzina === b.vrednost ? "on" : ""}
+                onClick={() => setBrzina(b.vrednost)}
+              >
+                {b.oznaka}
+              </button>
+            ))}
+          </div>
+          <div className="lk-red">
+            <button className="jt-btn" onClick={dalje}>Dalje</button>
+          </div>
+        </div>
+      )}
+
+      {/* ——— Parovi reči ——— */}
+      {tekuciKorak.id === "parovi" && par && (
+        <div>
+          <p className="lk-uvod">
+            {lekcija.parovi.uputstvo}
+            <span className="jt-stat"> ({pIdx + 1}/{lekcija.parovi.stavke.length})</span>
+          </p>
+
+          <div className="lk-parovi">
+            <div className="lk-par">
+              <b>{par.a}</b>
+              <span>{par.srA}</span>
+            </div>
+            <div className="lk-par">
+              <b>{par.b}</b>
+              <span>{par.srB}</span>
+            </div>
+          </div>
+
+          {pFaza === "slusaj" ? (
+            <>
+              <div className="lk-red">
+                <Zvucnik tekst={ciljSlusanja} brzina={brzina} label="Pusti reč" />
+                <span className="jt-stat">Koju si čuo?</span>
+              </div>
+              <div className="lk-ploce">
+                <button className="lk-ploca" disabled={!!pIzbor} onClick={() => izaberiCuo(par.a)}>
+                  {par.a}
+                </button>
+                <button className="lk-ploca" disabled={!!pIzbor} onClick={() => izaberiCuo(par.b)}>
+                  {par.b}
+                </button>
+              </div>
+              {pIzbor && (
+                <>
+                  <div className={`lk-ishod ${pIzbor.tacno ? "lk-dobro" : "lk-lose"}`}>
+                    <b>{pIzbor.tacno ? "Tačno." : "Nije ta."}</b>
+                    Rečeno je <b>{ciljSlusanja}</b>. {par.razlika}
+                  </div>
+                  <div className="lk-red">
+                    <Zvucnik tekst={par.a} brzina={0.8} label={par.a} />
+                    <Zvucnik tekst={par.b} brzina={0.8} label={par.b} />
+                  </div>
+                  <div className="lk-red">
+                    <button className="jt-btn" onClick={sledeciPar}>Sad ti izgovori</button>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div style={{ fontSize: 15, margin: "10px 0 4px" }}>
+                Izgovori: <b style={{ fontSize: 19 }}>{ciljIzgovora}</b>
+              </div>
+              <div className="lk-red">
+                <Zvucnik tekst={ciljIzgovora} brzina={0.8} label="Čuj prvo" />
+                {!pCuo && (
+                  <button className="jt-btn" onClick={izgovoriPar} disabled={pSlusa || !imaSlusanje()}>
+                    {pSlusa ? "Slušam…" : "🎤 Izgovori"}
+                  </button>
+                )}
+              </div>
+              {!imaSlusanje() && (
+                <div className="jt-stat">
+                  Ovaj pregledač ne ume da sluša, pa se ovaj deo preskače.
+                </div>
+              )}
+              {pCuo && (
+                <div
+                  className={`lk-ishod ${
+                    pCuo.ishod === "pogodak" ? "lk-dobro" : pCuo.ishod === "druga" ? "lk-lose" : "lk-skoro"
+                  }`}
+                >
+                  <b>Telefon je čuo: „{pCuo.tekst}"</b>
+                  {pCuo.ishod === "pogodak" && `Prepoznao je ${ciljIzgovora}.`}
+                  {pCuo.ishod === "druga" &&
+                    `Čuo je ${ciljSlusanja}, a tražena je ${ciljIzgovora}. To je baš taj glas — probaj ponovo.`}
+                  {pCuo.ishod === "nejasno" &&
+                    "Nije prepoznao nijednu od dve reči. To često nije do tebe — buka ili prepoznavanje. Ne računa se."}
+                </div>
+              )}
+              <div className="lk-red">
+                <button className="jt-btn" onClick={sledeciPar}>
+                  {pIdx + 1 < lekcija.parovi.stavke.length ? "Sledeći par" : "Dalji korak"}
+                </button>
+                {pCuo && (
+                  <button className="jt-btn ghost small" onClick={() => setPCuo(null)}>
+                    Probaj ponovo
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* ——— Kako se piše ——— */}
+      {tekuciKorak.id === "pisanje" && recZaPisanje && (
+        <div>
+          <p className="lk-uvod">
+            {lekcija.pisanje.uputstvo}
+            <span className="jt-stat"> ({wIdx + 1}/{lekcija.pisanje.reci.length})</span>
+          </p>
+
+          <div className="lk-red">
+            <button
+              className="jt-btn"
+              onClick={async () => {
+                await izgovori(recZaPisanje.en, { brzina });
+                setWPusteno(true);
+              }}
+            >
+              {wPusteno ? "Pusti ponovo" : "Pusti reč"}
+            </button>
+            <span className="jt-stat">{recZaPisanje.sr}</span>
+          </div>
+
+          {!wRez ? (
+            <div style={{ marginTop: 12 }}>
+              <input
+                type="text"
+                placeholder="Napiši reč"
+                value={wUnos}
+                maxLength={60}
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellCheck={false}
+                onChange={(e) => setWUnos(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && wUnos.trim() && proveriPisanje()}
+              />
+              <div className="lk-red">
+                <button className="jt-btn" onClick={proveriPisanje} disabled={!wUnos.trim()}>
+                  Proveri
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ marginTop: 12 }}>
+              <div className={`lk-ishod ${wRez.prolaz ? "lk-dobro" : "lk-lose"}`}>
+                <b>{wRez.prolaz ? "Tako se piše." : "Nije tako."}</b>
+                {recZaPisanje.zamka}
+              </div>
+              <div className="lk-slova">
+                {wRez.delovi.map((d, i) => (
+                  <span key={i} className={`lk-slovo lk-${d.status === "tacno" ? "tacno" : "falila"}`}>
+                    {d.slovo}
+                  </span>
+                ))}
+                {wRez.viska.map((s, i) => (
+                  <span key={`v${i}`} className="lk-slovo lk-viska">
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <div style={{ fontSize: 19, fontFamily: "Georgia, serif", marginTop: 8 }}>
+                {recZaPisanje.en}
+              </div>
+              <div className="lk-red">
+                <Zvucnik tekst={recZaPisanje.en} brzina={0.8} />
+                <button className="jt-btn" onClick={sledecaRec}>
+                  {wIdx + 1 < lekcija.pisanje.reci.length ? "Sledeća reč" : "Dalji korak"}
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -728,7 +1033,10 @@ export default function Lekcija({ lekcija, nivo, recnik, callClaude, onZavrseno,
                   <div style={{ fontSize: 15, marginTop: 8 }}>{lekcija.diktat.en}</div>
                   <div className="lk-sr">{lekcija.diktat.sr}</div>
                   <div className="lk-red">
-                    <button className="jt-btn" onClick={() => setFaza5("razumevanje")}>
+                    <button
+                      className="jt-btn"
+                      onClick={() => (lekcija.razumevanje ? setFaza5("razumevanje") : dalje())}
+                    >
                       Dalje
                     </button>
                   </div>

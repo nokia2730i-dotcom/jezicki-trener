@@ -1,0 +1,136 @@
+{
+  "id": "m00l2",
+  "modulId": "m00",
+  "redni": 2,
+  "naslov": "W i V",
+  "cilj": "Da wine ne zvuči kao vine, i da te gost razume kad kažeš we.",
+  "fokus": "glas w (usne u krug) naspram v (zubi na usni); srpsko v je između ta dva",
+  "zvukDana": {
+    "naslov": "Usne u krug, bez zuba",
+    "tekst": "Za W usne se skupe u mali krug i zubi ne diraju ništa — kao da ćeš da zviždiš. Za V gornji zubi lagano stanu na donju usnu. Srpsko V stoji između ta dva, pa Srbima oba izlaze isto.",
+    "primeri": [
+      {
+        "en": "we",
+        "sr": "mi — usne u krug, bez zuba"
+      },
+      {
+        "en": "very",
+        "sr": "veoma — zubi na donju usnu"
+      },
+      {
+        "en": "we have very good wine",
+        "sr": "oba glasa u jednoj rečenici"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Prvo čuj koja je reč, pa je ti izgovori. Slušaj svoje usne, ne samo zvuk.",
+    "stavke": [
+      {
+        "a": "wine",
+        "b": "vine",
+        "srA": "vino",
+        "srB": "loza",
+        "razlika": "Wine: usne u krug. Vine: zubi na usni."
+      },
+      {
+        "a": "west",
+        "b": "vest",
+        "srA": "zapad",
+        "srB": "prsluk",
+        "razlika": "Isti slučaj — W bez zuba, V sa zubima."
+      },
+      {
+        "a": "wet",
+        "b": "vet",
+        "srA": "mokro",
+        "srB": "veterinar",
+        "razlika": "Kratke reči, a potpuno druga stvar."
+      },
+      {
+        "a": "worse",
+        "b": "verse",
+        "srA": "gore",
+        "srB": "stih",
+        "razlika": "W na početku menja celu reč."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Čuj reč pa je napiši. Pazi na slova koja se ne čuju.",
+    "reci": [
+      {
+        "en": "wine",
+        "sr": "vino",
+        "zamka": "W, ne V. Sa V to je loza."
+      },
+      {
+        "en": "vegetables",
+        "sr": "povrće",
+        "zamka": "Tri E. Srednje se jedva čuje, a mora da se napiše."
+      },
+      {
+        "en": "vinegar",
+        "sr": "sirće",
+        "zamka": "V-I-N-E-G-A-R. Nije „vinager\"."
+      },
+      {
+        "en": "wonderful",
+        "sr": "divno",
+        "zamka": "WON, ne „wan\", iako se tako čuje."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "We have very good wine here.",
+    "sr": "Imamo veoma dobro vino ovde."
+  },
+  "izgovor": [
+    {
+      "en": "Would you like some wine?",
+      "sr": "Želite li malo vina?"
+    },
+    {
+      "en": "The vegetables are very fresh.",
+      "sr": "Povrće je veoma sveže."
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gost gleda vinsku kartu i ne može da se odluči. Prvi put je u Srbiji i ne poznaje domaća vina.",
+    "pocetna": "What wine do you recommend?"
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "Would you like some wine?",
+        "sr": "Želite li malo vina?"
+      },
+      {
+        "en": "The vegetables are very fresh.",
+        "sr": "Povrće je veoma sveže."
+      },
+      {
+        "en": "We have very good wine.",
+        "sr": "Imamo veoma dobro vino."
+      }
+    ],
+    "reci": [
+      {
+        "term": "wine",
+        "meaning": "vino"
+      },
+      {
+        "term": "vegetables",
+        "meaning": "povrće"
+      },
+      {
+        "term": "vinegar",
+        "meaning": "sirće"
+      },
+      {
+        "term": "fresh",
+        "meaning": "svež"
+      }
+    ]
+  }
+}

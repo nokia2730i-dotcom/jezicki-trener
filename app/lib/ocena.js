@@ -142,6 +142,44 @@ export function uporedi(ocekivano, dato, opcije = {}) {
   };
 }
 
+/**
+ * Poredjenje po SLOVIMA, za vezbu pisanja. Isto poravnanje kao kod reci, samo
+ * nad znakovima — da se vidi koje tacno slovo fali ili je visak, a ne samo
+ * da je rec pogresna. Engleski se ne pise kako se cuje, pa je bas to mesto
+ * gde se grbi: "receipt", "restaurant", "Wednesday".
+ *
+ * @returns {{
+ *   delovi: Array<{slovo: string, status: "tacno"|"falilo"}>,
+ *   viska: string[], tacno: number, ukupno: number, procenat: number, prolaz: boolean
+ * }}
+ */
+export function uporediSlova(ocekivano, dato) {
+  const a = [...String(ocekivano || "").toLowerCase().replace(/[^\p{L}\p{N}'-]/gu, "")];
+  const b = [...String(dato || "").toLowerCase().replace(/[^\p{L}\p{N}'-]/gu, "")];
+
+  const parovi = zajednicki(a, b, (x, y) => x === y);
+  const spojeniA = new Set(parovi.map(([i]) => i));
+  const spojeniB = new Set(parovi.map(([, j]) => j));
+
+  const delovi = a.map((slovo, i) => ({
+    slovo,
+    status: spojeniA.has(i) ? "tacno" : "falilo",
+  }));
+  const viska = b.filter((_, j) => !spojeniB.has(j));
+  const tacno = parovi.length;
+  const ukupno = a.length;
+
+  return {
+    delovi,
+    viska,
+    tacno,
+    ukupno,
+    procenat: ukupno ? Math.round((tacno / ukupno) * 100) : 0,
+    // Pisanje je ili tacno ili nije — nema "osamdeset posto tacno napisano".
+    prolaz: ukupno > 0 && tacno === ukupno && viska.length === 0,
+  };
+}
+
 // Kratka recenica za korisnika: sta tacno fali.
 export function staFali(rezultat) {
   const falile = rezultat.delovi.filter((d) => d.status === "falila").map((d) => d.rec);

@@ -4,34 +4,54 @@
   "nivo": "A1",
   "etapa": 1,
   "naslov": "Zvuci koje Srbi greše",
-  "outcome": "izgovoriš three, we, this i she's tako da te gost razume prvi put",
-  "zasto": "Reči koje znaš napismeno ne prepoznaješ na sluh jer ih u glavi izgovaraš srpski. Ovde se to razdvaja, pre svega ostalog.",
+  "outcome": "izgovoriš three, we, this i she's tako da te gost razume prvi put, i napišeš reč koju si čuo iako se ne piše kako zvuči",
+  "zasto": "Reči koje znaš napismeno ne prepoznaješ na sluh jer ih u glavi izgovaraš srpski. Srpski se piše kako se govori, engleski ne — i tu se gubi najviše. Ovde se to razdvaja, pre svega ostalog.",
   "gramatika": [
-    "bez nove gramatike — th, w/v, ship/sheep, završno -s, naglasak, nenaglašeno e"
+    "bez nove gramatike — th, w/v, ship/sheep, završno -s, naglasak, nenaglašeno e",
+    "slovo naspram glasa: nemo slovo, isto slovo za razne glasove"
   ],
   "teme": [
     "glasovi kojih srpski nema",
     "naglasak u reči",
-    "brojevi i cene na sluh"
+    "brojevi i cene na sluh",
+    "kako se piše ono što čuješ"
   ],
   "lekcije": [
     {
       "id": "m00l1",
       "redni": 1,
-      "naslov": "Th, w i v",
-      "fokus": "three, this, we, very — glasovi na kojima se najviše gubi"
+      "naslov": "Th — glas kojeg nema",
+      "fokus": "three, this, thank — jezik između zuba, ne T ni S ni F"
     },
     {
       "id": "m00l2",
       "redni": 2,
-      "naslov": "Ship ili sheep",
-      "fokus": "kratko i dugo i, i završno -s: she's, works, prices"
+      "naslov": "W i V",
+      "fokus": "we / very, wine / vine — usne skupljene naspram zuba na usni"
     },
     {
       "id": "m00l3",
       "redni": 3,
-      "naslov": "Naglasak i nenaglašeno e",
-      "fokus": "reCEIPT, HOtel, about, water — gde udara naglasak"
+      "naslov": "Ship ili sheep",
+      "fokus": "kratko i dugo i — razlika koja menja reč, ne samo zvuk"
+    },
+    {
+      "id": "m00l4",
+      "redni": 4,
+      "naslov": "Nenaglašeno e i naglasak",
+      "fokus": "about, water, reCEIPT, HOtel — gde udara naglasak i šta se proguta"
+    },
+    {
+      "id": "m00l5",
+      "redni": 5,
+      "naslov": "Slovo koje se ne čuje",
+      "fokus": "receipt, Wednesday, restaurant — kako se piše ono što ne čuješ"
+    },
+    {
+      "id": "m00l6",
+      "redni": 6,
+      "naslov": "Završno -s i brojevi",
+      "fokus": "works, prices, thirteen / thirty — kraj reči na kom se gubi značenje"
     }
   ]
 }

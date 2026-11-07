@@ -1,0 +1,136 @@
+{
+  "id": "m00l1",
+  "modulId": "m00",
+  "redni": 1,
+  "naslov": "Th — glas kojeg nema",
+  "cilj": "Da te gost razume kad kažeš three i thank you, umesto tri i tenk.",
+  "fokus": "glas th (bezvučno kao u three, zvučno kao u this); razlika prema t, s i f",
+  "zvukDana": {
+    "naslov": "Jezik između zuba",
+    "tekst": "Th nije ni T ni S ni F. Vrh jezika ide lagano između zuba i vazduh prolazi preko njega. Postoje dva: bezvučno (three, thank) i zvučno (this, they) — isti položaj, samo drugo vibrira. Srpski nema nijedan, pa jezik sam beži na T.",
+    "primeri": [
+      {
+        "en": "three",
+        "sr": "tri — ne „tri\" nego sa jezikom između zuba"
+      },
+      {
+        "en": "thank you",
+        "sr": "hvala — najčešća reč koju ćeš reći"
+      },
+      {
+        "en": "this",
+        "sr": "ovo — zvučno th, grlo vibrira"
+      }
+    ]
+  },
+  "parovi": {
+    "uputstvo": "Dve reči se razlikuju samo po tom glasu. Prvo čuj koja je, pa je ti izgovori.",
+    "stavke": [
+      {
+        "a": "three",
+        "b": "tree",
+        "srA": "tri",
+        "srB": "drvo",
+        "razlika": "Th: jezik između zuba. T: jezik gore, iza zuba."
+      },
+      {
+        "a": "think",
+        "b": "sink",
+        "srA": "misliti",
+        "srB": "sudopera",
+        "razlika": "Th je mek i širok, S je oštar i uzak."
+      },
+      {
+        "a": "thanks",
+        "b": "tanks",
+        "srA": "hvala",
+        "srB": "tenkovi",
+        "razlika": "Bez jezika između zuba, hvala postaje tenk."
+      },
+      {
+        "a": "they",
+        "b": "day",
+        "srA": "oni",
+        "srB": "dan",
+        "razlika": "Zvučno th, ne D. Jezik napred, ne gore."
+      }
+    ]
+  },
+  "pisanje": {
+    "uputstvo": "Čuj reč pa je napiši. Slovo po slovo — ovde se vidi gde se greši.",
+    "reci": [
+      {
+        "en": "three",
+        "sr": "tri",
+        "zamka": "Piše se sa TH, ne sa T. Bez H to je drvo."
+      },
+      {
+        "en": "thirsty",
+        "sr": "žedan",
+        "zamka": "TH + IR. Ne „thursty\" — to liči na četvrtak."
+      },
+      {
+        "en": "through",
+        "sr": "kroz",
+        "zamka": "Sedam slova, a čuje se kao „thru\". OUGH se ne čita."
+      },
+      {
+        "en": "weather",
+        "sr": "vreme (napolju)",
+        "zamka": "EA u sredini, TH pred kraj. Ne „wether\"."
+      }
+    ]
+  },
+  "diktat": {
+    "en": "I think the weather is nice today.",
+    "sr": "Mislim da je vreme danas lepo."
+  },
+  "izgovor": [
+    {
+      "en": "Thank you very much.",
+      "sr": "Hvala vam puno."
+    },
+    {
+      "en": "Three coffees, please.",
+      "sr": "Tri kafe, molim."
+    }
+  ],
+  "miniBoss": {
+    "situacija": "Gost je upravo platio i ustaje od stola. Zadovoljan je i hoće da ti zahvali pre nego što izađe.",
+    "pocetna": "Thank you, everything was very good."
+  },
+  "kraj": {
+    "mozes": [
+      {
+        "en": "Thank you very much.",
+        "sr": "Hvala vam puno."
+      },
+      {
+        "en": "Three coffees, please.",
+        "sr": "Tri kafe, molim."
+      },
+      {
+        "en": "I think the weather is nice.",
+        "sr": "Mislim da je vreme lepo."
+      }
+    ],
+    "reci": [
+      {
+        "term": "thank you",
+        "meaning": "hvala"
+      },
+      {
+        "term": "three",
+        "meaning": "tri"
+      },
+      {
+        "term": "thirsty",
+        "meaning": "žedan"
+      },
+      {
+        "term": "weather",
+        "meaning": "vreme napolju"
+      }
+    ]
+  }
+}

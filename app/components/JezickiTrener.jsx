@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { migrateVocab, reviewReason, MAX_TERM } from "../lib/vocab";
 import { LEKCIJE, UKUPNO_LEKCIJA, napredak, sledecaLekcija } from "../lib/kurikulum";
 import { sadrzajLekcije } from "../lib/lekcije";
-import Lekcija from "./Lekcija";
+import Lekcija, { koraciZa } from "./Lekcija";
 
 // Samo engleski. Nemacki i grcki su izbaceni — nivo odredjuje ulazni test,
 // ne birac na ekranu.
@@ -651,7 +651,7 @@ export default function JezickiTrener() {
                     Nastavi
                   </button>
                   <div className="jt-stat" style={{ marginTop: 10 }}>
-                    Devet koraka, oko deset minuta.
+                    {koraciZa(sadrzajLekcije(prvaDostupna.id)).length} koraka, oko deset minuta.
                     {preskocene > 0 && (
                       <>
                         {" "}

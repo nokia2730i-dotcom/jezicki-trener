@@ -1,7 +1,7 @@
 // Ocena po recima je jedina stvar u lekciji koju korisnik vidi kao "ocenu",
 // a radi lokalno. Zato ide pod test, a ne pod "izgleda da radi".
 
-import { reci, uporedi, staFali, blizu, rastojanje } from "../app/lib/ocena.js";
+import { reci, uporedi, staFali, blizu, rastojanje, uporediSlova } from "../app/lib/ocena.js";
 
 let pass = 0, fail = 0;
 function ok(name, cond, extra) {
@@ -107,6 +107,52 @@ g("10) Prag prolaza");
   // 4 od 5 = 80% prolazi, 3 od 5 = 60% ne prolazi.
   ok("80% prolazi", uporedi("one two three four five", "one two three four").prolaz === true);
   ok("60% ne prolazi", uporedi("one two three four five", "one two three").prolaz === false);
+}
+
+g("11) Pisanje — poredjenje po slovima");
+{
+  const r = uporediSlova("receipt", "receipt");
+  ok("tacno napisano prolazi", r.prolaz === true && r.procenat === 100, r);
+}
+{
+  // Klasicna zamka: "p" u receipt se ne cuje, pa se i ne napise.
+  const r = uporediSlova("receipt", "reciept");
+  ok("zamenjena slova ne prolaze", r.prolaz === false, r);
+  ok("sva slova su tu, samo u drugom redu", r.tacno < r.ukupno, { tacno: r.tacno, ukupno: r.ukupno });
+}
+{
+  const r = uporediSlova("receipt", "receit");
+  const falila = r.delovi.filter((d) => d.status === "falilo").map((d) => d.slovo);
+  ok("vidi se koje slovo fali", falila.join("") === "p", falila);
+  ok("ne prolazi", r.prolaz === false);
+}
+{
+  const r = uporediSlova("Wednesday", "Wendsday");
+  ok("Wednesday pogresno ne prolazi", r.prolaz === false, r.procenat);
+}
+{
+  const r = uporediSlova("vegetables", "vegetabless");
+  ok("visak slova ne prolazi", r.prolaz === false, r.viska);
+  ok("visak je prijavljen", r.viska.join("") === "s", r.viska);
+}
+{
+  const r = uporediSlova("Receipt", "receipt");
+  ok("velika i mala slova su isto", r.prolaz === true);
+}
+{
+  const r = uporediSlova("I'm", "im");
+  ok("apostrof se racuna", r.prolaz === false, r);
+}
+{
+  const r = uporediSlova("receipt", "");
+  ok("prazan odgovor ne prolazi", r.prolaz === false && r.procenat === 0);
+}
+ok("prazno ocekivano ne puca", uporediSlova("", "").prolaz === false);
+ok("null ne puca", uporediSlova(null, null).ukupno === 0);
+{
+  // Tacka i zarez se ne racunaju, ne vezbamo interpunkciju nego slovo.
+  const r = uporediSlova("thank you", "thank you!");
+  ok("interpunkcija ne obara", r.prolaz === true, r);
 }
 
 console.log(`\n${pass} prosло, ${fail} palo`);
